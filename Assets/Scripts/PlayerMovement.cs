@@ -14,6 +14,7 @@ public class PlayerMovement : NetworkBehaviour
     private void Start()
     {
         if (!IsOwner) return;
+
         rb = GetComponent<Rigidbody>();
     }
     private void Update()
