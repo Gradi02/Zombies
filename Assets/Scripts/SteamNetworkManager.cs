@@ -121,13 +121,12 @@ public class SteamNetworkManager : MonoBehaviour
 
     private void SteamMatchmaking_OnLobbyEntered(Lobby _lobby)
     {
-        Debug.Log("join lobby start client");
         if (NetworkManager.Singleton.IsHost)
         {
             return;
         }
-        StartClient(currentLobby.Value.Owner.Id, _lobby.Owner.Id);
-
+        Debug.Log("join lobby start client");
+        StartClient(currentLobby.Value.Owner.Id);
     }
 
     private void SteamMatchmaking_OnLobbyCreated(Result _result, Lobby _lobby)
@@ -161,7 +160,7 @@ public class SteamNetworkManager : MonoBehaviour
         Debug.Log("Show Friends");
     }
 
-    public void StartClient(SteamId _sId, SteamId id)
+    public void StartClient(SteamId _sId)
     {
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
@@ -170,7 +169,6 @@ public class SteamNetworkManager : MonoBehaviour
         // Update Client ID
         //NetworkGameManager.instance.myClientId = NetworkManager.Singleton.LocalClientId;
 
-        NetworkManager.Singleton.gameObject.GetComponent<FacepunchTransport>().targetSteamId = id;
         if (NetworkManager.Singleton.StartClient())
         {
             Debug.Log("Client has started");
