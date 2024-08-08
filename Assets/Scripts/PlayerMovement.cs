@@ -14,7 +14,9 @@ public class PlayerMovement : NetworkBehaviour
     private void Start()
     {
         if (!IsOwner) return;
+
         rb = GetComponent<Rigidbody>();
+        transform.rotation = new Quaternion(0, 0, 0, 0);
     }
     private void Update()
     {
