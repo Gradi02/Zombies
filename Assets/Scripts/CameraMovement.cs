@@ -35,6 +35,7 @@ public class CameraMovement : NetworkBehaviour
 
 		xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-		transform.rotation = Quaternion.Euler(xRotation, yRotation, transform.rotation.z);
+		cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, transform.rotation.z);
+		transform.rotation = Quaternion.Euler(0, yRotation, 0);
 	}
 }
