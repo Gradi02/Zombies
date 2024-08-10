@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Steamworks;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -36,6 +37,7 @@ public class SC_FPSController : NetworkBehaviour
         }
 
         characterController = GetComponent<CharacterController>();
+        gameObject.name = SteamClient.Name;
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -59,6 +61,7 @@ public class SC_FPSController : NetworkBehaviour
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
+            Debug.Log("Jump");
         }
         else
         {
