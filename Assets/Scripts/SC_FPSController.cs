@@ -29,6 +29,9 @@ public class SC_FPSController : NetworkBehaviour
         if (!IsOwner)
         {
             playerCamera.gameObject.SetActive(false);
+            GetComponent<CharacterController>().enabled = false;
+            GetComponent<PlayerShooting>().enabled = false;
+            enabled = false;
             return;
         }
 
@@ -80,14 +83,6 @@ public class SC_FPSController : NetworkBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             head.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        if (!IsOwner)
-        {
-            GetComponent<CharacterController>().enabled = false;
         }
     }
 }
