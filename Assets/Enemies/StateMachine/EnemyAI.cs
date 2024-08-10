@@ -14,7 +14,7 @@ public class EnemyAI : StateMachine
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        _runState.SetUpState(agent); 
+        //_runState.SetUpState(agent); 
 
         ChangeState(_idleState);
     }
@@ -33,10 +33,23 @@ public class EnemyAI : StateMachine
         if (Input.GetKeyDown(KeyCode.R)) ChangeStateButton();
 
         currentState?.DoUpdate();
+        EnemyNavigation();
     }
 
     private void FixedUpdate()
     {
         currentState?.DoFixedUpdate();
+    }
+
+    private void EnemyNavigation()
+    {
+        if(currentState == _runState)
+        {
+            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+        }
+        else
+        {
+            agent.SetDestination(transform.position);
+        }
     }
 }
