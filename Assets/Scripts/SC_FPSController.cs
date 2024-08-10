@@ -87,7 +87,7 @@ public class SC_FPSController : NetworkBehaviour
     {
         if (!IsOwner)
         {
-            characterController.enabled = false;
+            GetComponent<CharacterController>().enabled = false;
         }
     }
 }
