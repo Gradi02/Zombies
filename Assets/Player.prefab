@@ -616,6 +616,11 @@ MonoBehaviour:
   SensX: 200
   SensY: 200
   cam: {fileID: 3324136456571357266}
+  PS_blood: {fileID: 7504600164732223380, guid: b66ac8d8a46389f4c92dc5247bed97da,
+    type: 3}
+  PS_other: {fileID: 7504600164732223380, guid: e77a6e900ea38714abba856d7f13124c,
+    type: 3}
+  gun: {fileID: 7155494431581398136}
 --- !u!114 &2381653045107832248
 MonoBehaviour:
   m_ObjectHideFlags: 0
