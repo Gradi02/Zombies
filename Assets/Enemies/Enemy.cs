@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Enemy : MonoBehaviour, IDamage
+public class Enemy : NetworkBehaviour, IDamage
 {
-    public int health = 100;
+    public float hp = 100;
     public GameObject leftArm, rightArm;
     public GameObject leftLeg, rightLeg;
     public GameObject head;
@@ -12,16 +13,29 @@ public class Enemy : MonoBehaviour, IDamage
 
     public void TakeDamage(int amount)
     {
-        health -= amount;
-        if (health <= 0)
+        RequestDamageEntityServerRpc(amount);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestDamageEntityServerRpc(int amount)
+    {
+        hp -= amount;
+        if(hp <= 0)
         {
-            Die();
+            RequestKillEntityServerRpc();
         }
     }
 
-    private void Die()
+    [ServerRpc]
+    private void RequestKillEntityServerRpc()
     {
+        GetComponent<NetworkObject>().Despawn();
+        DestroyEntityClientRpc();
+    }
 
+    [ClientRpc]
+    private void DestroyEntityClientRpc()
+    {
         Destroy(gameObject);
     }
 }
