@@ -60,7 +60,7 @@ public class CameraMovement : NetworkBehaviour
 					{
 						// hit
 						Debug.Log("HIT");
-						hit.collider.gameObject.GetComponent<Enemy>().TakeDamage(25);
+						hit.collider.gameObject.GetComponent<IDamage>().TakeDamage(25);
 
 						// hit particle
 						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
