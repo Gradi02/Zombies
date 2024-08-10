@@ -10,13 +10,13 @@ public class PlayerShooting : NetworkBehaviour
     public GameObject gun;
     private float Cooldown = 0.2f;
     private float nextFireTime = 0f;
-
+	public Camera cam;
 
     void Update()
     {
-		if (!IsOwner) return;
+		if (!IsOwner && cam != null) return;
 
-		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
 
 		Debug.DrawRay(ray.origin, ray.direction * 100);
