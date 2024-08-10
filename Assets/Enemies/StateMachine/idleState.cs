@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class idleState : State
 {
-
-
     public override void DoEnter()
     {
         base.DoEnter();
-        Debug.Log("idle");
     }
 
     public override void DoUpdate()
