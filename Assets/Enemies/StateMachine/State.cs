@@ -13,7 +13,8 @@ public abstract class State : MonoBehaviour
 
     public virtual void DoEnter()
     {
-        anim.Play(clip.name);
+        //anim.Play(clip.name);
+        Invoke(nameof(PlayAnim), Random.Range(0f, 1f));
     }
 
     public virtual void DoUpdate()
@@ -36,5 +37,10 @@ public abstract class State : MonoBehaviour
     {
         anim = an;
         startTime = t;
+    }
+
+    private void PlayAnim()
+    {
+        anim.Play(clip.name);
     }
 }
