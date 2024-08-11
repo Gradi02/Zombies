@@ -14,6 +14,10 @@ public class EnemyAI : StateMachine
     private void Start()
     {
         ChangeState(_idleState);
+
+        animator.applyRootMotion = true;
+        agent.updatePosition = false;
+        agent.updateRotation = true;
     }
 
     private void Update()
@@ -82,8 +86,14 @@ public class EnemyAI : StateMachine
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
         }
+    }
 
-        agent.speed = walkingSpeed;
+    private void OnAnimatorMove()
+    {
+        Vector3 rootPos = animator.rootPosition;
+        rootPos.y = 0;
+        transform.position = rootPos;
+        agent.nextPosition = rootPos;
     }
 
     public void DeathState()
