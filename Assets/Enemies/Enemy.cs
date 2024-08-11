@@ -29,13 +29,17 @@ public class Enemy : NetworkBehaviour, IDamage
     [ServerRpc]
     private void RequestKillEntityServerRpc()
     {
-        GetComponent<NetworkObject>().Despawn();
-        DestroyEntityClientRpc();
+        GetComponent<EnemyAI>().DeathState();
+
+
+
+       /* GetComponent<NetworkObject>().Despawn();
+        DestroyEntityClientRpc();*/
     }
 
-    [ClientRpc]
+/*    [ClientRpc]
     private void DestroyEntityClientRpc()
     {
         Destroy(gameObject);
-    }
+    }*/
 }

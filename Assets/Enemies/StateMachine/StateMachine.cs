@@ -7,6 +7,7 @@ public class StateMachine : NetworkBehaviour
 {
     [SerializeField] protected Animator animator;
     protected State currentState;
+    private bool locked = false;
 
     private void Awake()
     {
@@ -15,9 +16,9 @@ public class StateMachine : NetworkBehaviour
             s.Initialize(animator, Time.time);
     }
 
-    protected void ChangeState(State newState)
+    protected void ChangeState(State newState, bool _lock = false)
     {
-        if(currentState == null || currentState != newState)
+        if((currentState == null || currentState != newState) && !locked)
         {
             currentState?.DoExit();
             Debug.Log("Change to: " + newState);
@@ -25,5 +26,8 @@ public class StateMachine : NetworkBehaviour
             currentState = newState;
             currentState.DoEnter();
         }
+
+        if(_lock)
+            locked = true;
     }
 }
