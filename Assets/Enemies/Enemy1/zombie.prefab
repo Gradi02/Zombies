@@ -1123,6 +1123,7 @@ Transform:
   - {fileID: 8232071562752637044}
   - {fileID: 7246363287669345331}
   - {fileID: 9152008693406589811}
+  - {fileID: 3844510521255833662}
   m_Father: {fileID: 6278610259658153042}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4177736783574352643
@@ -1310,6 +1311,51 @@ Transform:
   - {fileID: 4118656669636013961}
   m_Father: {fileID: 7848872045949320369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4517071915977257330
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3844510521255833662}
+  - component: {fileID: 1167621757448403266}
+  m_Layer: 7
+  m_Name: walkState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3844510521255833662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517071915977257330}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6098627082503283560}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1167621757448403266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517071915977257330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b671339b8bb1204fbac4fb54ad6932b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: -203655887218126122, guid: c69fe1ac914b19f449cffaa3c884bc46, type: 3}
 --- !u!1 &4844246930844852254
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,6 +3065,7 @@ MonoBehaviour:
   _idleState: {fileID: 1209535921098115340}
   _runState: {fileID: 6177803341213444249}
   _deathState: {fileID: 7992615354069181174}
+  _walkState: {fileID: 1167621757448403266}
 --- !u!114 &30322675495809771
 MonoBehaviour:
   m_ObjectHideFlags: 0
