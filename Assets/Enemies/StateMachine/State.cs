@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class State : MonoBehaviour
 {
@@ -8,12 +9,13 @@ public abstract class State : MonoBehaviour
 
     private Animator anim;
     private float startTime;
+    protected NavMeshAgent agent;
 
     public float time => Time.time - startTime;
 
     public virtual void DoEnter()
     {
-        anim.Play(clip.name);
+        Invoke(nameof(PlayAnim), Random.Range(0f, 0.1f));
     }
 
     public virtual void DoUpdate()
@@ -32,9 +34,15 @@ public abstract class State : MonoBehaviour
     }
 
 
-    public void Initialize(Animator an, float t)
+    public void Initialize(Animator an, float t, NavMeshAgent ag)
     {
         anim = an;
         startTime = t;
+        agent = ag;
+    }
+
+    private void PlayAnim()
+    {
+        anim.Play(clip.name);
     }
 }

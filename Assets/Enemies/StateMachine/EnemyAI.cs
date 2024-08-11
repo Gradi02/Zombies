@@ -2,39 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.AI;
 
 public class EnemyAI : StateMachine
 {
     [SerializeField] private idleState _idleState;
     [SerializeField] private runState _runState;
     [SerializeField] private deathState _deathState;
+    [SerializeField] private walkState _walkState;
 
-    private NavMeshAgent agent;
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        //_runState.SetUpState(agent); 
-
         ChangeState(_idleState);
-    }
-
-    public void ChangeStateButton()
-    {
-        Debug.Log(currentState);
-        if(currentState == _idleState)
-            ChangeState(_runState);
-        else
-            ChangeState(_idleState);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R)) ChangeStateButton();
-
         currentState?.DoUpdate();
-        EnemyNavigation();
+        AIController();
     }
 
     private void FixedUpdate()
@@ -42,16 +27,63 @@ public class EnemyAI : StateMachine
         currentState?.DoFixedUpdate();
     }
 
-    private void EnemyNavigation()
+    private void AIController()
     {
-        if(currentState == _runState)
+        switch(mainState)
         {
-            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+            case ZombieMainStates.chilling:
+                {
+                    ChillingStateController();
+                    break;
+                }
+            case ZombieMainStates.alarmed:
+                {
+
+                    break;
+                }
+            case ZombieMainStates.chasing:
+                {
+
+                    break;
+                }
+            case ZombieMainStates.critical:
+                {
+
+                    break;
+                }
         }
-        else
+    }
+
+    [Header("Chilling State Variables")]
+    private float walkingSpeed = 1;
+    private float minIdleTime = 1f, maxIdleTime = 3f;
+    private float minWalkTime = 3f, maxWalkTime = 10f;
+    private float timeToChangeState = 0f;
+
+    private void ChillingStateController()
+    {
+        if (Time.time > timeToChangeState)
         {
-            agent.SetDestination(transform.position);
+            if (currentState == _idleState)
+            {
+                agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
+                ChangeState(_walkState);
+                timeToChangeState = Time.time + Random.Range(minWalkTime, maxWalkTime);
+            }
+            else if (currentState == _walkState)
+            {
+                agent.destination = transform.position;
+                ChangeState(_idleState);
+                timeToChangeState = Time.time + Random.Range(minIdleTime, maxIdleTime);
+            }
         }
+
+        if(Vector3.Distance(transform.position, agent.destination) < 2)
+        {
+            agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+        }
+
+        agent.speed = walkingSpeed;
     }
 
     public void DeathState()
