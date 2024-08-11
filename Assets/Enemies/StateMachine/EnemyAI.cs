@@ -8,6 +8,7 @@ public class EnemyAI : StateMachine
 {
     [SerializeField] private idleState _idleState;
     [SerializeField] private runState _runState;
+    [SerializeField] private deathState _deathState;
 
     private NavMeshAgent agent;
 
@@ -51,5 +52,10 @@ public class EnemyAI : StateMachine
         {
             agent.SetDestination(transform.position);
         }
+    }
+
+    public void DeathState()
+    {
+        ChangeState(_deathState, true);
     }
 }
