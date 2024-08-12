@@ -13,9 +13,8 @@ public class EnemyAI : StateMachine
 
     private void Start()
     {
-        ChangeState(_idleState);
+        ChangeState(_walkState);
 
-        animator.applyRootMotion = true;
         agent.updatePosition = false;
         agent.updateRotation = true;
     }
@@ -60,8 +59,8 @@ public class EnemyAI : StateMachine
 
     [Header("Chilling State Variables")]
     private float walkingSpeed = 1;
-    private float minIdleTime = 1f, maxIdleTime = 3f;
-    private float minWalkTime = 3f, maxWalkTime = 10f;
+    private float minIdleTime = 3f, maxIdleTime = 6f;
+    private float minWalkTime = 5f, maxWalkTime = 10f;
     private float timeToChangeState = 0f;
 
     private void ChillingStateController()
@@ -72,28 +71,29 @@ public class EnemyAI : StateMachine
             {
                 agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
                 ChangeState(_walkState);
+                agent.updateRotation = true;
                 timeToChangeState = Time.time + Random.Range(minWalkTime, maxWalkTime);
             }
             else if (currentState == _walkState)
             {
-                agent.destination = transform.position;
+                agent.ResetPath();
                 ChangeState(_idleState);
+                agent.updateRotation = false;
                 timeToChangeState = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
         }
 
-        if(Vector3.Distance(transform.position, agent.destination) < 2)
+        if(agent.remainingDistance < agent.radius)
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
         }
     }
 
-    private void OnAnimatorMove()
+    void OnAnimatorMove()
     {
-        Vector3 rootPos = animator.rootPosition;
-        rootPos.y = 0;
-        transform.position = rootPos;
-        agent.nextPosition = rootPos;
+        Vector3 position = animator.rootPosition;
+        transform.position = position;
+        agent.nextPosition = transform.position;
     }
 
     public void DeathState()
