@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : StateMachine
 {
+    public bool isDead { get; set; } = false;
     [SerializeField] private idleState _idleState;
     [SerializeField] private runState _runState;
     [SerializeField] private deathState _deathState;
@@ -50,7 +51,7 @@ public class EnemyAI : StateMachine
                 }
             case ZombieMainStates.chasing:
                 {
-
+                    ChaseStateController();
                     break;
                 }
             case ZombieMainStates.critical:
@@ -63,7 +64,7 @@ public class EnemyAI : StateMachine
 
     [Header("Chilling State Variables")]
     private float minIdleTime = 3f, maxIdleTime = 6f;
-    private float minWalkTime = 5f, maxWalkTime = 10f;
+    private float minWalkTime = 5f, maxWalkTime = 15f;
     private float timeToChangeState = 0f;
 
     private void ChillingStateController()
@@ -98,15 +99,34 @@ public class EnemyAI : StateMachine
         }
     }
 
+    [Header("Chase State Variables")]
+    private float minAttackTime = 3f, maxAttackTime = 6f;
+    private Transform player;
+
+    private void ChaseStateController()
+    {
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        obstacle.enabled = false;
+        agent.enabled = true;
+        agent.destination = player.position;
+        ChangeState(_runState);
+    }
+
+
+
     void OnAnimatorMove()
     {
         Vector3 position = animator.rootPosition;
+
+        if(!isDead) position.y = agent.nextPosition.y;
+        
         transform.position = position;
         agent.nextPosition = transform.position;
     }
-
     public void DeathState()
     {
+        isDead = true;
         ChangeState(_deathState, true);
     }
 }

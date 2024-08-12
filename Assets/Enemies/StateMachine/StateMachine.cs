@@ -11,7 +11,7 @@ public class StateMachine : NetworkBehaviour
     private bool locked = false;
     
     protected NavMeshAgent agent;
-    protected ZombieMainStates mainState = ZombieMainStates.chilling;
+    protected ZombieMainStates mainState = ZombieMainStates.chasing;
 
     private void Awake()
     {
