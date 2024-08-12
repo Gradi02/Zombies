@@ -76,24 +76,16 @@ public class EnemyAI : StateMachine
             }
             else if (currentState == _walkState)
             {
-                agent.destination = transform.position;
+                agent.ResetPath();
                 ChangeState(_idleState);
                 timeToChangeState = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
         }
 
-        if(Vector3.Distance(transform.position, agent.destination) < 2)
+        if(agent.remainingDistance < agent.radius)
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
         }
-    }
-
-    private void OnAnimatorMove()
-    {
-        Vector3 rootPos = animator.rootPosition;
-        rootPos.y = 0;
-        transform.position = rootPos;
-        agent.nextPosition = rootPos;
     }
 
     public void DeathState()
