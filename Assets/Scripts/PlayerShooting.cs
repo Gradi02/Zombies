@@ -35,13 +35,13 @@ public class PlayerShooting : NetworkBehaviour
 
         if (Ammo <= 0)
         {
-			animator.CrossFade(reload.name, 0.2f);
+			animator.SetTrigger("reload");
             Ammo = 8;
         }
 
         if (Input.GetMouseButtonDown(0))
 		{
-			animator.CrossFade(shoot.name, 0.2f);
+			animator.SetTrigger("shoot");
 			Ammo --;
 
 			if (Time.time >= nextFireTime)
