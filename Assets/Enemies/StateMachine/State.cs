@@ -43,7 +43,6 @@ public abstract class State : MonoBehaviour
 
     private void PlayAnim()
     {
-        //anim.Play(clip[Random.Range(0, clip.Length)].name);
         anim.CrossFade(clip[Random.Range(0, clip.Length)].name, 0.2f);
     }
 }

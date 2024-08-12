@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.AI;
 
 public class EnemyAI : StateMachine
 {
@@ -10,10 +11,13 @@ public class EnemyAI : StateMachine
     [SerializeField] private deathState _deathState;
     [SerializeField] private walkState _walkState;
 
+    [SerializeField] private NavMeshObstacle obstacle;
 
     private void Start()
     {
-        ChangeState(_walkState);
+        ChangeState(_idleState);
+
+        obstacle.enabled = false;
 
         agent.updatePosition = false;
         agent.updateRotation = true;
@@ -58,7 +62,6 @@ public class EnemyAI : StateMachine
     }
 
     [Header("Chilling State Variables")]
-    private float walkingSpeed = 1;
     private float minIdleTime = 3f, maxIdleTime = 6f;
     private float minWalkTime = 5f, maxWalkTime = 10f;
     private float timeToChangeState = 0f;
@@ -69,21 +72,27 @@ public class EnemyAI : StateMachine
         {
             if (currentState == _idleState)
             {
-                agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
                 ChangeState(_walkState);
-                agent.updateRotation = true;
+
+                obstacle.enabled = false;
+                agent.enabled = true;
+                agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
+                
                 timeToChangeState = Time.time + Random.Range(minWalkTime, maxWalkTime);
             }
             else if (currentState == _walkState)
             {
-                agent.ResetPath();
                 ChangeState(_idleState);
-                agent.updateRotation = false;
+
+                agent.ResetPath();
+                agent.enabled = false;
+                obstacle.enabled = true;
+                
                 timeToChangeState = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
         }
 
-        if(agent.remainingDistance < agent.radius)
+        if(agent.enabled && agent.remainingDistance < agent.radius)
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
         }

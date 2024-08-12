@@ -11,13 +11,13 @@ public class Enemy : NetworkBehaviour, IDamage
     public GameObject head;
 
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         RequestDamageEntityServerRpc(amount);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void RequestDamageEntityServerRpc(int amount)
+    private void RequestDamageEntityServerRpc(float amount)
     {
         hp -= amount;
         if(hp <= 0)
