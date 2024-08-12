@@ -15,7 +15,6 @@ public class EnemyAI : StateMachine
     {
         ChangeState(_walkState);
 
-        animator.applyRootMotion = true;
         agent.updatePosition = false;
         agent.updateRotation = true;
     }
@@ -60,24 +59,26 @@ public class EnemyAI : StateMachine
 
     [Header("Chilling State Variables")]
     private float walkingSpeed = 1;
-    private float minIdleTime = 1f, maxIdleTime = 3f;
-    private float minWalkTime = 3f, maxWalkTime = 10f;
+    private float minIdleTime = 3f, maxIdleTime = 6f;
+    private float minWalkTime = 5f, maxWalkTime = 10f;
     private float timeToChangeState = 0f;
 
     private void ChillingStateController()
     {
-/*        if (Time.time > timeToChangeState)
+        if (Time.time > timeToChangeState)
         {
             if (currentState == _idleState)
             {
                 agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
                 ChangeState(_walkState);
+                agent.updateRotation = true;
                 timeToChangeState = Time.time + Random.Range(minWalkTime, maxWalkTime);
             }
             else if (currentState == _walkState)
             {
                 agent.ResetPath();
                 ChangeState(_idleState);
+                agent.updateRotation = false;
                 timeToChangeState = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
         }
@@ -85,7 +86,14 @@ public class EnemyAI : StateMachine
         if(agent.remainingDistance < agent.radius)
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
-        }*/
+        }
+    }
+
+    void OnAnimatorMove()
+    {
+        Vector3 position = animator.rootPosition;
+        transform.position = position;
+        agent.nextPosition = transform.position;
     }
 
     public void DeathState()
