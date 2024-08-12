@@ -11,9 +11,18 @@ public class PlayerShooting : NetworkBehaviour
     private float Cooldown = 0.2f;
     private float nextFireTime = 0f;
 	public Camera cam;
+
+	[Header("Gun Stats")]
+	private Animator animator;
+	[SerializeField] private AnimationClip shoot, reload;
 	private float damage = 50;
 	private int Ammo = 8;
 	private float ReloadTime = -1;
+
+    private void Awake()
+    {
+		animator = gun.GetComponent<Animator>();
+	}
 
     void Update()
     {
@@ -23,17 +32,16 @@ public class PlayerShooting : NetworkBehaviour
 		RaycastHit hit;
 
 		Debug.DrawRay(ray.origin, ray.direction * 100);
-		Animation anim = gun.GetComponent<Animation>();
 
         if (Ammo <= 0)
         {
-            anim.Play("reload");
+			animator.CrossFade(reload.name, 0.2f);
             Ammo = 8;
         }
 
         if (Input.GetMouseButtonDown(0))
 		{
-			gun.GetComponent<Animation>().Play("shoot");
+			animator.CrossFade(shoot.name, 0.2f);
 			Ammo --;
 
 			if (Time.time >= nextFireTime)
