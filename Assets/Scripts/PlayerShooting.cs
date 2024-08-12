@@ -12,6 +12,8 @@ public class PlayerShooting : NetworkBehaviour
     private float nextFireTime = 0f;
 	public Camera cam;
 	private float damage = 50;
+	private int Ammo = 8;
+	private float ReloadTime = -1;
 
     void Update()
     {
@@ -21,9 +23,19 @@ public class PlayerShooting : NetworkBehaviour
 		RaycastHit hit;
 
 		Debug.DrawRay(ray.origin, ray.direction * 100);
+		Animation anim = gun.GetComponent<Animation>();
 
-		if (Input.GetMouseButtonDown(0))
+        if (Ammo <= 0)
+        {
+            anim.Play("reload");
+            Ammo = 8;
+        }
+
+        if (Input.GetMouseButtonDown(0))
 		{
+			gun.GetComponent<Animation>().Play("shoot");
+			Ammo --;
+
 			if (Time.time >= nextFireTime)
 			{
 				nextFireTime = Time.time + Cooldown;
