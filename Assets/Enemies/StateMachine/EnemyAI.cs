@@ -13,7 +13,7 @@ public class EnemyAI : StateMachine
 
     private void Start()
     {
-        ChangeState(_idleState);
+        ChangeState(_walkState);
 
         animator.applyRootMotion = true;
         agent.updatePosition = false;
@@ -66,7 +66,7 @@ public class EnemyAI : StateMachine
 
     private void ChillingStateController()
     {
-        if (Time.time > timeToChangeState)
+/*        if (Time.time > timeToChangeState)
         {
             if (currentState == _idleState)
             {
@@ -85,7 +85,7 @@ public class EnemyAI : StateMachine
         if(agent.remainingDistance < agent.radius)
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
-        }
+        }*/
     }
 
     public void DeathState()
