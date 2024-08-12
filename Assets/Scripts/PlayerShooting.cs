@@ -11,6 +11,7 @@ public class PlayerShooting : NetworkBehaviour
     private float Cooldown = 0.2f;
     private float nextFireTime = 0f;
 	public Camera cam;
+	private float damage = 50;
 
     void Update()
     {
@@ -29,11 +30,31 @@ public class PlayerShooting : NetworkBehaviour
 
 				if (Physics.Raycast(ray, out hit))
 				{
-					if (hit.collider.CompareTag("enemy"))
+					if (hit.collider.CompareTag("head"))
 					{
 						// hit
-						Debug.Log("HIT");
-						hit.collider.gameObject.GetComponent<IDamage>().TakeDamage(25);
+						Debug.Log("HIT - head");
+						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage * 2);
+
+						// hit particle
+						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
+						Destroy(ps.gameObject, 2);
+					}
+					else if(hit.collider.CompareTag("body"))
+                    {
+						// hit
+						Debug.Log("HIT - body");
+						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage);
+
+						// hit particle
+						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
+						Destroy(ps.gameObject, 2);
+					}
+					else if (hit.collider.CompareTag("legs"))
+					{
+						// hit
+						Debug.Log("HIT - legs");
+						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage * 0.5f);
 
 						// hit particle
 						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
