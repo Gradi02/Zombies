@@ -11,17 +11,19 @@ public class StateMachine : NetworkBehaviour
     private bool locked = false;
     
     protected NavMeshAgent agent;
-    protected ZombieMainStates mainState = ZombieMainStates.chasing;
+    private Rigidbody body;
+    protected ZombieMainStates mainState = ZombieMainStates.chilling;
 
     private void Awake()
     {
         float rand = Random.Range(-0.10f, 0.10f);
         transform.localScale += new Vector3(rand,rand,rand);
 
+        body = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         State[] states = GetComponentsInChildren<State>();
         foreach (State s in states)
-            s.Initialize(animator, Time.time, agent);
+            s.Initialize(animator, Time.time, agent, body);
     }
 
     protected void ChangeState(State newState, bool _lock = false)

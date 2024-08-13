@@ -7,9 +7,10 @@ public abstract class State : MonoBehaviour
 {
     [SerializeField] private AnimationClip[] clip;
 
-    private Animator anim;
+    protected Animator anim;
     private float startTime;
     protected NavMeshAgent agent;
+    protected Rigidbody rb;
 
     public float time => Time.time - startTime;
 
@@ -34,15 +35,17 @@ public abstract class State : MonoBehaviour
     }
 
 
-    public void Initialize(Animator an, float t, NavMeshAgent ag)
+    public void Initialize(Animator an, float t, NavMeshAgent ag, Rigidbody r)
     {
         anim = an;
         startTime = t;
         agent = ag;
+        rb = r;
     }
 
     private void PlayAnim()
     {
-        anim.CrossFade(clip[Random.Range(0, clip.Length)].name, 0.2f);
+        if(anim.enabled)
+            anim.CrossFade(clip[Random.Range(0, clip.Length)].name, 0.2f);
     }
 }

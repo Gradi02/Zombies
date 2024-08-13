@@ -2445,7 +2445,6 @@ GameObject:
   - component: {fileID: 4012712972363261723}
   - component: {fileID: 2071667303021237427}
   - component: {fileID: 3818489946841679660}
-  - component: {fileID: -9140036274245812282}
   m_Layer: 0
   m_Name: r8Prefab
   m_TagString: Untagged
@@ -2504,28 +2503,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -499022955
+    DestinationState: -1564946859
+    TransitionDuration: 0.25
+    TriggerNameHash: -1564946859
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -499022955
+    DestinationState: 1883569342
+    TransitionDuration: 0.25
+    TriggerNameHash: 1883569342
+    TransitionIndex: 1
   m_Animator: {fileID: 2071667303021237427}
---- !u!114 &-9140036274245812282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6214302127555497875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1 &6582968271619133451
 GameObject:
   m_ObjectHideFlags: 0
