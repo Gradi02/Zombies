@@ -7,6 +7,10 @@ public class deathState : State
     public override void DoEnter()
     {
         base.DoEnter();
+
+        anim.enabled = false;
+        agent.velocity = Vector3.zero;
+        agent.enabled = false;
     }
 
     public override void DoUpdate()

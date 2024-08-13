@@ -11,23 +11,27 @@ public class EnemyAI : StateMachine
     [SerializeField] private runState _runState;
     [SerializeField] private deathState _deathState;
     [SerializeField] private walkState _walkState;
-
-    [SerializeField] private NavMeshObstacle obstacle;
+    private Rigidbody[] ragdollRigidbodies;
 
     private void Start()
     {
         ChangeState(_idleState);
 
-        obstacle.enabled = false;
-
         agent.updatePosition = false;
         agent.updateRotation = true;
+
+        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            rb.isKinematic = true;
+        }
     }
 
     private void Update()
     {
         currentState?.DoUpdate();
         AIController();
+        SyncAnimatorAndAgent();
     }
 
     private void FixedUpdate()
@@ -75,7 +79,6 @@ public class EnemyAI : StateMachine
             {
                 ChangeState(_walkState);
 
-                obstacle.enabled = false;
                 agent.enabled = true;
                 agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
                 
@@ -87,7 +90,6 @@ public class EnemyAI : StateMachine
 
                 agent.ResetPath();
                 agent.enabled = false;
-                obstacle.enabled = true;
                 
                 timeToChangeState = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
@@ -102,12 +104,13 @@ public class EnemyAI : StateMachine
     [Header("Chase State Variables")]
     private float minAttackTime = 3f, maxAttackTime = 6f;
     private Transform player;
+    private Vector2 velocity;
+    private Vector2 SmoothDeltaPosition;
 
     private void ChaseStateController()
     {
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        obstacle.enabled = false;
         agent.enabled = true;
         agent.destination = player.position;
         ChangeState(_runState);
@@ -124,9 +127,29 @@ public class EnemyAI : StateMachine
         transform.position = position;
         agent.nextPosition = transform.position;
     }
+
+    void SyncAnimatorAndAgent()
+    {
+        Vector3 worldDeltaPosition = agent.nextPosition - transform.position;
+        worldDeltaPosition.y = 0;
+        float smooth = Mathf.Min(1, Time.deltaTime / 0.1f);
+        float deltaMagnitude = worldDeltaPosition.magnitude;
+        if (deltaMagnitude > agent.radius / 4f)
+        {
+            transform.position = Vector3.Lerp(
+                animator.rootPosition,
+                agent.nextPosition,
+                smooth
+            );
+        }
+    }
     public void DeathState()
     {
         isDead = true;
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            rb.isKinematic = false;
+        }
         ChangeState(_deathState, true);
     }
 }
