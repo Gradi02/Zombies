@@ -825,6 +825,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieType1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5658860697059516276, guid: a006953f22b6ec74fb4c5840625ba7b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1301,6 +1306,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieType1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5658860697059516276, guid: a006953f22b6ec74fb4c5840625ba7b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1597,6 +1607,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieType1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5658860697059516276, guid: a006953f22b6ec74fb4c5840625ba7b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1771,6 +1786,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ZombieType1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658860697059516276, guid: a006953f22b6ec74fb4c5840625ba7b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

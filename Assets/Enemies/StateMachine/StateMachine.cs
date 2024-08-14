@@ -8,11 +8,11 @@ public class StateMachine : NetworkBehaviour
 {
     [SerializeField] protected Animator animator;
     protected State currentState;
+    public State subState { get; private set; }
     private bool locked = false;
     
     protected NavMeshAgent agent;
     private Rigidbody body;
-    protected ZombieMainStates mainState = ZombieMainStates.chilling;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class StateMachine : NetworkBehaviour
         agent = GetComponent<NavMeshAgent>();
         State[] states = GetComponentsInChildren<State>();
         foreach (State s in states)
-            s.Initialize(animator, Time.time, agent, body);
+            s.Initialize(animator, Time.time, agent, body, this);
     }
 
     protected void ChangeState(State newState, bool _lock = false)
@@ -31,7 +31,7 @@ public class StateMachine : NetworkBehaviour
         if((currentState == null || currentState != newState) && !locked)
         {
             currentState?.DoExit();
-            Debug.Log("Change to: " + newState);
+            //Debug.Log("Change to: " + newState);
 
             currentState = newState;
             currentState.DoEnter();
@@ -40,12 +40,16 @@ public class StateMachine : NetworkBehaviour
         if(_lock)
             locked = true;
     }
-}
 
-public enum ZombieMainStates
-{
-    chilling,
-    alarmed,
-    chasing,
-    critical
+    public void ChangeSubState(State newSubState, bool force = false)
+    {
+        if (subState == null || subState != newSubState || force)
+        {
+            subState?.DoExit();
+            //Debug.Log("Change Substate to: " + newSubState);
+
+            subState = newSubState;
+            subState.DoEnter();
+        }
+    }
 }
