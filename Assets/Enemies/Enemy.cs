@@ -6,9 +6,7 @@ using Unity.Netcode;
 public class Enemy : NetworkBehaviour, IDamage
 {
     public float hp = 100;
-    public GameObject leftArm, rightArm;
-    public GameObject leftLeg, rightLeg;
-    public GameObject head;
+
 
 
     public void TakeDamage(float amount)
@@ -30,16 +28,5 @@ public class Enemy : NetworkBehaviour, IDamage
     private void RequestKillEntityServerRpc()
     {
         GetComponent<EnemyAI>().DeathState();
-
-
-
-       /* GetComponent<NetworkObject>().Despawn();
-        DestroyEntityClientRpc();*/
     }
-
-/*    [ClientRpc]
-    private void DestroyEntityClientRpc()
-    {
-        Destroy(gameObject);
-    }*/
 }
