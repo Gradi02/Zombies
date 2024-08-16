@@ -16,9 +16,20 @@ public class EnemyAI : StateMachine
 
     private Rigidbody[] ragdollRigidbodies;
 
+    //States Var
+    private float maxDistanceToTarget = 400;
+    public LayerMask obstacleMask;
+
+    private GameObject[] players = null;
+    private Transform target;
+    private Vector3 targetPos = Vector3.zero;
+    private Vector3 alarmPos = Vector3.zero;
+    private float sqrDistanceToTarget = 0;
+    private bool seePlayer = false;
+
     private void Start()
     {
-        ChangeState(_chaseState);
+        ChangeState(_chillState);
 
         agent.updatePosition = false;
         agent.updateRotation = true;
@@ -33,18 +44,112 @@ public class EnemyAI : StateMachine
     private void Update()
     {
         currentState?.DoUpdate();
+        subState?.DoUpdate();
+
         SelectMainState();
         SyncAnimatorAndAgent();
+
+        currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
+        subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
     }
 
     private void FixedUpdate()
     {
         currentState?.DoFixedUpdate();
+        subState?.DoFixedUpdate();
     }
 
     private void SelectMainState()
     {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        SelectTarget();
+        if (target != null)
+        {
+            Vector3 dir = target.position - transform.position;
+            sqrDistanceToTarget = dir.sqrMagnitude;
+
+            if (sqrDistanceToTarget < maxDistanceToTarget)
+            {
+                seePlayer = !Physics.Raycast(transform.position, dir.normalized, maxDistanceToTarget, obstacleMask);
+                targetPos = target.position;
+            }
+        }
+
         //select state
+        if (currentState == _chillState)
+        {
+            //przejœcie do alarmu
+            if(alarmPos != Vector3.zero)
+            {
+                ChangeState(_alarmState);
+            }
+            //przejœcie do chase
+            else if(target != null && seePlayer)
+            {
+                ChangeState(_chaseState);
+            }
+        }
+        else if(currentState == _alarmState)
+        {
+            //przejœcie do idle
+            if(currentState.isCompleted)
+            {
+                alarmPos = Vector3.zero;
+                ChangeState(_chillState);
+            }
+            //przejœcie do chase
+            else if (target != null && seePlayer)
+            {
+                alarmPos = Vector3.zero;
+                ChangeState(_chaseState);
+            }
+        }
+        else if(currentState == _chaseState)
+        {
+            if (target == null)
+            {
+                //hunt state dla targetPos
+                ChangeState(_chillState);
+            }
+        }
+    }
+
+    private void SelectTarget()
+    {
+        if (target == null && players != null)
+        {
+            GameObject nearestObject = null;
+            float shortestDistance = Mathf.Infinity;
+
+            foreach (GameObject p in players)
+            {
+                float sqrDst = (agent.transform.position - p.transform.position).sqrMagnitude;
+
+                if (sqrDst < shortestDistance && sqrDst <= maxDistanceToTarget)
+                {
+                    shortestDistance = sqrDst;
+                    nearestObject = p;
+                }
+            }
+
+            if (nearestObject != null)
+            {
+                target = nearestObject.transform;
+                targetPos = target.position;
+            }
+        }
+        else if (players != null)
+        {
+            float sqrDst = (agent.transform.position - target.position).sqrMagnitude;
+            if (sqrDst > maxDistanceToTarget) target = null;
+        }
+    }
+
+    private void UpdateVariables()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        target = players[0].transform;
+
     }
 
     void OnAnimatorMove()
@@ -72,14 +177,25 @@ public class EnemyAI : StateMachine
             );
         }
     }
+
+    public void AlarmEnemy(Vector3 ap)
+    {
+        if (currentState == _chillState)
+            alarmPos = ap;
+        else if(currentState == _alarmState)
+        {
+            alarmPos = ap;
+            ChangeState(_alarmState, false, true);
+        }
+    }
     public void DeathState()
     {
         isDead = true;
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
+            rb.isKinematic = false;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = false;
         }
         ChangeState(_deathState, true);
     }

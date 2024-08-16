@@ -14,6 +14,8 @@ public class StateMachine : NetworkBehaviour
     protected NavMeshAgent agent;
     private Rigidbody body;
 
+    protected State[] states;
+
     private void Awake()
     {
         float rand = Random.Range(-0.10f, 0.10f);
@@ -21,17 +23,17 @@ public class StateMachine : NetworkBehaviour
 
         body = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        State[] states = GetComponentsInChildren<State>();
+        states = GetComponentsInChildren<State>();
         foreach (State s in states)
             s.Initialize(animator, Time.time, agent, body, this);
     }
 
-    protected void ChangeState(State newState, bool _lock = false)
+    protected void ChangeState(State newState, bool _lock = false, bool forceReenter = false)
     {
-        if((currentState == null || currentState != newState) && !locked)
+        if(((currentState == null || currentState != newState) && !locked) || forceReenter)
         {
             currentState?.DoExit();
-            //Debug.Log("Change to: " + newState);
+            Debug.Log("Change to: " + newState);
 
             currentState = newState;
             currentState.DoEnter();

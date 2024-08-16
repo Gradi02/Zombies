@@ -18,8 +18,10 @@ public class PlayerShooting : NetworkBehaviour
 	private float damage = 50;
 	private int Ammo = 8;
 	private float ReloadTime = -1;
+	public LayerMask obstacleMask;
 
-    private void Awake()
+
+	private void Awake()
     {
 		animator = gun.GetComponent<Animator>();
 	}
@@ -43,12 +45,13 @@ public class PlayerShooting : NetworkBehaviour
 		{
 			animator.SetTrigger("shoot");
 			Ammo --;
+			AlarmNearEnemies();
 
 			if (Time.time >= nextFireTime)
 			{
 				nextFireTime = Time.time + Cooldown;
 
-				if (Physics.Raycast(ray, out hit))
+				if (Physics.Raycast(ray, out hit, Mathf.Infinity, obstacleMask))
 				{
 					if (hit.collider.CompareTag("head"))
 					{
@@ -87,6 +90,23 @@ public class PlayerShooting : NetworkBehaviour
 						Destroy(ps.gameObject, 2);
 					}
 				}
+			}
+		}
+	}
+
+	public LayerMask enemyLayer;
+	private void AlarmNearEnemies()
+    {
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 400, enemyLayer);
+		Debug.Log(hitColliders.Length);
+
+		foreach (Collider hitCollider in hitColliders)
+		{
+			EnemyAI enemyScript = hitCollider.GetComponent<EnemyAI>();
+
+			if (enemyScript != null)
+			{
+				enemyScript.AlarmEnemy(transform.position);
 			}
 		}
 	}

@@ -14,6 +14,8 @@ public class chillState : State
     public override void DoEnter()
     {
         base.DoEnter();
+
+        agent.enabled = true;
         machine.ChangeSubState(_idleState);
     }
 
@@ -32,6 +34,14 @@ public class chillState : State
     public override void DoExit()
     {
         base.DoExit();
+
+        isCompleted = false;
+
+        if (agent.enabled)
+        {
+            agent.ResetPath();
+            agent.enabled = false;
+        }
     }
 
 
