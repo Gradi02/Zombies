@@ -7,6 +7,7 @@ public class alarmState : State
     [SerializeField] private walkState _walkState;
     private float minInterrestTime = 10f, maxInterrestTime = 20f;
     private float timeToComplete;
+    private float positionError = 15;
 
     public override void DoEnter()
     {
@@ -15,12 +16,13 @@ public class alarmState : State
 
         agent.enabled = true;
         machine.ChangeSubState(_walkState);
-        agent.destination = alarmPos;
+        agent.destination = alarmPos + new Vector3(Random.Range(-positionError, positionError), 0, Random.Range(-positionError, positionError));
     }
 
     public override void DoUpdate()
     {
         base.DoUpdate();
+
 
         if (time > timeToComplete || sqrDistanceToTarget < 5)
             isCompleted = true;

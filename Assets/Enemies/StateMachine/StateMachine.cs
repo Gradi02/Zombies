@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class StateMachine : NetworkBehaviour
 {
     [SerializeField] protected Animator animator;
-    protected State currentState;
+    public State currentState { get; private set; }
     public State subState { get; private set; }
     private bool locked = false;
     

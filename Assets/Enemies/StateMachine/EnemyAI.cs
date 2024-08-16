@@ -49,8 +49,9 @@ public class EnemyAI : StateMachine
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
-        currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
-        subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
+        SetVariables();
+        foreach (State s in states)
+            s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
         
         SelectMainState();
         SyncAnimatorAndAgent();
@@ -65,20 +66,6 @@ public class EnemyAI : StateMachine
 
     private void SelectMainState()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
-        SelectTarget();
-        if (target != null)
-        {
-            Vector3 dir = target.position - transform.position;
-            sqrDistanceToTarget = dir.sqrMagnitude;
-
-            if (sqrDistanceToTarget < maxDistanceToTarget)
-            {
-                seePlayer = !Physics.Raycast(transform.position, dir.normalized, maxDistanceToTarget, obstacleMask);
-                targetPos = target.position;
-            }
-        }
-
         //select state
         if (currentState == _chillState)
         {
@@ -130,7 +117,22 @@ public class EnemyAI : StateMachine
             }
         }
     }
+    private void SetVariables()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        SelectTarget();
+        if (target != null)
+        {
+            Vector3 dir = target.position - transform.position;
+            sqrDistanceToTarget = dir.sqrMagnitude;
 
+            if (sqrDistanceToTarget < maxDistanceToTarget)
+            {
+                seePlayer = !Physics.Raycast(transform.position, dir.normalized, maxDistanceToTarget, obstacleMask);
+                targetPos = target.position;
+            }
+        }
+    }
     private void SelectTarget()
     {
         if (target == null && players != null)
@@ -196,6 +198,7 @@ public class EnemyAI : StateMachine
         else if(currentState == _alarmState)
         {
             alarmPos = ap;
+            currentState.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
             ChangeState(_alarmState, false, true);
         }
         else if(currentState == _huntState)

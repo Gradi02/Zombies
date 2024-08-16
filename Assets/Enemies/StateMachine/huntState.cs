@@ -18,7 +18,7 @@ public class huntState : State
 
         agent.enabled = true;
         machine.ChangeSubState(_runState);
-        agent.destination = GetNewPlaceToCheck();
+        agent.destination = targetPos;
     }
 
     public override void DoUpdate()

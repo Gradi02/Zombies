@@ -13,6 +13,7 @@ public abstract class State : NetworkBehaviour
     protected Rigidbody rb;
     protected StateMachine machine;
     protected State subState => machine.subState;
+    protected State currentState => machine.currentState;
 
     private float startTime;
     public float time => Time.time - startTime;
