@@ -29,7 +29,6 @@ public class EnemyAI : StateMachine
 
     private void Start()
     {
-        if (!IsServer) return;
         ChangeState(_chillState);
 
         agent.updatePosition = false;
@@ -44,7 +43,8 @@ public class EnemyAI : StateMachine
 
     private void Update()
     {
-        if (!IsServer) return;
+        if (!IsHost) return;
+
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
@@ -57,14 +57,13 @@ public class EnemyAI : StateMachine
 
     private void FixedUpdate()
     {
-        if (!IsServer) return;
+        if (!IsHost) return;
         currentState?.DoFixedUpdate();
         subState?.DoFixedUpdate();
     }
 
     private void SelectMainState()
     {
-        if (!IsServer) return;
         players = GameObject.FindGameObjectsWithTag("Player");
         SelectTarget();
         if (target != null)
@@ -151,6 +150,7 @@ public class EnemyAI : StateMachine
 
     void OnAnimatorMove()
     {
+        if (!IsHost) return;
         Vector3 position = animator.rootPosition;
 
         if(!isDead) position.y = agent.nextPosition.y;
