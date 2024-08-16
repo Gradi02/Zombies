@@ -2114,6 +2114,7 @@ Transform:
   - {fileID: 6186198265146838304}
   - {fileID: 16444973387491352}
   - {fileID: 5175950454249570064}
+  - {fileID: 882544838294089073}
   - {fileID: 2869193750579498487}
   - {fileID: 2816839708694465094}
   - {fileID: 7897123434437996900}
@@ -2552,6 +2553,7 @@ MonoBehaviour:
   _alarmState: {fileID: 3945826652102437221}
   _chaseState: {fileID: 518439250081843433}
   _critState: {fileID: 1675610142372904944}
+  _huntState: {fileID: 19775988774761082}
   _deathState: {fileID: 3770500882631540507}
   obstacleMask:
     serializedVersion: 2
@@ -3600,6 +3602,54 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &7784562505213879851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 882544838294089073}
+  - component: {fileID: 19775988774761082}
+  m_Layer: 0
+  m_Name: huntState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &882544838294089073
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784562505213879851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3971133841789745490}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &19775988774761082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784562505213879851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d27ffc5a6c630549bbacefb20b0bf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: []
+  isCompleted: 0
+  _runState: {fileID: 6442833555020638591}
+  _idleState: {fileID: 4733564748794550279}
 --- !u!1 &8004398506624350864
 GameObject:
   m_ObjectHideFlags: 0
