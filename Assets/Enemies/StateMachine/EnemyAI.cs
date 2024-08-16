@@ -12,6 +12,7 @@ public class EnemyAI : StateMachine
     [SerializeField] private alarmState _alarmState;
     [SerializeField] private chaseState _chaseState;
     [SerializeField] private critState _critState;
+    [SerializeField] private huntState _huntState;
     [SerializeField] private deathState _deathState;
 
     private Rigidbody[] ragdollRigidbodies;
@@ -48,11 +49,11 @@ public class EnemyAI : StateMachine
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
-        SelectMainState();
-        SyncAnimatorAndAgent();
-
         currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
         subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
+        
+        SelectMainState();
+        SyncAnimatorAndAgent();
     }
 
     private void FixedUpdate()
@@ -109,10 +110,23 @@ public class EnemyAI : StateMachine
         }
         else if(currentState == _chaseState)
         {
+            //przejœcie do hunt state
             if (target == null)
             {
-                //hunt state dla targetPos
+                ChangeState(_huntState);
+            }
+        }
+        else if(currentState == _huntState)
+        {
+            //przejœcie do chillku
+            if(currentState.isCompleted)
+            {
                 ChangeState(_chillState);
+            }
+            //przejœcie do chase
+            else if (target != null && seePlayer)
+            {
+                ChangeState(_chaseState);
             }
         }
     }
@@ -183,6 +197,10 @@ public class EnemyAI : StateMachine
         {
             alarmPos = ap;
             ChangeState(_alarmState, false, true);
+        }
+        else if(currentState == _huntState)
+        {
+            targetPos = ap;
         }
     }
     public void DeathState()
