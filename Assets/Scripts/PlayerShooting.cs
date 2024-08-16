@@ -98,7 +98,6 @@ public class PlayerShooting : NetworkBehaviour
 	private void AlarmNearEnemies()
     {
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 400, enemyLayer);
-		Debug.Log(hitColliders.Length);
 
 		foreach (Collider hitCollider in hitColliders)
 		{
