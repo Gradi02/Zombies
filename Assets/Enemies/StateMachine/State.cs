@@ -15,9 +15,12 @@ public abstract class State : MonoBehaviour
 
     private float startTime;
     public float time => Time.time - startTime;
+    public bool isCompleted = false;
 
-
-    protected GameObject[] players;
+    //States Var
+    protected Vector3 alarmPos;
+    protected Vector3 targetPos;
+    protected float sqrDistanceToTarget;
 
     public virtual void DoEnter()
     {
@@ -32,19 +35,19 @@ public abstract class State : MonoBehaviour
 
     public virtual void DoFixedUpdate()
     {
-        try
-        {
-            players = GameObject.FindGameObjectsWithTag("Player");
-        }
-        catch
-        {
-            players = null;
-        }
+       
     }
 
     public virtual void DoExit()
     {
         
+    }
+
+    public void DoUpdateVariables(Vector3 target, float dst, Vector3 alarm)
+    {
+        targetPos = target;
+        sqrDistanceToTarget = dst;
+        alarmPos = alarm;
     }
 
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8706062215193158719}
   m_Layer: 8
   m_Name: body
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -417,6 +417,12 @@ MonoBehaviour:
   cam: {fileID: 4817538318915063867}
   shoot: {fileID: -1841769225762364984, guid: 52feb57c88abbad4baad653ae4d8947e, type: 3}
   reload: {fileID: 641136364113939877, guid: 52feb57c88abbad4baad653ae4d8947e, type: 3}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!136 &1593325443563641235
 CapsuleCollider:
   m_ObjectHideFlags: 0
