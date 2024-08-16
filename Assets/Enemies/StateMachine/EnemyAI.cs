@@ -203,7 +203,9 @@ public class EnemyAI : StateMachine
             targetPos = ap;
         }
     }
-    public void DeathState()
+
+    [ClientRpc]
+    public void DeathStateClientRpc()
     {
         isDead = true;
         foreach (Rigidbody rb in ragdollRigidbodies)
@@ -212,6 +214,8 @@ public class EnemyAI : StateMachine
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-        ChangeState(_deathState, true);
+
+        if(IsHost)
+            ChangeState(_deathState, true);
     }
 }
