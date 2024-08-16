@@ -27,6 +27,6 @@ public class Enemy : NetworkBehaviour, IDamage
     [ServerRpc]
     private void RequestKillEntityServerRpc()
     {
-        GetComponent<EnemyAI>().DeathState();
+        GetComponent<EnemyAI>().DeathStateClientRpc();
     }
 }

@@ -689,6 +689,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieType1
       objectReference: {fileID: 0}
+    - target: {fileID: 7590558163250557999, guid: a006953f22b6ec74fb4c5840625ba7b4,
+        type: 3}
+      propertyPath: SyncPositionY
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

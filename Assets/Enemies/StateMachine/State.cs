@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Netcode;
 
-public abstract class State : MonoBehaviour
+public abstract class State : NetworkBehaviour
 {
     [SerializeField] protected AnimationClip[] clip;
 
