@@ -29,6 +29,7 @@ public class EnemyAI : StateMachine
 
     private void Start()
     {
+        if (!IsServer) return;
         ChangeState(_chillState);
 
         agent.updatePosition = false;
@@ -43,6 +44,7 @@ public class EnemyAI : StateMachine
 
     private void Update()
     {
+        if (!IsServer) return;
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
@@ -55,12 +57,14 @@ public class EnemyAI : StateMachine
 
     private void FixedUpdate()
     {
+        if (!IsServer) return;
         currentState?.DoFixedUpdate();
         subState?.DoFixedUpdate();
     }
 
     private void SelectMainState()
     {
+        if (!IsServer) return;
         players = GameObject.FindGameObjectsWithTag("Player");
         SelectTarget();
         if (target != null)
@@ -143,13 +147,6 @@ public class EnemyAI : StateMachine
             float sqrDst = (agent.transform.position - target.position).sqrMagnitude;
             if (sqrDst > maxDistanceToTarget) target = null;
         }
-    }
-
-    private void UpdateVariables()
-    {
-        players = GameObject.FindGameObjectsWithTag("Player");
-        target = players[0].transform;
-
     }
 
     void OnAnimatorMove()

@@ -18,6 +18,7 @@ public class StateMachine : NetworkBehaviour
 
     private void Awake()
     {
+        if (!IsServer) return;
         float rand = Random.Range(-0.10f, 0.10f);
         transform.localScale += new Vector3(rand,rand,rand);
 
@@ -30,7 +31,8 @@ public class StateMachine : NetworkBehaviour
 
     protected void ChangeState(State newState, bool _lock = false, bool forceReenter = false)
     {
-        if(((currentState == null || currentState != newState) && !locked) || forceReenter)
+        if (!IsServer) return;
+        if (((currentState == null || currentState != newState) && !locked) || forceReenter)
         {
             currentState?.DoExit();
             Debug.Log("Change to: " + newState);
@@ -45,6 +47,7 @@ public class StateMachine : NetworkBehaviour
 
     public void ChangeSubState(State newSubState, bool force = false)
     {
+        if (!IsServer) return;
         if (subState == null || subState != newSubState || force)
         {
             subState?.DoExit();
