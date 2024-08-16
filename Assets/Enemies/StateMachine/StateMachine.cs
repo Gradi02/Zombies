@@ -30,7 +30,7 @@ public class StateMachine : NetworkBehaviour
 
     protected void ChangeState(State newState, bool _lock = false, bool forceReenter = false)
     {
-        if(((currentState == null || currentState != newState) && !locked) || forceReenter)
+        if (((currentState == null || currentState != newState) && !locked) || forceReenter)
         {
             currentState?.DoExit();
             Debug.Log("Change to: " + newState);
