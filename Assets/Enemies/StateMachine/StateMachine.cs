@@ -18,7 +18,7 @@ public class StateMachine : NetworkBehaviour
 
     private void Awake()
     {
-        float rand = Random.Range(-0.10f, 0.10f);
+        float rand = Random.Range(-0.05f, 0.05f);
         transform.localScale += new Vector3(rand,rand,rand);
 
         body = GetComponent<Rigidbody>();

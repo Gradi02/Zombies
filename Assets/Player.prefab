@@ -419,7 +419,7 @@ MonoBehaviour:
   reload: {fileID: 641136364113939877, guid: 52feb57c88abbad4baad653ae4d8947e, type: 3}
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 832
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
