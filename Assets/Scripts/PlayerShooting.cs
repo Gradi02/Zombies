@@ -17,7 +17,7 @@ public class PlayerShooting : NetworkBehaviour
 	[SerializeField] private AnimationClip shoot, reload;
 	private float damage = 50;
 	private int Ammo = 8;
-	private float ReloadTime = -1;
+	//private float ReloadTime = -1;
 	public LayerMask obstacleMask;
 
 
@@ -83,11 +83,26 @@ public class PlayerShooting : NetworkBehaviour
 						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
 						Destroy(ps.gameObject, 2);
 					}
+					else if (hit.collider.CompareTag("protection"))
+					{
+						// hit
+						Debug.Log("HIT - PROT");
+
+						if (hit.collider.GetComponent<Renderer>() != null)
+						{
+							ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
+							ps.GetComponent<Renderer>().material = hit.collider.GetComponent<Renderer>().material;
+							Destroy(ps.gameObject, 2);
+						}
+					}
 					else
 					{
-						ParticleSystem ps = Instantiate(PS_other, hit.point, Quaternion.LookRotation(hit.normal));
-						ps.GetComponent<Renderer>().material = hit.collider.GetComponent<Renderer>().material;
-						Destroy(ps.gameObject, 2);
+						if(hit.collider.GetComponent<Renderer>() != null)
+                        {
+							ParticleSystem ps = Instantiate(PS_other, hit.point, Quaternion.LookRotation(hit.normal));
+							ps.GetComponent<Renderer>().material = hit.collider.GetComponent<Renderer>().material;
+							Destroy(ps.gameObject, 2);
+						}
 					}
 				}
 			}
