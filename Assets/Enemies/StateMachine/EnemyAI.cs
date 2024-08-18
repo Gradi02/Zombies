@@ -30,6 +30,7 @@ public class EnemyAI : StateMachine
 
     private GameObject[] players = null;
     private Transform target;
+    private CharacterController playerController;
     private Vector3 targetPos = Vector3.zero;
     private Vector3 alarmPos = Vector3.zero;
     private float sqrDistanceToTarget = 0;
@@ -59,7 +60,7 @@ public class EnemyAI : StateMachine
 
         SetVariables();
         foreach (State s in states)
-            s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
+            s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
         
         SelectMainState();
         SyncAnimatorAndAgent();
@@ -155,6 +156,7 @@ public class EnemyAI : StateMachine
             }
             
             targetPos = target.position;
+            playerController = target.GetComponent<CharacterController>();
         }
     }
     private void SelectTarget()
@@ -185,6 +187,7 @@ public class EnemyAI : StateMachine
         {
             float sqrDst = (agent.transform.position - target.position).sqrMagnitude;
             if (sqrDst > maxDistanceToTarget) target = null;
+            playerController = null;
         }
     }
 
@@ -227,7 +230,7 @@ public class EnemyAI : StateMachine
         else if(currentState == _alarmState)
         {
             alarmPos = ap;
-            currentState.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos);
+            currentState.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
             ChangeState(_alarmState, false, true);
         }
         else if(currentState == _huntState)

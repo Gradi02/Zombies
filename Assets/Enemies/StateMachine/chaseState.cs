@@ -10,14 +10,24 @@ public class chaseState : State
 
     private float attackTime = 1.15f;
     private float minDistanceToAttack = 5;
+    private float maxPredictorDistance = 10;
+    private float minPDsqr, maxPDsqr;
+
     private float nextSelectState = 0;
     private float rotationSpeed = 50f;
     private float angleToTarget;
+    private bool predictor = false;
+    private float maxPrediction;
 
     public override void DoEnter()
     {
         base.DoEnter();
 
+        minPDsqr = minDistanceToAttack * minDistanceToAttack;
+        maxPDsqr = maxPredictorDistance * maxPredictorDistance;
+        maxPrediction = Random.Range(1.0f, 3.0f);
+
+        predictor = Random.value < 0.5f;
         agent.enabled = true;
     }
 
@@ -52,6 +62,19 @@ public class chaseState : State
                 nextSelectState = time + attackTime;
                 machine.ChangeSubState(_attackState, true);
                 agent.ResetPath();
+            }
+            else if(predictor && sqrDistanceToTarget > maxPredictorDistance && characterController != null)
+            {
+                if(subState != _runState)
+                    machine.ChangeSubState(_runState);
+
+                Vector3 playerDirection = characterController.velocity.normalized;
+                float playerSpeed = characterController.velocity.magnitude;
+
+                float predictionTime = Mathf.Lerp(0.1f, maxPrediction, Mathf.InverseLerp(minPDsqr, maxPDsqr, sqrDistanceToTarget));
+                Vector3 predictedPosition = targetPos + playerDirection * playerSpeed * predictionTime;
+
+                agent.destination = predictedPosition;
             }
             else
             {
