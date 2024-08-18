@@ -23,6 +23,7 @@ public abstract class State : NetworkBehaviour
     protected Vector3 alarmPos;
     protected Vector3 targetPos;
     protected float sqrDistanceToTarget;
+    protected CharacterController characterController;
 
     public virtual void DoEnter()
     {
@@ -45,11 +46,12 @@ public abstract class State : NetworkBehaviour
         
     }
 
-    public void DoUpdateVariables(Vector3 target, float dst, Vector3 alarm)
+    public void DoUpdateVariables(Vector3 target, float dst, Vector3 alarm, CharacterController contr)
     {
         targetPos = target;
         sqrDistanceToTarget = dst;
         alarmPos = alarm;
+        characterController = contr;
     }
 
 
