@@ -7,9 +7,9 @@ public class huntState : State
     [SerializeField] private runState _runState;
     [SerializeField] private idleState _idleState;
 
-    private float minInterrestTime = 10f, maxInterrestTime = 20f;
+    private float minInterrestTime = 15f, maxInterrestTime = 25f;
     private float timeToComplete, timeToNextPoint = 0;
-    private float searchDistance = 10f;
+    private float searchDistance = 20f;
 
     public override void DoEnter()
     {
@@ -30,10 +30,9 @@ public class huntState : State
 
         if (subState == _runState)
         {
-            Vector3 dir = transform.position - agent.destination;
-            if (dir.sqrMagnitude < 5)
+            if (agent.enabled && agent.remainingDistance < agent.radius)
             {
-                timeToNextPoint = time + Random.Range(2f, 3f);
+                timeToNextPoint = time + Random.Range(1f, 2f);
                 machine.ChangeSubState(_idleState);
             }
         }

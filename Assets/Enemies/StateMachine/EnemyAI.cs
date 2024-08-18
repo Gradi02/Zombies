@@ -8,12 +8,19 @@ public class EnemyAI : StateMachine
 {
     public bool isDead { get; set; } = false;
 
+    [Header("States")]
     [SerializeField] private chillState _chillState;
     [SerializeField] private alarmState _alarmState;
     [SerializeField] private chaseState _chaseState;
     [SerializeField] private critState _critState;
     [SerializeField] private huntState _huntState;
     [SerializeField] private deathState _deathState;
+
+    [Header("Sub States")]
+    [SerializeField] private idleState _idleState;
+    [SerializeField] private walkState _walkState;
+    [SerializeField] private runState _runState;
+    [SerializeField] private attackState _attackState;
 
     private Rigidbody[] ragdollRigidbodies;
 
@@ -27,13 +34,14 @@ public class EnemyAI : StateMachine
     private Vector3 alarmPos = Vector3.zero;
     private float sqrDistanceToTarget = 0;
     private bool seePlayer = false;
+    private Vector3 eyeLevel = new Vector3(0, 1, 0);
 
     private void Start()
     {
         ChangeState(_chillState);
 
         agent.updatePosition = false;
-        agent.updateRotation = true;
+        agent.updateRotation = false;
 
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in ragdollRigidbodies)
@@ -123,14 +131,30 @@ public class EnemyAI : StateMachine
         SelectTarget();
         if (target != null)
         {
-            Vector3 dir = target.position - transform.position;
+            Vector3 dir = (targetPos + eyeLevel) - (agent.transform.position + eyeLevel);
             sqrDistanceToTarget = dir.sqrMagnitude;
 
             if (sqrDistanceToTarget < maxDistanceToTarget)
             {
-                seePlayer = !Physics.Raycast(transform.position, dir.normalized, maxDistanceToTarget, obstacleMask);
-                targetPos = target.position;
+                Vector3 origin = agent.transform.position + eyeLevel;
+
+                if (!Physics.Raycast(origin, dir.normalized, Mathf.Sqrt(sqrDistanceToTarget), obstacleMask))
+                {
+                    //Debug.DrawLine(origin, targetPos + eyeLevel, Color.green);
+                    seePlayer = true;
+                }
+                else
+                {
+                    //Debug.DrawLine(origin, targetPos + eyeLevel, Color.red);
+                    seePlayer = false;
+                }
             }
+            else
+            {
+                seePlayer = false;
+            }
+            
+            targetPos = target.position;
         }
     }
     private void SelectTarget()
@@ -173,6 +197,11 @@ public class EnemyAI : StateMachine
         
         transform.position = position;
         agent.nextPosition = transform.position;
+
+        var turnTowardNavSteeringTarget = agent.steeringTarget;
+        Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
     }
 
     void SyncAnimatorAndAgent()

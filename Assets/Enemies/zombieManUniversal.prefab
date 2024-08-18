@@ -2567,6 +2567,10 @@ MonoBehaviour:
   _critState: {fileID: 4640500762714009221}
   _huntState: {fileID: 7838829554369234105}
   _deathState: {fileID: 8726474286445243288}
+  _idleState: {fileID: 7943731836122409843}
+  _walkState: {fileID: 7671480732596951635}
+  _runState: {fileID: 2529590567279582829}
+  _attackState: {fileID: 8091700736839260017}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64

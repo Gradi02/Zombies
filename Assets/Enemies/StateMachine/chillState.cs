@@ -16,6 +16,7 @@ public class chillState : State
         base.DoEnter();
 
         agent.enabled = true;
+        timeToChangeState = time + Random.Range(minIdleTime, maxIdleTime);
         machine.ChangeSubState(_idleState);
     }
 
