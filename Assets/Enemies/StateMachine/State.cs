@@ -27,7 +27,7 @@ public abstract class State : NetworkBehaviour
 
     public virtual void DoEnter()
     {
-        if(clip.Length > 0) Invoke(nameof(PlayAnim), Random.Range(0f, 0.1f));
+        if(clip.Length > 0) Invoke(nameof(PlayAnim), Random.Range(0f, 0.5f));
         startTime = Time.time;
     }
 

@@ -5,8 +5,9 @@ using Unity.Netcode;
 
 public class Enemy : NetworkBehaviour, IDamage
 {
-    private float hp = 100;
-    public BoxCollider helmetCollider, chestCollider;
+    public float hp = 100;
+    [SerializeField] private EnemyAI ai;
+
     [SerializeField] private GameObject helmet, chestProt, hair, glass, leggings;
     [SerializeField] private Material[] hairMaterials;
     [SerializeField] private Material[] leggingsMaterials;
@@ -14,9 +15,7 @@ public class Enemy : NetworkBehaviour, IDamage
 
     void Awake()
     {
-        helmetCollider.enabled = false;
-        chestCollider.enabled = false;
-
+        hp = Random.Range(100, 120);
         SetEnemyStyle();
     }
 
@@ -28,6 +27,7 @@ public class Enemy : NetworkBehaviour, IDamage
     public void TakeDamage(float amount)
     {
         RequestDamageEntityServerRpc(amount);
+        ai.ReactionState();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -57,10 +57,12 @@ public class Enemy : NetworkBehaviour, IDamage
         {
             hair.SetActive(true);
             hair.GetComponent<SkinnedMeshRenderer>().material = hairMaterials[Random.Range(0, hairMaterials.Length)];
+            hp += 5;
         }
         else if (Random.Range(0, 100) < 30)
         {
             helmet.SetActive(true);
+            hp += 30;
         }
 
         if (Random.Range(0, 100) < 20)
@@ -70,6 +72,7 @@ public class Enemy : NetworkBehaviour, IDamage
         if (Random.Range(0, 100) < 10)
         {
             chestProt.SetActive(true);
+            hp += 100;
         }
 
         SkinnedMeshRenderer[] legs = leggings.GetComponentsInChildren<SkinnedMeshRenderer>();

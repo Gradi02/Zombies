@@ -18,7 +18,7 @@ public class StateMachine : NetworkBehaviour
 
     private void Awake()
     {
-        float rand = Random.Range(-0.05f, 0.05f);
+        float rand = Random.Range(-0.05f, 0.015f);
         transform.localScale += new Vector3(rand,rand,rand);
 
         body = GetComponent<Rigidbody>();
@@ -36,7 +36,7 @@ public class StateMachine : NetworkBehaviour
             Debug.Log("Change to: " + newState);
 
             currentState = newState;
-            currentState.DoEnter();
+            currentState?.DoEnter();
         }
 
         if(_lock)
@@ -51,7 +51,7 @@ public class StateMachine : NetworkBehaviour
             //Debug.Log("Change Substate to: " + newSubState);
 
             subState = newSubState;
-            subState.DoEnter();
+            subState?.DoEnter();
         }
     }
 }
