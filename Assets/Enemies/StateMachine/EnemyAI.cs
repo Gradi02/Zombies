@@ -217,7 +217,7 @@ public class EnemyAI : StateMachine
         var turnTowardNavSteeringTarget = agent.steeringTarget;
         Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
 
-        if (direction != Vector3.zero)
+        if (direction.x != 0 && direction.z != 0)
         {
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
