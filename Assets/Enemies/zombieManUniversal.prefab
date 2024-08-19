@@ -1237,6 +1237,54 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0033727586, y: 0.96128464, z: -0.025616914}
     m_Extent: {x: 0.8509295, y: 0.66631293, z: 0.3913236}
   m_DirtyAABB: 0
+--- !u!1 &1741766487105878323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5835921413353895254}
+  - component: {fileID: 384257130086872877}
+  m_Layer: 0
+  m_Name: reactionState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5835921413353895254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741766487105878323}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8717726291146422297}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &384257130086872877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741766487105878323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f800313d14c2cb2478316851f10218d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: []
+  isCompleted: 0
+  clips2:
+  - {fileID: -203655887218126122, guid: 5934e686c78226442abf138b6007b0dd, type: 3}
 --- !u!1 &1831389003988635532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,6 +1687,7 @@ MonoBehaviour:
   - {fileID: -203655887218126122, guid: e0c10095befb7964da1b115c745b4993, type: 3}
   - {fileID: -203655887218126122, guid: 0e78432fbdd5c144fa6a6c353675d1ea, type: 3}
   - {fileID: -203655887218126122, guid: 18d7f3abc93b9064f8ffdb691733bb9c, type: 3}
+  - {fileID: -203655887218126122, guid: d3e5ff655d17a72458588a4b949cbc02, type: 3}
   isCompleted: 0
 --- !u!1 &1978740244088201191
 GameObject:
@@ -2068,7 +2117,6 @@ GameObject:
   - component: {fileID: 7233492594480811355}
   - component: {fileID: 5228855354240621097}
   - component: {fileID: 4882483034092033285}
-  - component: {fileID: 6035733369316681901}
   m_Layer: 9
   m_Name: mixamorig:Head
   m_TagString: head
@@ -2186,27 +2234,6 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!65 &6035733369316681901
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2197997476459577330}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1.25, z: 1}
-  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1 &2222468911017192067
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,6 +2426,7 @@ GameObject:
   - component: {fileID: 4544505025237926471}
   - component: {fileID: 6669072172458432946}
   - component: {fileID: 5327474365521937461}
+  - component: {fileID: 892689383726655506}
   m_Layer: 7
   m_Name: zombieManUniversal
   m_TagString: enemy
@@ -2566,6 +2594,7 @@ MonoBehaviour:
   _chaseState: {fileID: 5993024902731071763}
   _critState: {fileID: 4640500762714009221}
   _huntState: {fileID: 7838829554369234105}
+  _reactionState: {fileID: 384257130086872877}
   _deathState: {fileID: 8726474286445243288}
   _idleState: {fileID: 7943731836122409843}
   _walkState: {fileID: 7671480732596951635}
@@ -2586,8 +2615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ba5e401efdb49478c277b827a8d4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  helmetCollider: {fileID: 6035733369316681901}
-  chestCollider: {fileID: 5086088418094760568}
+  hp: 100
+  ai: {fileID: 5711066427242484124}
   helmet: {fileID: 6296508623685624524}
   chestProt: {fileID: 1677885085230603691}
   hair: {fileID: 1324603330373152084}
@@ -2649,6 +2678,22 @@ CapsuleCollider:
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 2.5, z: 0}
+--- !u!208 &892689383726655506
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523177715150915351}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 4, y: 5, z: 4}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 2.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2646577933661428727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2688,6 +2733,7 @@ Transform:
   - {fileID: 9158214042990210437}
   - {fileID: 343314420348422118}
   - {fileID: 1710798870376601956}
+  - {fileID: 5835921413353895254}
   m_Father: {fileID: 340703438620957483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2773656182668996228
@@ -6468,7 +6514,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3163395547463516472}
-  - component: {fileID: 5086088418094760568}
   - component: {fileID: 7469843953409903214}
   - component: {fileID: 587552634037172023}
   - component: {fileID: 4649605235304685207}
@@ -6495,27 +6540,6 @@ Transform:
   - {fileID: 8707646502561717304}
   m_Father: {fileID: 7649758385311577516}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5086088418094760568
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8207520254006069304}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1.3326259, z: 1.25}
-  m_Center: {x: -0.0023472644, y: 0.3126731, z: 0.0011066522}
 --- !u!65 &7469843953409903214
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7179,6 +7203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip:
   - {fileID: -203655887218126122, guid: 49b20092f4a616e43bc5c61ddff84857, type: 3}
+  - {fileID: -203655887218126122, guid: c6d287532d67c52419749f7d5c074533, type: 3}
+  - {fileID: -203655887218126122, guid: f8582e69325ea004aa5134a155d3cd0e, type: 3}
+  - {fileID: -203655887218126122, guid: cd4d06a662e43274cb8520091778b316, type: 3}
   isCompleted: 0
   _chaseState: {fileID: 5993024902731071763}
   enemyLayer:

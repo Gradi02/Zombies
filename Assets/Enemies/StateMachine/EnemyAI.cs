@@ -14,6 +14,7 @@ public class EnemyAI : StateMachine
     [SerializeField] private chaseState _chaseState;
     [SerializeField] private critState _critState;
     [SerializeField] private huntState _huntState;
+    [SerializeField] private reactionState _reactionState;
     [SerializeField] private deathState _deathState;
 
     [Header("Sub States")]
@@ -125,6 +126,18 @@ public class EnemyAI : StateMachine
                 ChangeState(_chaseState);
             }
         }
+        else if(currentState == _reactionState)
+        {
+            if(currentState.isCompleted)
+            {
+                ChangeState(_huntState);
+            }
+        }
+    }
+
+    public void ReactionState()
+    {
+        ChangeState(_reactionState);
     }
     private void SetVariables()
     {
@@ -203,8 +216,12 @@ public class EnemyAI : StateMachine
 
         var turnTowardNavSteeringTarget = agent.steeringTarget;
         Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+        }
     }
 
     void SyncAnimatorAndAgent()
