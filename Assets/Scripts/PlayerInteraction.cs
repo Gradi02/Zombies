@@ -30,10 +30,10 @@ public class PlayerInteraction : MonoBehaviour
                     IInteractable inter = hit.collider.GetComponent<IInteractable>();
                     inter.MakeInteraction();
 
-                    if(inter.IsItem())
+                    /*if(inter.IsItem())
                     {
                         playerItemHolder.CollectItem(hit.collider.gameObject);
-                    }
+                    }*/
                 }
                 catch
                 {
