@@ -631,7 +631,7 @@ MonoBehaviour:
   reload: {fileID: 641136364113939877, guid: 52feb57c88abbad4baad653ae4d8947e, type: 3}
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 832
+    m_Bits: 1856
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -747,12 +747,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handTransform: {fileID: 5829024712879322881}
-  nestedNetworkObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  originalParents:
-  - {fileID: 3731368636079898945}
-  - {fileID: 7519632586781879555}
 --- !u!1 &6684525560926781302
 GameObject:
   m_ObjectHideFlags: 0
