@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.UI;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : NetworkBehaviour
 {
     public Camera cam;
     public KeyCode interactKey = KeyCode.E;
@@ -16,8 +17,19 @@ public class PlayerInteraction : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
 
+    private void Start()
+    {
+        if(!IsOwner)
+        {
+            crosshair.transform.parent.gameObject.SetActive(false);
+            return;
+        }
+    }
+
     void Update()
     {
+        if (!IsOwner) return;
+
         ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (Physics.Raycast(ray, out hit, interactDistance, interactionLayer))
         {

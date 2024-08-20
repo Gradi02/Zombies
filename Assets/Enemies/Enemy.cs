@@ -5,7 +5,9 @@ using Unity.Netcode;
 
 public class Enemy : NetworkBehaviour, IDamage
 {
-    public float hp = 100;
+    public EnemyStyleData styleData;
+
+    private float hp = 100;
     [SerializeField] private EnemyAI ai;
 
     [SerializeField] private GameObject helmet, chestProt, hair, glass, leggings;
@@ -13,15 +15,19 @@ public class Enemy : NetworkBehaviour, IDamage
     [SerializeField] private Material[] leggingsMaterials;
 
 
-    void Awake()
+
+    public override void OnNetworkSpawn()
     {
-        hp = Random.Range(100, 120);
-        SetEnemyStyle();
+        if (IsServer)
+        {
+            hp = Random.Range(100, 120);
+            SetEnemyStyleServerRpc();
+        }
     }
 
-    void Update()
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) SetEnemyStyle();
+        RequestApplyEnemyStyleServerRpc();
     }
 
     public void TakeDamage(float amount)
@@ -46,38 +52,78 @@ public class Enemy : NetworkBehaviour, IDamage
         GetComponent<EnemyAI>().DeathStateClientRpc();
     }
 
-    private void SetEnemyStyle()
+    [ServerRpc]
+    private void SetEnemyStyleServerRpc()
     {
-        helmet.SetActive(false);
-        chestProt.SetActive(false);
-        hair.SetActive(false);
-        glass.SetActive(false);
+        EnemyStyleData data = new EnemyStyleData();
+
+        data.leggingsMaterialIndex = Random.Range(0, leggingsMaterials.Length);
+        data.hasGlass = Random.Range(0, 100) < 20;
 
         if (Random.Range(0, 100) < 50)
         {
-            hair.SetActive(true);
-            hair.GetComponent<SkinnedMeshRenderer>().material = hairMaterials[Random.Range(0, hairMaterials.Length)];
+            data.hasHair = true;
+            data.hairMaterialIndex = Random.Range(0, hairMaterials.Length);
             hp += 5;
         }
         else if (Random.Range(0, 100) < 30)
         {
-            helmet.SetActive(true);
+            data.hasHelmet = true;
             hp += 30;
         }
 
-        if (Random.Range(0, 100) < 20)
-        {
-            glass.SetActive(true);
-        }
         if (Random.Range(0, 100) < 10)
         {
-            chestProt.SetActive(true);
+            data.hasChestProt = true;
             hp += 100;
         }
 
+        styleData = data;
+    }
+
+    [ClientRpc]
+    private void ApplyEnemyStyleClientRpc(EnemyStyleData data_in)
+    {
+        EnemyStyleData data = data_in;
+
+        helmet.SetActive(data.hasHelmet);
+        chestProt.SetActive(data.hasChestProt);
+        hair.SetActive(data.hasHair);
+        glass.SetActive(data.hasGlass);
+
+        if (data.hasHair) hair.GetComponent<SkinnedMeshRenderer>().material = hairMaterials[data.hairMaterialIndex];
+
         SkinnedMeshRenderer[] legs = leggings.GetComponentsInChildren<SkinnedMeshRenderer>();
-        Material mat = leggingsMaterials[Random.Range(0, leggingsMaterials.Length)];
+        Material mat = leggingsMaterials[data.leggingsMaterialIndex];
         foreach (var le in legs)
             le.material = mat;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestApplyEnemyStyleServerRpc()
+    {
+        ApplyEnemyStyleClientRpc(styleData);
+    }
+}
+
+
+[System.Serializable]
+public class EnemyStyleData : INetworkSerializable
+{
+    public bool hasHelmet = false;
+    public bool hasChestProt = false;
+    public bool hasHair = false;
+    public bool hasGlass = false;
+    public int hairMaterialIndex;
+    public int leggingsMaterialIndex;
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref hasHelmet);
+        serializer.SerializeValue(ref hasChestProt);
+        serializer.SerializeValue(ref hasHair);
+        serializer.SerializeValue(ref hasGlass);
+        serializer.SerializeValue(ref hairMaterialIndex);
+        serializer.SerializeValue(ref leggingsMaterialIndex);
     }
 }

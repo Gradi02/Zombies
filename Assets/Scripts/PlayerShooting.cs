@@ -8,8 +8,9 @@ public class PlayerShooting : NetworkBehaviour
     public ParticleSystem PS_blood;
     public ParticleSystem PS_other;
     public GameObject gun;
-    private float Cooldown = 0.2f;
+    private float Cooldown = 0.5f;
     private float nextFireTime = 0f;
+	private float reloadingTime = 3f;
 	public Camera cam;
 
 	[Header("Gun Stats")]
@@ -33,23 +34,23 @@ public class PlayerShooting : NetworkBehaviour
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
 
-		Debug.DrawRay(ray.origin, ray.direction * 100);
-
+		//Debug.DrawRay(ray.origin, ray.direction * 100);
         if (Ammo <= 0)
         {
+			nextFireTime = Time.time + reloadingTime;
 			animator.SetTrigger("reload");
             Ammo = 8;
         }
 
         if (Input.GetMouseButtonDown(0))
 		{
-			animator.SetTrigger("shoot");
-			Ammo --;
-			AlarmNearEnemies();
-
 			if (Time.time >= nextFireTime)
 			{
 				nextFireTime = Time.time + Cooldown;
+
+				animator.SetTrigger("shoot");
+				Ammo--;
+				AlarmNearEnemies();
 
 				if (Physics.Raycast(ray, out hit, Mathf.Infinity, obstacleMask))
 				{
