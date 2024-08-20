@@ -10,6 +10,7 @@ public class PlayerInteraction : MonoBehaviour
     public float interactDistance = 5;
     public LayerMask interactionLayer;
 
+    public PlayerItemHolder playerItemHolder;
     public Image crosshair;
 
     private Ray ray;
@@ -26,7 +27,13 @@ public class PlayerInteraction : MonoBehaviour
             {
                 try
                 {
-                    hit.collider.GetComponent<IInteractable>().MakeInteraction();
+                    IInteractable inter = hit.collider.GetComponent<IInteractable>();
+                    inter.MakeInteraction();
+
+                    if(inter.IsItem())
+                    {
+                        playerItemHolder.CollectItem(hit.collider.gameObject);
+                    }
                 }
                 catch
                 {
