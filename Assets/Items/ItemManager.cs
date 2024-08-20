@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class ItemManager : NetworkBehaviour, IInteractable
+public class ItemManager : MonoBehaviour, IInteractable
 {
+    //private NetworkVariable<ulong> itemID = new NetworkVariable<ulong>();
+
     public void MakeInteraction()
     {
-        Debug.Log("Podnies item");
+        Debug.Log(gameObject.GetInstanceID());
     }
 
     public bool IsItem()

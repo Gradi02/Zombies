@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class PlayerItemHolder : MonoBehaviour
+public class PlayerItemHolder : NetworkBehaviour
 {
     private GameObject itemInHand;
     [SerializeField] private Transform handTransform;
+
 
 
     public void CollectItem(GameObject newItem)
@@ -23,6 +24,7 @@ public class PlayerItemHolder : MonoBehaviour
             itemInHand.GetComponent<Rigidbody>().freezeRotation = true;
             itemInHand.GetComponent<Rigidbody>().useGravity = false;
             itemInHand.GetComponent<BoxCollider>().enabled = false;
+            itemInHand.transform.localPosition = Vector3.zero;
         }
     }
 
@@ -34,4 +36,6 @@ public class PlayerItemHolder : MonoBehaviour
         itemInHand.GetComponent<BoxCollider>().enabled = true;
         itemInHand = null;
     }
+
 }
+
