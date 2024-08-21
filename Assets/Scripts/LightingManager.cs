@@ -1,7 +1,8 @@
 using UnityEngine;
+using Unity.Netcode;
 
 [ExecuteAlways]
-public class LightingManager : MonoBehaviour
+public class LightingManager : NetworkBehaviour
 {
     //Scene References
     [SerializeField] private Light DirectionalLight;
@@ -13,7 +14,7 @@ public class LightingManager : MonoBehaviour
 
     private void Update()
     {
-        if (Preset == null)
+        if (Preset == null || !IsServer)
             return;
 
         if (Application.isPlaying)
@@ -21,16 +22,25 @@ public class LightingManager : MonoBehaviour
             //(Replace with a reference to the game time)
             TimeOfDay += Time.deltaTime * Duration;
             TimeOfDay %= 24;
-            UpdateLighting(TimeOfDay / 24f);
+            //UpdateLighting(TimeOfDay / 24f);
         }
         else
         {
-            UpdateLighting(TimeOfDay / 24f);
+            //UpdateLighting(TimeOfDay / 24f);
         }
+
+        UpdateDayValuesClientRpc(TimeOfDay);
+        UpdateLightingClientRpc(TimeOfDay / 24f);
     }
 
+    [ClientRpc]
+    private void UpdateDayValuesClientRpc(float tm)
+    {
+        TimeOfDay = tm;
+    }
 
-    private void UpdateLighting(float timePercent)
+    [ClientRpc]
+    private void UpdateLightingClientRpc(float timePercent)
     {
         //Set ambient and fog
         RenderSettings.ambientLight = Preset.AmbientColor.Evaluate(timePercent);

@@ -692,6 +692,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9107353650086902115, guid: e32b6bfd2eb452d45b4179170c3da14a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3134500720
+      objectReference: {fileID: 0}
     - target: {fileID: 479301135245068627, guid: e32b6bfd2eb452d45b4179170c3da14a,
         type: 3}
       propertyPath: m_Name
@@ -927,11 +932,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9107353650086902115, guid: e32b6bfd2eb452d45b4179170c3da14a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3566082636
+      objectReference: {fileID: 0}
     - target: {fileID: 479301135245068627, guid: e32b6bfd2eb452d45b4179170c3da14a,
         type: 3}
       propertyPath: m_Name
       value: cure (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6244559393621368617, guid: e32b6bfd2eb452d45b4179170c3da14a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e4c58ff74920e24bb39e39ddf00e4d0, type: 2}
     - target: {fileID: 8035285371709657371, guid: e32b6bfd2eb452d45b4179170c3da14a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1500,6 +1515,7 @@ GameObject:
   - component: {fileID: 1861438228}
   - component: {fileID: 1861438229}
   - component: {fileID: 1861438230}
+  - component: {fileID: 1861438231}
   m_Layer: 0
   m_Name: DayNightManager
   m_TagString: Untagged
@@ -1550,7 +1566,27 @@ MonoBehaviour:
   DirectionalLight: {fileID: 410087040}
   Preset: {fileID: 11400000, guid: 3d8ca7753e467be4a98547fd56b6264d, type: 2}
   TimeOfDay: 18.1
-  Duration: 0.055
+  Duration: 1
+--- !u!114 &1861438231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861438226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2044583056
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &7556511238919962862
 PrefabInstance:
   m_ObjectHideFlags: 0
