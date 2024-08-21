@@ -8,6 +8,7 @@ public class PlayerInteraction : NetworkBehaviour
 {
     public Camera cam;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode dropItemKey = KeyCode.Q;
     public float interactDistance = 5;
     public LayerMask interactionLayer;
 
@@ -30,6 +31,12 @@ public class PlayerInteraction : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        InteractionCheck();
+        HandleDropItem();
+    }
+
+    private void InteractionCheck()
+    {
         ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (Physics.Raycast(ray, out hit, interactDistance, interactionLayer))
         {
@@ -40,12 +47,7 @@ public class PlayerInteraction : NetworkBehaviour
                 try
                 {
                     IInteractable inter = hit.collider.GetComponent<IInteractable>();
-                    inter.MakeInteraction();
-
-                    /*if(inter.IsItem())
-                    {
-                        playerItemHolder.CollectItem(hit.collider.gameObject);
-                    }*/
+                    inter.MakeInteraction(transform);
                 }
                 catch
                 {
@@ -56,6 +58,14 @@ public class PlayerInteraction : NetworkBehaviour
         else
         {
             crosshair.color = Color.white;
+        }
+    }
+
+    private void HandleDropItem()
+    {
+        if(Input.GetKeyDown(dropItemKey) && playerItemHolder.itemInHand != null)
+        {
+            playerItemHolder.DropItem();
         }
     }
 }

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void MakeInteraction();
+    public void MakeInteraction(Transform player);
     public bool IsItem();
 }
