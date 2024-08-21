@@ -43,7 +43,7 @@ public abstract class State : NetworkBehaviour
 
     public virtual void DoExit()
     {
-        
+        CancelInvoke();
     }
 
     public void DoUpdateVariables(Vector3 target, float dst, Vector3 alarm, CharacterController contr)
