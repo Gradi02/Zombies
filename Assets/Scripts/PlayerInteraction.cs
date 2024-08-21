@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using System;
 
 public class PlayerInteraction : NetworkBehaviour
 {
@@ -47,11 +48,12 @@ public class PlayerInteraction : NetworkBehaviour
                 try
                 {
                     IInteractable inter = hit.collider.GetComponent<IInteractable>();
-                    ulong id = transform.GetComponent<NetworkObject>().OwnerClientId;
+                    ulong id = NetworkManager.Singleton.LocalClientId;
                     inter.MakeInteraction(id);
                 }
-                catch
+                catch (Exception e)
                 {
+                    Debug.LogException(e, this);
                     Debug.LogWarning("You try to interact with object that dont have IInteractable interface! Make sure that this object should be in interaction Layer!");
                 }
             }
