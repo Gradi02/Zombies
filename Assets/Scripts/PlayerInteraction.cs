@@ -47,7 +47,8 @@ public class PlayerInteraction : NetworkBehaviour
                 try
                 {
                     IInteractable inter = hit.collider.GetComponent<IInteractable>();
-                    inter.MakeInteraction(transform);
+                    ulong id = transform.GetComponent<NetworkObject>().OwnerClientId;
+                    inter.MakeInteraction(id);
                 }
                 catch
                 {

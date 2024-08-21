@@ -5,14 +5,15 @@ using Unity.Netcode;
 
 public class ItemManager : NetworkBehaviour, IInteractable
 {
-    public PlayerItemHolder parent { get; private set; } = null;
+    public ulong parentID { get; private set; } = 100;
 
-    public void MakeInteraction(Transform player)
+    public void MakeInteraction(ulong ID)
     {
-        if(parent == null)
-        { 
-            parent = player.GetComponent<PlayerItemHolder>();
-            parent.CollectItem(gameObject);
+        if(parentID == 100)
+        {
+            UpdateItemParentServerRpc();
+            Transform parent = NetworkManager.Singleton.ConnectedClients[ID].PlayerObject.transform;
+            parent.GetComponent<PlayerItemHolder>().CollectItem(gameObject);
         }
         else
         {
@@ -27,6 +28,18 @@ public class ItemManager : NetworkBehaviour, IInteractable
 
     public void ResetItemParent()
     {
-        parent = null;
+        parentID = 100;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateItemParentServerRpc()
+    {
+        UpdateItemParentClientRpc(parentID);
+    }
+
+    [ClientRpc]
+    private void UpdateItemParentClientRpc(ulong newParent)
+    {
+        parentID = newParent;
     }
 }

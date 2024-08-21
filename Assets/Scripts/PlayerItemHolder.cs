@@ -45,11 +45,19 @@ public class PlayerItemHolder : NetworkBehaviour
 
     private void LateUpdate()
     {
+        if (!IsOwner) return;
+
         if(itemInHand != null)
         {
-            itemInHand.transform.position = handTransform.position;
-            itemInHand.transform.rotation = handTransform.rotation;
+            RequestUpdateItemPositionServerRpc();
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestUpdateItemPositionServerRpc()
+    {
+        itemInHand.transform.position = handTransform.position;
+        itemInHand.transform.rotation = handTransform.rotation;
     }
 }
 
