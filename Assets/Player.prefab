@@ -629,6 +629,8 @@ MonoBehaviour:
   gun: {fileID: 2898014891142700862}
   cam: {fileID: 4817538318915063867}
   ammoText: {fileID: 3119130157425882442}
+  shootParticle: {fileID: 4283307046162686331}
+  flashlight: {fileID: 1162754620130461737}
   shoot: {fileID: -1841769225762364984, guid: 13825f31dffd4e1468deb2318fef11d1, type: 3}
   reload: {fileID: 641136364113939877, guid: 13825f31dffd4e1468deb2318fef11d1, type: 3}
   obstacleMask:
@@ -987,6 +989,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 856b33957187c9547904a893070c6225, type: 3}
+--- !u!1 &1162754620130461737 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6811785789795952064, guid: 856b33957187c9547904a893070c6225,
+    type: 3}
+  m_PrefabInstance: {fileID: 5668550060892581353}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2556920462108657028 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7914721905979910253, guid: 856b33957187c9547904a893070c6225,
@@ -996,6 +1004,12 @@ Transform:
 --- !u!1 &2898014891142700862 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7394186075198927575, guid: 856b33957187c9547904a893070c6225,
+    type: 3}
+  m_PrefabInstance: {fileID: 5668550060892581353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &4283307046162686331 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 8492629117629435026, guid: 856b33957187c9547904a893070c6225,
     type: 3}
   m_PrefabInstance: {fileID: 5668550060892581353}
   m_PrefabAsset: {fileID: 0}
