@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
 
 public class PlayerShooting : NetworkBehaviour
 {
     public ParticleSystem PS_blood;
     public ParticleSystem PS_other;
     public GameObject gun;
-    private float Cooldown = 0.5f;
+    private float Cooldown = 0.2f;
     private float nextFireTime = 0f;
 	private float reloadingTime = 3f;
 	public Camera cam;
+	[SerializeField] private TextMeshProUGUI ammoText;	
 
 	[Header("Gun Stats")]
 	private Animator animator;
 	[SerializeField] private AnimationClip shoot, reload;
 	private float damage = 50;
 	private int Ammo = 8;
-	//private float ReloadTime = -1;
 	public LayerMask obstacleMask;
 
 
@@ -34,22 +35,24 @@ public class PlayerShooting : NetworkBehaviour
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
 
-		//Debug.DrawRay(ray.origin, ray.direction * 100);
         if (Ammo <= 0)
         {
+			ammoText.text = "reloading";
 			nextFireTime = Time.time + reloadingTime;
-			animator.SetTrigger("reload");
+			animator.CrossFade(reload.name, 0.2f);
             Ammo = 8;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Time.time >= nextFireTime)
 		{
-			if (Time.time >= nextFireTime)
+			ammoText.text = "ammo: " + Ammo;
+			if (Input.GetMouseButtonDown(0))
 			{
 				nextFireTime = Time.time + Cooldown;
 
-				animator.SetTrigger("shoot");
 				Ammo--;
+				ammoText.text = "ammo: " + Ammo;
+				animator.CrossFade(shoot.name, 0.2f);
 				AlarmNearEnemies();
 
 				if (Physics.Raycast(ray, out hit, Mathf.Infinity, obstacleMask))
