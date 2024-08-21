@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void MakeInteraction(Transform player);
+    public void MakeInteraction(ulong clientId);
     public bool IsItem();
 }
