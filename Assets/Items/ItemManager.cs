@@ -11,9 +11,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     {
         if(parentID == 100)
         {
-            UpdateItemParentServerRpc();
-            Transform parent = NetworkManager.Singleton.ConnectedClients[ID].PlayerObject.transform;
-            parent.GetComponent<PlayerItemHolder>().CollectItem(gameObject);
+            UpdateItemParentServerRpc(ID);
         }
         else
         {
@@ -32,8 +30,10 @@ public class ItemManager : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void UpdateItemParentServerRpc()
+    private void UpdateItemParentServerRpc(ulong id)
     {
+        Transform parent = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform;
+        parent.GetComponent<PlayerItemHolder>().CollectItem(gameObject);
         UpdateItemParentClientRpc(parentID);
     }
 
