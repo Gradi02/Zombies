@@ -49,15 +49,9 @@ public class PlayerItemHolder : NetworkBehaviour
 
         if(itemInHand != null)
         {
-            RequestUpdateItemPositionServerRpc();
+            itemInHand.transform.position = handTransform.position;
+            itemInHand.transform.rotation = handTransform.rotation;
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void RequestUpdateItemPositionServerRpc()
-    {
-        itemInHand.transform.position = handTransform.position;
-        itemInHand.transform.rotation = handTransform.rotation;
     }
 }
 

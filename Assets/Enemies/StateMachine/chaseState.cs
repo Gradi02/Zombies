@@ -20,6 +20,8 @@ public class chaseState : State
         base.DoEnter();
 
         agent.enabled = true;
+        nextSelectState = 0;
+        agent.destination = targetPos;
     }
 
     public override void DoUpdate()
@@ -46,6 +48,7 @@ public class chaseState : State
 
     private void SelectSubState()
     {
+        Debug.Log(time>nextSelectState);
         if (time > nextSelectState)
         {
             if (sqrDistanceToTarget <= minDistanceToAttack && angleToTarget < 45f)
@@ -64,6 +67,7 @@ public class chaseState : State
         if(subState == _attackState)
         {
             Vector3 directionToTarget = (targetPos - agent.transform.position).normalized;
+            directionToTarget.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
             agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
 
