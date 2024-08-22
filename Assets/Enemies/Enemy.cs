@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Steamworks;
 
 public class Enemy : NetworkBehaviour, IDamage
 {
@@ -14,7 +15,7 @@ public class Enemy : NetworkBehaviour, IDamage
     [SerializeField] private Material[] hairMaterials;
     [SerializeField] private Material[] leggingsMaterials;
 
-
+    private bool damaga = false, dead = false;
 
     public override void OnNetworkSpawn()
     {
@@ -27,13 +28,18 @@ public class Enemy : NetworkBehaviour, IDamage
 
     void Start()
     {
-        RequestApplyEnemyStyleServerRpc();
+        if(IsHost)
+            RequestApplyEnemyStyleServerRpc();
+
+        var ach = new Steamworks.Data.Achievement("ACH_WIN_ONE_GAME");
+        ach.Clear();
     }
 
     public void TakeDamage(float amount)
     {
+        damaga = true;
         RequestDamageEntityServerRpc(amount);
-        ai.ReactionState();
+        ai.ReactionStateServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -42,6 +48,7 @@ public class Enemy : NetworkBehaviour, IDamage
         hp -= amount;
         if(hp <= 0)
         {
+            IsDeadClientRpc();
             RequestKillEntityServerRpc();
         }
     }
@@ -50,6 +57,24 @@ public class Enemy : NetworkBehaviour, IDamage
     private void RequestKillEntityServerRpc()
     {
         GetComponent<EnemyAI>().DeathStateClientRpc();
+    }
+
+    [ClientRpc]
+    private void IsDeadClientRpc()
+    {
+        dead = true;
+
+        if(dead && damaga)
+        {
+            var ach = new Steamworks.Data.Achievement("ACH_WIN_ONE_GAME");
+            if (!ach.State)
+            {
+                ach.Trigger();
+            }
+        }
+
+        dead = false;
+        damaga = false;
     }
 
     [ServerRpc]
