@@ -135,7 +135,8 @@ public class EnemyAI : StateMachine
         }
     }
 
-    public void ReactionState()
+    [ServerRpc(RequireOwnership = false)]
+    public void ReactionStateServerRpc()
     {
         ChangeState(_reactionState);
     }
