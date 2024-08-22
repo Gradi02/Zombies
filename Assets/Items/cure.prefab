@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 4965868320090062907}
   - component: {fileID: 1432161099246082256}
   - component: {fileID: -9107353650086902115}
-  - component: {fileID: 297497782634900031}
-  - component: {fileID: 6349790296975155589}
+  - component: {fileID: 2615226824492862072}
+  - component: {fileID: -4978450581090063199}
   m_Layer: 10
   m_Name: cure
   m_TagString: Untagged
@@ -169,7 +169,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &297497782634900031
+--- !u!114 &2615226824492862072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 479301135245068627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: f0a0f369f1ad31046b664d161ccfbc4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -199,7 +199,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &6349790296975155589
+--- !u!114 &-4978450581090063199
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

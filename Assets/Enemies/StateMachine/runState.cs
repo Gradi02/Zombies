@@ -9,7 +9,7 @@ public class runState : State
     {
         base.DoEnter();
 
-        AlarmNearEnemies();
+        //AlarmNearEnemies();
     }
 
     public override void DoUpdate()

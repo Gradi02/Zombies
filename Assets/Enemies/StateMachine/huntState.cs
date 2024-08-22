@@ -54,6 +54,7 @@ public class huntState : State
         
         isCompleted = false;
         agent.ResetPath();
+        agent.enabled = false;
     }
 
     private Vector3 GetNewPlaceToCheck()
