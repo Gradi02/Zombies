@@ -5,7 +5,6 @@ using Unity.Netcode;
 using Steamworks;
 
 
-
 public class SC_FPSController : NetworkBehaviour
 {
     public float walkingSpeed = 7.5f;
@@ -24,6 +23,7 @@ public class SC_FPSController : NetworkBehaviour
     public bool canMove = true;
 
     [SerializeField] private GameObject head;
+    [SerializeField] private Animator anim;
 
     void Start()
     {
@@ -56,12 +56,11 @@ public class SC_FPSController : NetworkBehaviour
         float curSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        moveDirection = ((forward * curSpeedX) + (right * curSpeedY)).normalized;
 
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
-            Debug.Log("Jump");
         }
         else
         {
@@ -77,7 +76,12 @@ public class SC_FPSController : NetworkBehaviour
         }
 
         // Move the controller
-        characterController.Move(moveDirection * Time.deltaTime);
+        characterController.Move(moveDirection * Time.deltaTime * (isRunning ? runningSpeed : walkingSpeed));
+
+        Vector3 localVel = transform.InverseTransformDirection(characterController.velocity);
+        anim.SetFloat("velocityX", localVel.x);
+        anim.SetFloat("velocityZ", localVel.z);
+        anim.SetBool("isJumping", !characterController.isGrounded);
 
         // Player and Camera rotation
         if (canMove)
@@ -88,111 +92,4 @@ public class SC_FPSController : NetworkBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
-
-
-    /*public float walkSpeed = 10.0f;
-    Vector3 moveAmount;
-    Vector3 smoothMoveVelocity;
-
-
-    Rigidbody rigidbodyR;
-
-    float jumpForce = 250.0f;
-    bool grounded;
-    public LayerMask groundedMask;
-
-    bool cursorVisible;
-
-    public Camera playerCamera;
-    [SerializeField] private GameObject head;
-    public float lookSpeed = 2.0f;
-    public float lookXLimit = 45.0f;
-    float rotationX = 0;
-
-
-    // Use this for initialization
-    void Start()
-    {
-        if (!IsOwner)
-        {
-            playerCamera.gameObject.SetActive(false);
-            GetComponent<CharacterController>().enabled = false;
-            GetComponent<PlayerShooting>().enabled = false;
-            enabled = false;
-            return;
-        }
-
-        rigidbodyR = GetComponent<Rigidbody>();
-        LockMouse();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!IsOwner) return;
-
-        // rotation
-        rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        head.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-
-        // movement
-        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-        Vector3 targetMoveAmount = moveDir * walkSpeed;
-        moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
-
-        // jump
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (grounded)
-            {
-                rigidbodyR.AddForce(transform.up * jumpForce);
-            }
-        }
-
-        Ray ray = new Ray(transform.position, -transform.up);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
-        {
-            grounded = true;
-        }
-        else
-        {
-            grounded = false;
-        }
-
-        *//* Lock/unlock mouse on click *//*
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (!cursorVisible)
-            {
-                UnlockMouse();
-            }
-            else
-            {
-                LockMouse();
-            }
-        }
-    }
-
-    void FixedUpdate()
-    {
-        rigidbodyR.MovePosition(rigidbodyR.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-    }
-
-    void UnlockMouse()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        cursorVisible = true;
-    }
-
-    void LockMouse()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        cursorVisible = false;
-    }*/
 }
