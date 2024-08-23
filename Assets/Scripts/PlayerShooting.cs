@@ -36,10 +36,10 @@ public class PlayerShooting : NetworkBehaviour
 	{
 		if (!IsOwner && cam != null)
 		{
-			rightHandTarget.SetPositionAndRotation(rightHandGunTarget.position, rightHandGunTarget.rotation);
 			return;
 		}
 
+		rightHandTarget.SetPositionAndRotation(rightHandGunTarget.position, rightHandGunTarget.rotation);
 
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;

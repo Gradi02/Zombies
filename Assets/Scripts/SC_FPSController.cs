@@ -65,12 +65,16 @@ public class SC_FPSController : NetworkBehaviour
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
+
         // Press Left Shift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
+        float speed = isRunning ? runningSpeed : walkingSpeed;
+
+        float curSpeedX = canMove ? Input.GetAxisRaw("Vertical") : 0;
+        float curSpeedY = canMove ? Input.GetAxisRaw("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection = ((forward * curSpeedX) + (right * curSpeedY)).normalized;
+        moveDirection *= speed;
 
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
@@ -90,7 +94,7 @@ public class SC_FPSController : NetworkBehaviour
         }
 
         // Move the controller
-        characterController.Move(moveDirection * Time.deltaTime * (isRunning ? runningSpeed : walkingSpeed));
+        characterController.Move(moveDirection * Time.deltaTime);
 
         Vector3 localVel = transform.InverseTransformDirection(characterController.velocity);
         anim.SetFloat("velocityX", localVel.x);

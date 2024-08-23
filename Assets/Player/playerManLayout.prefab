@@ -209,7 +209,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 315cfdad66ae041488b58f4794d03f78,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8973859395435778777}
+      addedObject: {fileID: 3026328226483328093}
   m_SourcePrefab: {fileID: 100100000, guid: 315cfdad66ae041488b58f4794d03f78, type: 3}
 --- !u!1 &7041832048114831786 stripped
 GameObject:
@@ -238,7 +238,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8973859395435778777
+--- !u!114 &3026328226483328093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7041832048114831786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: a6e4f6ec1652c6243b31eaed858cc7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []

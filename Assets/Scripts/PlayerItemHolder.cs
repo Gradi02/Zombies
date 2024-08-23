@@ -49,9 +49,16 @@ public class PlayerItemHolder : NetworkBehaviour
 
         if(itemInHand != null)
         {
-            itemInHand.transform.position = handTransform.position;
-            itemInHand.transform.rotation = handTransform.rotation;
+            ChangePosRotItemServerRpc(handTransform.position, handTransform.rotation);
+            /*itemInHand.transform.position = handTransform.position;
+            itemInHand.transform.rotation = handTransform.rotation;*/
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ChangePosRotItemServerRpc(Vector3 pos, Quaternion rot)
+    {
+        itemInHand.transform.SetPositionAndRotation(pos, rot);
     }
 }
 
