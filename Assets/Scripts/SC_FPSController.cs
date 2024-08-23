@@ -24,6 +24,7 @@ public class SC_FPSController : NetworkBehaviour
 
     [SerializeField] private GameObject head;
     [SerializeField] private Animator anim;
+    [SerializeField] private Transform playerMeshs;
 
     void Start()
     {
@@ -34,6 +35,19 @@ public class SC_FPSController : NetworkBehaviour
             GetComponent<PlayerShooting>().enabled = false;
             enabled = false;
             return;
+        }
+
+        foreach(Transform g1 in playerMeshs.GetComponentInChildren<Transform>())
+        {
+            foreach (Transform g2 in g1.GetComponentInChildren<Transform>())
+            {
+                g2.gameObject.layer = 11;
+
+                foreach (Transform g3 in g2.GetComponentInChildren<Transform>())
+                {
+                    g3.gameObject.layer = 11;
+                }
+            }
         }
 
         characterController = GetComponent<CharacterController>();

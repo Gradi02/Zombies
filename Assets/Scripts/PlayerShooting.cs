@@ -17,6 +17,7 @@ public class PlayerShooting : NetworkBehaviour
 	[SerializeField] private TextMeshProUGUI ammoText;
 	[SerializeField] private VisualEffect shootParticle;
 	[SerializeField] private GameObject flashlight;
+	[SerializeField] private Transform rightHandGunTarget, rightHandTarget;
 
 	[Header("Gun Stats")]
 	private Animator animator;
@@ -33,7 +34,12 @@ public class PlayerShooting : NetworkBehaviour
 
 	void Update()
 	{
-		if (!IsOwner && cam != null) return;
+		if (!IsOwner && cam != null)
+		{
+			rightHandTarget.SetPositionAndRotation(rightHandGunTarget.position, rightHandGunTarget.rotation);
+			return;
+		}
+
 
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
