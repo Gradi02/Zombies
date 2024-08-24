@@ -34,7 +34,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     {
         Transform parent = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform;
         parent.GetComponent<PlayerItemHolder>().CollectItem(gameObject);
-        UpdateItemParentClientRpc(parentID);
+        UpdateItemParentClientRpc(id);
     }
 
     [ClientRpc]

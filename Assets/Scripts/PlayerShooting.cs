@@ -18,6 +18,7 @@ public class PlayerShooting : NetworkBehaviour
 	[SerializeField] private VisualEffect shootParticle;
 	[SerializeField] private GameObject flashlight;
 	[SerializeField] private Transform rightHandGunTarget, rightHandTarget;
+	[SerializeField] private Transform leftHandGunTarget, leftHandTarget;
 
 	[Header("Gun Stats")]
 	private Animator animator;
@@ -40,6 +41,7 @@ public class PlayerShooting : NetworkBehaviour
 		}
 
 		rightHandTarget.SetPositionAndRotation(rightHandGunTarget.position, rightHandGunTarget.rotation);
+		leftHandTarget.SetPositionAndRotation(leftHandGunTarget.position, leftHandGunTarget.rotation);
 
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
