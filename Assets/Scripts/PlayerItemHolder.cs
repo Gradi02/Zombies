@@ -7,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 public class PlayerItemHolder : NetworkBehaviour
 {
     public GameObject itemInHand { get; private set; } = null;
-    [SerializeField] private Transform handTransform;
+    public Transform handTransform;
     [SerializeField] private float dropPower = 3f;
     [SerializeField] private Transform head;
     [SerializeField] private TwoBoneIKConstraint itemHandConstraint;
@@ -20,25 +20,21 @@ public class PlayerItemHolder : NetworkBehaviour
     }
     public void CollectItem(GameObject newItem)
     {
-        if (newItem.transform.parent == null)
+        if (itemInHand != null)
         {
-            if (itemInHand != null)
-            {
-                DropItem();
-            }
-
-            itemInHand = newItem;
-            itemInHand.GetComponent<Rigidbody>().freezeRotation = true;
-            itemInHand.GetComponent<Rigidbody>().useGravity = false;
-            itemInHand.GetComponent<BoxCollider>().enabled = false;
-            itemInHand.transform.localPosition = Vector3.zero;
-            SetHandConstraintWeightServerRpc(1);
+            DropItem();
         }
+
+        itemInHand = newItem;
+        itemInHand.GetComponent<Rigidbody>().freezeRotation = true;
+        itemInHand.GetComponent<Rigidbody>().useGravity = false;
+        itemInHand.GetComponent<BoxCollider>().enabled = false;
+        SetHandConstraintWeightServerRpc(1);
     }
 
     public void DropItem()
     {
-        itemInHand.GetComponent<ItemManager>().ResetItemParent();
+        itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
         itemInHand.GetComponent<BoxCollider>().enabled = true;
 
         Rigidbody rb = itemInHand.GetComponent<Rigidbody>();
@@ -63,22 +59,6 @@ public class PlayerItemHolder : NetworkBehaviour
     private void SetHandConstraintWeightClientRpc(int w)
     {
         itemHandConstraint.weight = w;
-    }
-
-    private void LateUpdate()
-    {
-        if (!IsOwner) return;
-
-        if(itemInHand != null)
-        {
-            ChangePosRotItemServerRpc(handTransform.position, handTransform.rotation);
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void ChangePosRotItemServerRpc(Vector3 pos, Quaternion rot)
-    {
-        itemInHand.transform.SetPositionAndRotation(pos, rot);
     }
 }
 

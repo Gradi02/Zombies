@@ -49,7 +49,7 @@ public class PlayerInteraction : NetworkBehaviour
                 {
                     IInteractable inter = hit.collider.GetComponent<IInteractable>();
                     ulong id = NetworkManager.Singleton.LocalClientId;
-                    inter.MakeInteraction(id);
+                    inter.MakeInteraction(id, playerItemHolder);
                 }
                 catch (Exception e)
                 {

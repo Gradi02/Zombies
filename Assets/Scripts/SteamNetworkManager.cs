@@ -111,12 +111,14 @@ public class SteamNetworkManager : MonoBehaviour
     private void SteamMatchmaking_OnLobbyMemberLeave(Lobby _lobby, Friend _steamId)
     {
         Debug.Log("member leave");
+        NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     private void SteamMatchmaking_OnLobbyMemberJoined(Lobby _lobby, Friend _steamId)
     {
         Debug.Log("member join");
-        //NetworkGameManager.instance.AddPlayerToDictionaryServerRpc(_steamId.Id, _steamId.Name, NetworkManager.Singleton.LocalClientId);
+        NetworkGameManager.instance.RequestDictionarySyncServerRpc();
+        NetworkGameManager.instance.AddPlayerToDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     private void SteamMatchmaking_OnLobbyEntered(Lobby _lobby)

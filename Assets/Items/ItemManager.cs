@@ -5,12 +5,15 @@ using Unity.Netcode;
 
 public class ItemManager : NetworkBehaviour, IInteractable
 {
-    public ulong parentID { get; private set; } = 100;
+    //public ulong parentID { get; private set; } = 100;
+    public NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private PlayerItemHolder pih;
 
-    public void MakeInteraction(ulong ID)
+    public void MakeInteraction(ulong ID, PlayerItemHolder ph)
     {
-        if(parentID == 100)
+        if(parentID.Value == 100)
         {
+            ph.CollectItem(gameObject);
             UpdateItemParentServerRpc(ID);
         }
         else
@@ -19,27 +22,34 @@ public class ItemManager : NetworkBehaviour, IInteractable
         }
     }
 
-    public bool IsItem()
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetItemParentServerRpc()
     {
-        return true;
-    }
-
-    public void ResetItemParent()
-    {
-        parentID = 100;
+        parentID.Value = 100;
+        pih = null;
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void UpdateItemParentServerRpc(ulong id)
     {
-        Transform parent = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform;
-        parent.GetComponent<PlayerItemHolder>().CollectItem(gameObject);
-        UpdateItemParentClientRpc(id);
+        parentID.Value = id;
     }
 
-    [ClientRpc]
-    private void UpdateItemParentClientRpc(ulong newParent)
+    private void LateUpdate()
     {
-        parentID = newParent;
+        if (!IsServer) return;
+
+        if (parentID.Value != 100)
+        {
+            if (pih != null)
+            {
+                transform.SetPositionAndRotation(pih.handTransform.position, pih.handTransform.rotation);
+            }
+            else
+            {
+                Transform parent = NetworkManager.Singleton.ConnectedClients[parentID.Value].PlayerObject.transform;
+                pih = parent.GetComponent<PlayerItemHolder>();
+            }
+        }
     }
 }

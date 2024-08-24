@@ -4,6 +4,5 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void MakeInteraction(ulong clientId);
-    public bool IsItem();
+    public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null);
 }
