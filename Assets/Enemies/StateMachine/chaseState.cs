@@ -54,7 +54,8 @@ public class chaseState : State
             if (sqrDistanceToTarget <= minDistanceToAttack && angleToTarget < 45f)
             {
                 nextSelectState = time + attackTime;
-                machine.ChangeSubState(_attackState, true);
+                if(_attackState.isCompleted || subState != _attackState)
+                    machine.ChangeSubState(_attackState, true);
                 agent.ResetPath();
             }
             else
