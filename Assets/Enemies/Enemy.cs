@@ -111,17 +111,28 @@ public class Enemy : NetworkBehaviour, IDamage
     {
         EnemyStyleData data = data_in;
 
-        helmet.SetActive(data.hasHelmet);
-        chestProt.SetActive(data.hasChestProt);
-        hair.SetActive(data.hasHair);
-        glass.SetActive(data.hasGlass);
+        if (data.hasHelmet) helmet.SetActive(true);
+        else Destroy(helmet);
 
-        if (data.hasHair) hair.GetComponent<SkinnedMeshRenderer>().material = hairMaterials[data.hairMaterialIndex];
+        if (data.hasChestProt) chestProt.SetActive(true);
+        else Destroy(chestProt);
+
+        if (data.hasHair)
+        {
+            hair.SetActive(true);
+            hair.GetComponent<SkinnedMeshRenderer>().material = hairMaterials[data.hairMaterialIndex];
+        }
+        else Destroy(hair);
+
+        if(data.hasGlass) glass.SetActive(true);
+        else Destroy (glass);
 
         SkinnedMeshRenderer[] legs = leggings.GetComponentsInChildren<SkinnedMeshRenderer>();
         Material mat = leggingsMaterials[data.leggingsMaterialIndex];
         foreach (var le in legs)
             le.material = mat;
+
+
     }
 
     [ServerRpc(RequireOwnership = false)]
