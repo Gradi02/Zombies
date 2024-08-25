@@ -117,7 +117,6 @@ public class SteamNetworkManager : MonoBehaviour
     private void SteamMatchmaking_OnLobbyMemberJoined(Lobby _lobby, Friend _steamId)
     {
         Debug.Log("member join");
-        NetworkGameManager.instance.RequestDictionarySyncServerRpc();
         NetworkGameManager.instance.AddPlayerToDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 

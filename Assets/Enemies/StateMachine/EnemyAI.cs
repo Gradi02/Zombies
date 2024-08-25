@@ -29,7 +29,7 @@ public class EnemyAI : StateMachine
     private float maxDistanceToTarget = 400;
     public LayerMask obstacleMask;
 
-    private GameObject[] players = null;
+    public List<GameObject> players = null;
     private Transform target;
     private CharacterController playerController;
     private Vector3 targetPos = Vector3.zero;
@@ -142,7 +142,7 @@ public class EnemyAI : StateMachine
     }
     private void SetVariables()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
+        //players = GameObject.FindGameObjectsWithTag("Player");
         SelectTarget();
         if (target != null)
         {
