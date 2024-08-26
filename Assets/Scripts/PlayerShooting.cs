@@ -40,10 +40,6 @@ public class PlayerShooting : NetworkBehaviour
 			return;
 		}
 
-		HandsRiggerTargetServerRpc(rightHandGunTarget.position, rightHandGunTarget.rotation, leftHandGunTarget.position, leftHandGunTarget.rotation);
-		//rightHandTarget.SetPositionAndRotation(rightHandGunTarget.position, rightHandGunTarget.rotation);
-		//leftHandTarget.SetPositionAndRotation(leftHandGunTarget.position, leftHandGunTarget.rotation);
-
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
 
@@ -127,7 +123,12 @@ public class PlayerShooting : NetworkBehaviour
 		}
 	}
 
-    [ServerRpc]
+    private void LateUpdate()
+    {
+		HandsRiggerTargetServerRpc(rightHandGunTarget.position, rightHandGunTarget.rotation, leftHandGunTarget.position, leftHandGunTarget.rotation);
+	}
+
+	[ServerRpc]
 	private void HandsRiggerTargetServerRpc(Vector3 rightPos, Quaternion rightRot, Vector3 leftPos, Quaternion leftRot)
     {
 		HandsRiggerTargetClientRpc(rightPos, rightRot, leftPos, leftRot);
