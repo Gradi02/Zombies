@@ -48,7 +48,6 @@ public class chaseState : State
 
     private void SelectSubState()
     {
-        Debug.Log(time>nextSelectState);
         if (time > nextSelectState)
         {
             if (sqrDistanceToTarget <= minDistanceToAttack && angleToTarget < 45f)
