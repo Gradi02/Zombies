@@ -33,7 +33,6 @@ public class StateMachine : NetworkBehaviour
         if (((currentState == null || currentState != newState) && !locked) || forceReenter)
         {
             currentState?.DoExit();
-            Debug.Log("Change to: " + newState);
 
             currentState = newState;
             currentState?.DoEnter();

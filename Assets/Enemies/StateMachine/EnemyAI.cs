@@ -60,9 +60,11 @@ public class EnemyAI : StateMachine
         subState?.DoUpdate();
 
         SetVariables();
-        foreach (State s in states)
-            s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-        
+        /*        foreach (State s in states)
+                    s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);*/
+        currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+        subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+
         SelectMainState();
         SyncAnimatorAndAgent();
     }
@@ -143,7 +145,6 @@ public class EnemyAI : StateMachine
     private void SetVariables()
     {
         //players = GameObject.FindGameObjectsWithTag("Player");
-        SelectTarget();
         if (target != null)
         {
             Vector3 dir = (targetPos + eyeLevel) - (agent.transform.position + eyeLevel);
@@ -171,6 +172,10 @@ public class EnemyAI : StateMachine
             
             targetPos = target.position;
             playerController = target.GetComponent<CharacterController>();
+        }
+        else
+        {
+            SelectTarget();
         }
     }
     private void SelectTarget()
