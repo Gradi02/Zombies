@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class huntState : State
 {
@@ -10,6 +11,7 @@ public class huntState : State
     private float minInterrestTime = 15f, maxInterrestTime = 25f;
     private float timeToComplete, timeToNextPoint = 0;
     private float searchDistance = 20f;
+    [SerializeField] private LayerMask mask;
 
     public override void DoEnter()
     {
@@ -39,7 +41,7 @@ public class huntState : State
         else if(time > timeToNextPoint)
         {
             machine.ChangeSubState(_runState);
-            agent.destination = GetNewPlaceToCheck();
+            agent.path = GetNewPlaceToCheck();
         }
     }
 
@@ -57,8 +59,26 @@ public class huntState : State
         agent.enabled = false;
     }
 
-    private Vector3 GetNewPlaceToCheck()
+    private NavMeshPath GetNewPlaceToCheck()
     {
-        return targetPos + new Vector3(Random.Range(-searchDistance, searchDistance), 0, Random.Range(-searchDistance, searchDistance));
+        bool pathCorrect = true;
+        NavMeshPath navMeshPath = new NavMeshPath();
+        while (pathCorrect)
+        {
+            Vector3 newDestRay = transform.position + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
+            if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))
+            {
+                if (agent.CalculatePath(agent.transform.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete)
+                {
+                    pathCorrect = false;
+                }
+                else
+                {
+                    navMeshPath = new NavMeshPath();
+                }
+            }
+        }
+
+        return navMeshPath;
     }
 }

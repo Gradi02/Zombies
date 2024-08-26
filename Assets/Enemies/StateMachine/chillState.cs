@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class chillState : State
 {
@@ -10,6 +11,8 @@ public class chillState : State
     private float minIdleTime = 3f, maxIdleTime = 6f;
     private float minWalkTime = 5f, maxWalkTime = 15f;
     private float timeToChangeState = 0f;
+    private float searchDistance = 10f;
+    [SerializeField] private LayerMask mask;
 
     public override void DoEnter()
     {
@@ -55,7 +58,7 @@ public class chillState : State
                 machine.ChangeSubState(_walkState);
 
                 agent.enabled = true;
-                agent.destination = transform.position + new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
+                agent.path = GetNewPlaceToCheck();
 
                 timeToChangeState = time + Random.Range(minWalkTime, maxWalkTime);
             }
@@ -74,5 +77,28 @@ public class chillState : State
         {
             agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
         }
+    }
+
+    private NavMeshPath GetNewPlaceToCheck()
+    {
+        bool pathCorrect = true;
+        NavMeshPath navMeshPath = new NavMeshPath();
+        while (pathCorrect)
+        {
+            Vector3 newDestRay = transform.position + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
+            if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))
+            {
+                if (agent.CalculatePath(agent.transform.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete)
+                {
+                    pathCorrect = false;
+                }
+                else
+                {
+                    navMeshPath = new NavMeshPath();
+                }
+            }
+        }
+
+        return navMeshPath;
     }
 }

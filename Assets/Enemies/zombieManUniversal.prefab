@@ -506,6 +506,9 @@ MonoBehaviour:
   isCompleted: 0
   _runState: {fileID: 2529590567279582829}
   _idleState: {fileID: 7943731836122409843}
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &814099511053152668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,6 +1989,9 @@ MonoBehaviour:
   clip: []
   isCompleted: 0
   _walkState: {fileID: 7671480732596951635}
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &2117219539635961257
 GameObject:
   m_ObjectHideFlags: 0
@@ -5738,6 +5744,9 @@ MonoBehaviour:
   isCompleted: 0
   _idleState: {fileID: 7943731836122409843}
   _walkState: {fileID: 7671480732596951635}
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6990999848980564591
 GameObject:
   m_ObjectHideFlags: 0

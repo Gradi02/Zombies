@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class alarmState : State
 {
     [SerializeField] private walkState _walkState;
     private float minInterrestTime = 10f, maxInterrestTime = 20f;
     private float timeToComplete;
-    private float positionError = 15;
+    private float searchDistance = 15f;
+    [SerializeField] private LayerMask mask;
 
     public override void DoEnter()
     {
@@ -16,7 +18,7 @@ public class alarmState : State
 
         agent.enabled = true;
         machine.ChangeSubState(_walkState);
-        agent.destination = alarmPos + new Vector3(Random.Range(-positionError, positionError), 0, Random.Range(-positionError, positionError));
+        agent.path = GetNewPlaceToCheck();
     }
 
     public override void DoUpdate()
@@ -39,5 +41,28 @@ public class alarmState : State
         
         isCompleted = false;
         agent.ResetPath();
+    }
+
+    private NavMeshPath GetNewPlaceToCheck()
+    {
+        bool pathCorrect = true;
+        NavMeshPath navMeshPath = new NavMeshPath();
+        while (pathCorrect)
+        {
+            Vector3 newDestRay = transform.position + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
+            if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))
+            {
+                if (agent.CalculatePath(agent.transform.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete)
+                {
+                    pathCorrect = false;
+                }
+                else
+                {
+                    navMeshPath = new NavMeshPath();
+                }
+            }
+        }
+
+        return navMeshPath;
     }
 }

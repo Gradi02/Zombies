@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class PlayerStats : NetworkBehaviour
 {
-    private float health;
+    private NetworkVariable<float> health = new NetworkVariable<float>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public float Health {
-        get { return health; } 
+        get { return health.Value; } 
         private set
         {
-            if (health != value)
+            if (health.Value != value)
             {
-                health = value;
+                health.Value = value;
                 OnHealthChanged();
             }
         }
@@ -28,10 +28,6 @@ public class PlayerStats : NetworkBehaviour
 
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
-    }
-    void Update()
-    {
-        if (!IsOwner) return;
     }
 
     private void OnHealthChanged()
