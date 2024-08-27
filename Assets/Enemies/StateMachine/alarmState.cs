@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class alarmState : State
 {
     [SerializeField] private walkState _walkState;
-    private float minInterrestTime = 10f, maxInterrestTime = 20f;
+    private float minInterrestTime = 30f, maxInterrestTime = 40f;
     private float timeToComplete;
     private float searchDistance = 15f;
     [SerializeField] private LayerMask mask;
@@ -18,13 +18,12 @@ public class alarmState : State
 
         agent.enabled = true;
         machine.ChangeSubState(_walkState);
-        agent.path = GetNewPlaceToCheck();
+        agent.destination = GetNewPlaceToCheck();
     }
 
     public override void DoUpdate()
     {
         base.DoUpdate();
-
 
         if (time > timeToComplete || sqrDistanceToTarget < 5)
             isCompleted = true;
@@ -38,23 +37,25 @@ public class alarmState : State
     public override void DoExit()
     {
         base.DoExit();
-        
+
         isCompleted = false;
         agent.ResetPath();
     }
 
-    private NavMeshPath GetNewPlaceToCheck()
+    private Vector3 GetNewPlaceToCheck()
     {
+        Vector3 newPos = Vector3.zero;
         bool pathCorrect = true;
         NavMeshPath navMeshPath = new NavMeshPath();
         while (pathCorrect)
         {
-            Vector3 newDestRay = transform.position + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
+            Vector3 newDestRay = alarmPos + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
             if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))
             {
                 if (agent.CalculatePath(agent.transform.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete)
                 {
                     pathCorrect = false;
+                    newPos = hit.point;
                 }
                 else
                 {
@@ -63,6 +64,6 @@ public class alarmState : State
             }
         }
 
-        return navMeshPath;
+        return newPos;
     }
 }

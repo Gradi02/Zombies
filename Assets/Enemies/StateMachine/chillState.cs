@@ -9,7 +9,7 @@ public class chillState : State
     [SerializeField] private walkState _walkState;
 
     private float minIdleTime = 3f, maxIdleTime = 6f;
-    private float minWalkTime = 5f, maxWalkTime = 15f;
+    private float minWalkTime = 15f, maxWalkTime = 35f;
     private float timeToChangeState = 0f;
     private float searchDistance = 10f;
     [SerializeField] private LayerMask mask;
@@ -58,7 +58,7 @@ public class chillState : State
                 machine.ChangeSubState(_walkState);
 
                 agent.enabled = true;
-                agent.path = GetNewPlaceToCheck();
+                agent.destination = GetNewPlaceToCheck();
 
                 timeToChangeState = time + Random.Range(minWalkTime, maxWalkTime);
             }
@@ -79,8 +79,9 @@ public class chillState : State
         }
     }
 
-    private NavMeshPath GetNewPlaceToCheck()
+    private Vector3 GetNewPlaceToCheck()
     {
+        Vector3 newPos = Vector3.zero;
         bool pathCorrect = true;
         NavMeshPath navMeshPath = new NavMeshPath();
         while (pathCorrect)
@@ -91,6 +92,7 @@ public class chillState : State
                 if (agent.CalculatePath(agent.transform.position, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete)
                 {
                     pathCorrect = false;
+                    newPos = hit.point;
                 }
                 else
                 {
@@ -99,6 +101,6 @@ public class chillState : State
             }
         }
 
-        return navMeshPath;
+        return newPos;
     }
 }
