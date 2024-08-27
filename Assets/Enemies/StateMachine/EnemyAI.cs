@@ -59,12 +59,6 @@ public class EnemyAI : StateMachine
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
-        SetVariables();
-        /*        foreach (State s in states)
-                    s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);*/
-        currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-        subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-
         SelectMainState();
         SyncAnimatorAndAgent();
     }
@@ -74,6 +68,10 @@ public class EnemyAI : StateMachine
         if (!IsHost) return;
         currentState?.DoFixedUpdate();
         subState?.DoFixedUpdate();
+        
+        SetVariables();
+        currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+        subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
     }
 
     private void SelectMainState()
