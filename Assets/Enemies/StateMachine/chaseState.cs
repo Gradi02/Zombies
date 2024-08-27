@@ -41,7 +41,6 @@ public class chaseState : State
         base.DoExit();
 
         isCompleted = false;
-        agent.ResetPath();
         agent.enabled = false;
     }
 
@@ -50,7 +49,7 @@ public class chaseState : State
     {
         if (time > nextSelectState)
         {
-            if (sqrDistanceToTarget <= minDistanceToAttack && angleToTarget < 45f)
+            if (sqrDistanceToTarget <= minDistanceToAttack)
             {
                 nextSelectState = time + attackTime;
                 if(_attackState.isCompleted || subState != _attackState)
@@ -60,7 +59,9 @@ public class chaseState : State
             else
             {
                 machine.ChangeSubState(_runState);
-                agent.destination = targetPos;
+
+                if(subState == _runState)
+                    agent.destination = targetPos;
             }
         }
 

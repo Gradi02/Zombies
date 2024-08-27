@@ -26,7 +26,7 @@ public class EnemyAI : StateMachine
     private Rigidbody[] ragdollRigidbodies;
 
     //States Var
-    private float maxDistanceToTarget = 400;
+    private float maxDistanceToTarget = 1000;
     public LayerMask obstacleMask;
 
     public List<GameObject> players = null;
@@ -60,10 +60,12 @@ public class EnemyAI : StateMachine
         subState?.DoUpdate();
 
         SetVariables();
-        /*        foreach (State s in states)
-                    s.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);*/
-        currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-        subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+
+        foreach(State s in states)
+            s?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+
+        //currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+        //subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
 
         SelectMainState();
         SyncAnimatorAndAgent();
@@ -73,7 +75,7 @@ public class EnemyAI : StateMachine
     {
         if (!IsHost) return;
         currentState?.DoFixedUpdate();
-        subState?.DoFixedUpdate();
+        subState?.DoFixedUpdate();       
     }
 
     private void SelectMainState()
@@ -82,7 +84,7 @@ public class EnemyAI : StateMachine
         if (currentState == _chillState)
         {
             //przejœcie do alarmu
-            if(alarmPos != Vector3.zero)
+            if (alarmPos != Vector3.zero)
             {
                 ChangeState(_alarmState);
             }
@@ -158,20 +160,23 @@ public class EnemyAI : StateMachine
                 {
                     //Debug.DrawLine(origin, targetPos + eyeLevel, Color.green);
                     seePlayer = true;
+                    targetPos = target.position;
+                    playerController = target.GetComponent<CharacterController>();
                 }
                 else
                 {
                     //Debug.DrawLine(origin, targetPos + eyeLevel, Color.red);
                     seePlayer = false;
+                    target = null;
+                    sqrDistanceToTarget = Mathf.Infinity;
                 }
             }
             else
             {
                 seePlayer = false;
-            }
-            
-            targetPos = target.position;
-            playerController = target.GetComponent<CharacterController>();
+                target = null;
+                sqrDistanceToTarget = Mathf.Infinity;
+            }         
         }
         else
         {
@@ -200,35 +205,43 @@ public class EnemyAI : StateMachine
             {
                 target = nearestObject.transform;
                 targetPos = target.position;
+                sqrDistanceToTarget = (agent.transform.position - target.transform.position).sqrMagnitude;
             }
-        }
-        else if (players != null)
-        {
-            float sqrDst = (agent.transform.position - target.position).sqrMagnitude;
-            if (sqrDst > maxDistanceToTarget) target = null;
-            playerController = null;
+            else
+            {
+                sqrDistanceToTarget = Mathf.Infinity;
+                target = null;
+            }
         }
     }
 
     void OnAnimatorMove()
     {
         if (!IsHost) return;
-        Vector3 position = animator.rootPosition;
 
-        if(!isDead) position.y = agent.nextPosition.y;
-        
+        // Aktualizacja pozycji na podstawie animacji
+        Vector3 position = animator.rootPosition;
+        if (!isDead)
+        {
+            position.y = agent.nextPosition.y;
+        }
+
+        // Ustawienie pozycji
         transform.position = position;
         agent.nextPosition = transform.position;
 
-        var turnTowardNavSteeringTarget = agent.steeringTarget;
-        Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
+        // Obliczanie kierunku do steeringTarget
+        Vector3 direction = (agent.steeringTarget - transform.position).normalized;
 
-        if (direction.x != 0 && direction.z != 0)
+        // Sprawdzenie, czy agent powinien siê obracaæ
+        if (direction.sqrMagnitude > 0.01f)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 300);
         }
     }
+
+
 
     void SyncAnimatorAndAgent()
     {
