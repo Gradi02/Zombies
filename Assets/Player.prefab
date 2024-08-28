@@ -434,7 +434,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.97040236, b: 0.82452834, a: 1}
-  m_Intensity: 50
+  m_Intensity: 5
   m_Range: 50
   m_SpotAngle: 80
   m_InnerSpotAngle: 10
@@ -887,6 +887,7 @@ MonoBehaviour:
   lookSpeed: 2
   lookXLimit: 80
   canMove: 1
+  canSprint: 1
   head: {fileID: 3776861948357757090}
   anim: {fileID: 232395851409888935}
   playerMeshs: {fileID: 6571108446691824115}
@@ -1051,7 +1052,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0902b60e1c7d4154bb38fc3367780203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAlive:
+    m_InternalValue: 1
   hpSlider: {fileID: 8654846878870688154}
+  cam: {fileID: 4817538318915063867}
+  fpsController: {fileID: 2851427056560804432}
 --- !u!1 &6214058105410698350
 GameObject:
   m_ObjectHideFlags: 0

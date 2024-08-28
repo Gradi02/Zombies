@@ -21,7 +21,7 @@ public class Enemy : NetworkBehaviour, IDamage
     {
         if (IsServer)
         {
-            hp = Random.Range(100, 120);
+            hp = Random.Range(150, 200);
             SetEnemyStyleServerRpc();
         }
     }
@@ -89,18 +89,18 @@ public class Enemy : NetworkBehaviour, IDamage
         {
             data.hasHair = true;
             data.hairMaterialIndex = Random.Range(0, hairMaterials.Length);
-            hp += 5;
+            hp += 15;
         }
         else if (Random.Range(0, 100) < 30)
         {
             data.hasHelmet = true;
-            hp += 30;
+            hp += 80;
         }
 
         if (Random.Range(0, 100) < 10)
         {
             data.hasChestProt = true;
-            hp += 100;
+            hp += 200;
         }
 
         styleData = data;

@@ -8,12 +8,11 @@ public class chaseState : State
     [SerializeField] private idleState _idleState;
     [SerializeField] private attackState _attackState;
 
-    private float attackTime = 1.15f;
-    private float minDistanceToAttack = 5;
+    private float attackTime = 1f;
+    private float minDistanceToAttack = 6;
 
     private float nextSelectState = 0;
     private float rotationSpeed = 50f;
-    private float angleToTarget;
 
     public override void DoEnter()
     {
@@ -64,6 +63,10 @@ public class chaseState : State
                     agent.destination = targetPos;
             }
         }
+        else if(sqrDistanceToTarget > 7)
+        {
+            nextSelectState = 0;
+        }
 
         if(subState == _attackState)
         {
@@ -71,8 +74,6 @@ public class chaseState : State
             directionToTarget.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
             agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
-            angleToTarget = Vector3.Angle(agent.transform.forward, directionToTarget);
         }
     }
 }

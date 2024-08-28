@@ -18,6 +18,8 @@ public abstract class State : NetworkBehaviour
     private float startTime;
     public float time => Time.time - startTime;
     public bool isCompleted = false;
+    [SerializeField] private float minTimeToInvoke = 0f, maxTimeToInvoke = 0.5f;
+    [SerializeField] private float blendingTime = 0.2f, offset = 0f;
 
     //States Var
     protected Vector3 alarmPos;
@@ -27,7 +29,7 @@ public abstract class State : NetworkBehaviour
 
     public virtual void DoEnter()
     {
-        if(clip.Length > 0) Invoke(nameof(PlayAnim), Random.Range(0f, 0.5f));
+        if(clip.Length > 0) Invoke(nameof(PlayAnim), Random.Range(minTimeToInvoke, maxTimeToInvoke));
         startTime = Time.time;
     }
 
@@ -67,6 +69,6 @@ public abstract class State : NetworkBehaviour
     private void PlayAnim()
     {
         if(anim.enabled)
-            anim.CrossFade(clip[Random.Range(0, clip.Length)].name, 0.2f);
+            anim.CrossFade(clip[Random.Range(0, clip.Length)].name, blendingTime, 0, offset);
     }
 }
