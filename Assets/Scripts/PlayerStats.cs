@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerStats : NetworkBehaviour
 {
-    private NetworkVariable<float> health = new NetworkVariable<float>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<float> health = new NetworkVariable<float>(99, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public float Health {
         get { return health.Value; } 
         private set
@@ -21,11 +22,16 @@ public class PlayerStats : NetworkBehaviour
 
     private float maxHealth = 100;
     [SerializeField] private Slider hpSlider;
+    [SerializeField] private Camera cam;
+    [SerializeField] SC_FPSController fpsController;
+    private float endSlowTime;
+    private float normalSpeed;
 
     private void Start()
     {
         if (!IsOwner) return;
 
+        normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
     }
@@ -41,5 +47,58 @@ public class PlayerStats : NetworkBehaviour
             Health -= dmg;
         else
             Health = 0;
+
+        if (Health <= 0)
+        {
+            isAlive.Value = false;
+        }
+
+        Shake(0.2f, 0.25f);
+        Slow(2f, 1);
+    }
+
+
+    public void Shake(float duration, float magnitude)
+    {
+        StartCoroutine(ShakeCoroutine(duration, magnitude));
+    }
+
+    public void Slow(float duration, float tempSpeed)
+    {
+        fpsController.canSprint = false;
+        fpsController.walkingSpeed = tempSpeed;
+        endSlowTime = Time.time + duration;
+    }
+
+    private IEnumerator ShakeCoroutine(float duration, float magnitude)
+    {
+        float elapsed = 0.0f;
+        Vector3 originalPos = cam.transform.localPosition;
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            // Zastosowanie wyg³adzania i zmniejszania magnitude w czasie
+            float smoothMagnitude = Mathf.SmoothStep(magnitude, 0, elapsed / duration);
+            cam.transform.localPosition = new Vector3(x * smoothMagnitude + originalPos.x, y * smoothMagnitude + originalPos.y, originalPos.z);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Powrót do oryginalnej pozycji po zakoñczeniu trzêsienia
+        cam.transform.localPosition = originalPos;
+    }
+
+
+    private void Update()
+    {
+        if(Time.time > endSlowTime)
+        {
+            fpsController.canSprint = true;
+            fpsController.walkingSpeed = normalSpeed;
+        }
     }
 }

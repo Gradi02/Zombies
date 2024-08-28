@@ -5,34 +5,23 @@ using UnityEngine.AI;
 
 public class attackState : State
 {
-    private float delayToDamage = 1f;
-    private float nextDamage = 0;
-    private float sqrDistanceToDamage = 5;
+    private float sqrDistanceToDamage = 7;
     private float minDamage = 5, maxDamage = 15;
-    private bool canDamage;
+    private float breakTime;
 
     public override void DoEnter()
     {
         base.DoEnter();
 
+        breakTime = time + 1.2f;
         isCompleted = false;
-        canDamage = true;
-        nextDamage = time + delayToDamage;
     }
 
     public override void DoUpdate()
     {
         base.DoUpdate();
-
-        if(time > nextDamage && canDamage)
-        {
-            if(sqrDistanceToTarget < sqrDistanceToDamage)
-            {
-                characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
-                canDamage = false;
-                isCompleted = true;
-            }
-        }
+        if(time > breakTime)
+            isCompleted = true;
     }
 
     public override void DoFixedUpdate()
@@ -43,5 +32,14 @@ public class attackState : State
     public override void DoExit()
     {
         base.DoExit();
+    }
+
+    public void DealDamageToPlayer()
+    {
+        if (sqrDistanceToTarget < sqrDistanceToDamage)
+        {
+            characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
+        }
+        isCompleted = true;
     }
 }

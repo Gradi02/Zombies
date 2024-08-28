@@ -21,6 +21,7 @@ public class SC_FPSController : NetworkBehaviour
 
     [HideInInspector]
     public bool canMove = true;
+    public bool canSprint = true;
 
     [SerializeField] private GameObject head;
     [SerializeField] private Animator anim;
@@ -67,7 +68,7 @@ public class SC_FPSController : NetworkBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        bool isRunning = canSprint && Input.GetKey(KeyCode.LeftShift);
         float speed = isRunning ? runningSpeed : walkingSpeed;
 
         float curSpeedX = canMove ? Input.GetAxisRaw("Vertical") : 0;

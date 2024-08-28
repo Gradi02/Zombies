@@ -260,6 +260,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
   _runState: {fileID: 2529590567279582829}
   _idleState: {fileID: 7943731836122409843}
   _attackState: {fileID: 8091700736839260017}
@@ -504,6 +508,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
   _runState: {fileID: 2529590567279582829}
   _idleState: {fileID: 7943731836122409843}
   mask:
@@ -1286,6 +1294,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
   clips2:
   - {fileID: -203655887218126122, guid: 5934e686c78226442abf138b6007b0dd, type: 3}
 --- !u!1 &1831389003988635532
@@ -1692,6 +1704,10 @@ MonoBehaviour:
   - {fileID: -203655887218126122, guid: 18d7f3abc93b9064f8ffdb691733bb9c, type: 3}
   - {fileID: -203655887218126122, guid: d3e5ff655d17a72458588a4b949cbc02, type: 3}
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
 --- !u!1 &1978740244088201191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,6 +2004,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
   _walkState: {fileID: 7671480732596951635}
   mask:
     serializedVersion: 2
@@ -2430,6 +2450,7 @@ GameObject:
   - component: {fileID: 4544505025237926471}
   - component: {fileID: 6669072172458432946}
   - component: {fileID: 5327474365521937461}
+  - component: {fileID: 6369766600753874694}
   m_Layer: 7
   m_Name: zombieManUniversal
   m_TagString: enemy
@@ -2649,6 +2670,19 @@ CapsuleCollider:
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 2.5, z: 0}
+--- !u!114 &6369766600753874694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523177715150915351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d623f001026ec424b9cc98eae9d9046c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackState: {fileID: 8091700736839260017}
 --- !u!1 &2646577933661428727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2737,9 +2771,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip:
   - {fileID: -203655887218126122, guid: 26743f425f4905d4f9e998a51073a645, type: 3}
-  - {fileID: -203655887218126122, guid: b7f54535a91643840aff1c64ce28a63f, type: 3}
   - {fileID: -203655887218126122, guid: 138305ff7cce9ee4c978f3bdc81e28ca, type: 3}
+  - {fileID: -203655887218126122, guid: b7f54535a91643840aff1c64ce28a63f, type: 3}
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.3
+  blendingTime: 0.2
+  offset: 0.08
 --- !u!1 &2807131509102977229
 GameObject:
   m_ObjectHideFlags: 0
@@ -4923,6 +4961,10 @@ MonoBehaviour:
   - {fileID: -203655887218126122, guid: 78eded406f3db9348a56f2b381c2f3d9, type: 3}
   - {fileID: -203655887218126122, guid: d2f7c5f468621b04bbb2912e04f363bd, type: 3}
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
 --- !u!1 &5785909314613603144
 GameObject:
   m_ObjectHideFlags: 0
@@ -5665,6 +5707,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
 --- !u!1 &6881731019366769691
 GameObject:
   m_ObjectHideFlags: 0
@@ -5742,6 +5788,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
   _idleState: {fileID: 7943731836122409843}
   _walkState: {fileID: 7671480732596951635}
   mask:
@@ -6638,6 +6688,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: []
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
 --- !u!1 &8250973452892080519
 GameObject:
   m_ObjectHideFlags: 0
@@ -7164,7 +7218,13 @@ MonoBehaviour:
   - {fileID: -203655887218126122, guid: c6d287532d67c52419749f7d5c074533, type: 3}
   - {fileID: -203655887218126122, guid: f8582e69325ea004aa5134a155d3cd0e, type: 3}
   - {fileID: -203655887218126122, guid: cd4d06a662e43274cb8520091778b316, type: 3}
+  - {fileID: -203655887218126122, guid: c6d287532d67c52419749f7d5c074533, type: 3}
+  - {fileID: -203655887218126122, guid: c6d287532d67c52419749f7d5c074533, type: 3}
   isCompleted: 0
+  minTimeToInvoke: 0
+  maxTimeToInvoke: 0.5
+  blendingTime: 0.2
+  offset: 0
 --- !u!1 &9056583771651634633
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,13 +38,13 @@ AnimatorStateMachine:
     m_Position: {x: 100, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9109160623297376018}
-    m_Position: {x: 100, y: 300, z: 0}
+    m_Position: {x: 100, y: 600, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7141967586975342334}
-    m_Position: {x: 100, y: 350, z: 0}
+    m_Position: {x: 100, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -374963534666319988}
-    m_Position: {x: 100, y: 400, z: 0}
+    m_Position: {x: 100, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2217783034867027851}
     m_Position: {x: 100, y: 450, z: 0}
@@ -80,7 +80,7 @@ AnimatorStateMachine:
     m_Position: {x: 310, y: 600, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5220529704704846020}
-    m_Position: {x: 100, y: 600, z: 0}
+    m_Position: {x: 100, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4954033429483794174}
     m_Position: {x: -320, y: 300, z: 0}
@@ -111,8 +111,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: punch1
-  m_Speed: 1
-  m_CycleOffset: 0
+  m_Speed: 1.25
+  m_CycleOffset: 0.5
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
@@ -246,8 +246,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: attack
-  m_Speed: 1
-  m_CycleOffset: 0
+  m_Speed: 1.25
+  m_CycleOffset: 0.5
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
@@ -489,8 +489,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: punch2
-  m_Speed: 1
-  m_CycleOffset: 0
+  m_Speed: 1.25
+  m_CycleOffset: 0.5
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
@@ -646,8 +646,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: kick1
-  m_Speed: 1
-  m_CycleOffset: 0
+  m_Speed: 1.25
+  m_CycleOffset: 0.5
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
@@ -862,8 +862,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: kick2
-  m_Speed: 1
-  m_CycleOffset: 0
+  m_Speed: 1.25
+  m_CycleOffset: 0.5
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}

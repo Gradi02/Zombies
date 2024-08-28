@@ -50,6 +50,8 @@ public class EnemyAI : StateMachine
         {
             rb.isKinematic = true;
         }
+
+        StartCoroutine(UpdateCoroutine());
     }
 
     private void Update()
@@ -63,12 +65,6 @@ public class EnemyAI : StateMachine
 
         foreach(State s in states)
             s?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-
-        //currentState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-        //subState?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
-
-        SelectMainState();
-        SyncAnimatorAndAgent();
     }
 
     private void FixedUpdate()
@@ -142,12 +138,13 @@ public class EnemyAI : StateMachine
     [ServerRpc(RequireOwnership = false)]
     public void ReactionStateServerRpc()
     {
-        ChangeState(_reactionState);
+        if(currentState == _chillState || currentState == _alarmState || currentState == _huntState)
+            ChangeState(_reactionState);
     }
     private void SetVariables()
     {
         //players = GameObject.FindGameObjectsWithTag("Player");
-        if (target != null)
+        if (target != null && target.GetComponent<PlayerStats>().isAlive.Value)
         {
             Vector3 dir = (targetPos + eyeLevel) - (agent.transform.position + eyeLevel);
             sqrDistanceToTarget = dir.sqrMagnitude;
@@ -180,6 +177,10 @@ public class EnemyAI : StateMachine
         }
         else
         {
+            seePlayer = false;
+            target = null;
+            sqrDistanceToTarget = Mathf.Infinity;
+            targetPos = Vector3.zero;
             SelectTarget();
         }
     }
@@ -192,12 +193,15 @@ public class EnemyAI : StateMachine
 
             foreach (GameObject p in players)
             {
-                float sqrDst = (agent.transform.position - p.transform.position).sqrMagnitude;
-
-                if (sqrDst < shortestDistance && sqrDst <= maxDistanceToTarget)
+                if (p.GetComponent<PlayerStats>().isAlive.Value)
                 {
-                    shortestDistance = sqrDst;
-                    nearestObject = p;
+                    float sqrDst = (agent.transform.position - p.transform.position).sqrMagnitude;
+
+                    if (sqrDst < shortestDistance && sqrDst <= maxDistanceToTarget)
+                    {
+                        shortestDistance = sqrDst;
+                        nearestObject = p;
+                    }
                 }
             }
 
@@ -288,5 +292,16 @@ public class EnemyAI : StateMachine
 
         if(IsHost)
             ChangeState(_deathState, true);
+    }
+
+
+    private IEnumerator UpdateCoroutine()
+    {
+        while(!isDead)
+        {
+            SelectMainState();
+            SyncAnimatorAndAgent();
+            yield return null;
+        }
     }
 }
