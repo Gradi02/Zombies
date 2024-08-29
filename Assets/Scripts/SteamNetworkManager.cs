@@ -232,7 +232,7 @@ public class SteamNetworkManager : MonoBehaviour
     private void Singleton_OnClientConnectedCallback(ulong _cliendId)
     {
         Debug.Log($"Client has connected : AnotherFakeSteamName");
-        NetworkGameManager.instance.onClientJoin();
+        NetworkGameManager.instance.onClientJoin(_cliendId);
     }
 
     private void Singleton_OnServerStarted()

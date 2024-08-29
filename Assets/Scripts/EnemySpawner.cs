@@ -7,9 +7,7 @@ public class EnemySpawner : NetworkBehaviour
 {
     public GameObject pref;
     void Update()
-    {
-        if (!IsServer) return;
-        
+    { 
         if(Input.GetKeyDown(KeyCode.G))
         {
             SpawnEnemyServerRpc();

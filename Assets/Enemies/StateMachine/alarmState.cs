@@ -39,7 +39,6 @@ public class alarmState : State
         base.DoExit();
 
         isCompleted = false;
-        agent.ResetPath();
     }
 
     private Vector3 GetNewPlaceToCheck()
