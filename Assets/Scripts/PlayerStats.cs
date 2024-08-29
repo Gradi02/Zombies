@@ -12,7 +12,7 @@ public class PlayerStats : NetworkBehaviour
         get { return health.Value; } 
         private set
         {
-            if (health.Value != value)
+            if (health.Value != value && IsOwner)
             {
                 health.Value = value;
                 OnHealthChanged();
@@ -31,17 +31,23 @@ public class PlayerStats : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        gameObject.AddComponent<AudioListener>();
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
-        RequestSpawnPointServerRpc();
+        //RequestSpawnPointServerRpc();
     }
 
-    [ServerRpc]
+    /*[ServerRpc]
     private void RequestSpawnPointServerRpc()
     {
         transform.position = new Vector3(-30, -3, -30);
+    }*/
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        gameObject.transform.position = new Vector3(-30, -3, -30);
     }
 
     private void OnHealthChanged()
