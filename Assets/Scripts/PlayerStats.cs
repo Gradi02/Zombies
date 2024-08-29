@@ -31,9 +31,16 @@ public class PlayerStats : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        gameObject.AddComponent<AudioListener>();
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
+        RequestSpawnPointServerRpc();
+    }
+
+    [ServerRpc]
+    private void RequestSpawnPointServerRpc()
+    {
         transform.position = new Vector3(-30, -3, -30);
     }
 
