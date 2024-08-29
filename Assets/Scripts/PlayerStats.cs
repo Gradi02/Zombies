@@ -39,8 +39,7 @@ public class PlayerStats : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
-        
+       
         gameObject.transform.position = new Vector3(-30, -3, -30);
     }
 
