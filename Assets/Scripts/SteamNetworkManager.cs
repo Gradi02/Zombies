@@ -90,7 +90,7 @@ public class SteamNetworkManager : MonoBehaviour
         }
         else
         {
-            //NetworkGameManager.instance.onClientJoin();
+            NetworkGameManager.instance.onClientJoin();
             currentLobby = _lobby;
             Debug.Log("Joined Lobby");
         }
@@ -99,7 +99,7 @@ public class SteamNetworkManager : MonoBehaviour
     private void SteamMatchmaking_OnLobbyGameCreated(Lobby _lobby, uint _ip, ushort _port, SteamId _steamId)
     {
         Debug.Log("Lobby was created");
-        //NetworkGameManager.instance.onHostCreated();
+        NetworkGameManager.instance.onHostCreated();
     }
 
     //friend send you an steam invite
@@ -236,5 +236,10 @@ public class SteamNetworkManager : MonoBehaviour
     private void Singleton_OnServerStarted()
     {
         Debug.Log("Host started");
+    }
+
+    public void GameStartHandler()
+    {
+        currentLobby.Value.SetJoinable(false);
     }
 }
