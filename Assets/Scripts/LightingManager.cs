@@ -11,10 +11,16 @@ public class LightingManager : NetworkBehaviour
     [SerializeField, Range(0, 24)] private float TimeOfDay;
     [SerializeField, Range(0.001f, 1.0f)] private float Duration;
 
+    private void Start()
+    {
+        if (Preset == null || !IsServer) return;
 
+        TimeOfDay += Time.deltaTime * Duration;
+        TimeOfDay %= 24;
+    }
     private void Update()
     {
-        if (Preset == null || !IsServer)
+        if (Preset == null || !IsServer || !NetworkGameManager.instance.gameStarted)
             return;
 
         if (Application.isPlaying)
@@ -81,5 +87,12 @@ public class LightingManager : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetupSunServerRpc()
+    {
+        UpdateDayValuesClientRpc(TimeOfDay);
+        UpdateLightingClientRpc(TimeOfDay / 24f);
     }
 }

@@ -10,6 +10,12 @@ public class NetworkGameManager : NetworkBehaviour
     public Dictionary<ulong, GameObject> playersServerList = new Dictionary<ulong, GameObject>();
     public List<EnemyAI> enemiesServerList = new List<EnemyAI>();
 
+    public bool gameStarted { get; private set; } = false;
+    [SerializeField] private GameObject barrier;
+    [SerializeField] private LightingManager lighting;
+    [SerializeField] private GameObject pc;
+    [SerializeField] private Animator phoneAnim;
+    private bool ring = false;
     private void Awake()
     {
         if (instance == null)
@@ -80,6 +86,70 @@ public class NetworkGameManager : NetworkBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void onClientJoin()
+    {
+        lighting.SetupSunServerRpc();
+    }
+
+    public void onHostCreated()
+    {
+        lighting.SetupSunServerRpc();
+    }
+
+
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StartGameServerRpc()
+    {
+        gameStarted = true;
+        SteamNetworkManager.instance.GameStartHandler();
+        ring = true;
+        StartCoroutine(PhoneCall());
+        StartGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartGameClientRpc()
+    {
+        phoneAnim.gameObject.layer = 10;
+    }
+
+    [ClientRpc]
+    private void CallSoundClientRpc()
+    {
+        FindObjectOfType<AudioManager>().Play("ringing");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CallAnswerServerRpc()
+    {
+        ring = false;
+        OpenBarrierClientRpc();
+    }
+
+    [ClientRpc]
+    private void OpenBarrierClientRpc()
+    {
+        Destroy(barrier);
+        phoneAnim.enabled = false;
+        FindObjectOfType<AudioManager>().Stop("ringing");
+        Debug.Log("Ciocia Dzwoni AAAAAAAAAAAAAA!");
+    }
+
+
+
+    private IEnumerator PhoneCall()
+    {
+        while(ring)
+        {
+            phoneAnim.SetTrigger("ringing");
+            CallSoundClientRpc();
+            yield return new WaitForSeconds(3f);
         }
     }
 }

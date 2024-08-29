@@ -34,6 +34,7 @@ public class PlayerStats : NetworkBehaviour
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
+        transform.position = new Vector3(-30, -3, -30);
     }
 
     private void OnHealthChanged()
@@ -92,9 +93,10 @@ public class PlayerStats : NetworkBehaviour
         cam.transform.localPosition = originalPos;
     }
 
-
     private void Update()
     {
+        if (!IsOwner) return;
+
         if(Time.time > endSlowTime)
         {
             fpsController.canSprint = true;
