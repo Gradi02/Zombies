@@ -41,7 +41,7 @@ public class attackState : State
     {
         if (sqrDistanceToTarget < sqrDistanceToDamage)
         {
-            characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
+            //characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
         }
         isCompleted = true;
     }
