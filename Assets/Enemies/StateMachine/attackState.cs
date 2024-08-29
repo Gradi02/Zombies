@@ -36,12 +36,11 @@ public class attackState : State
     }
 
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DealDamageToPlayerServerRpc()
+    public void DealDamageToPlayer()
     {
         if (sqrDistanceToTarget < sqrDistanceToDamage)
         {
-            //characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
+            characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
         }
         isCompleted = true;
     }

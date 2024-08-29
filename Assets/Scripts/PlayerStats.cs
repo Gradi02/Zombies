@@ -6,8 +6,17 @@ using UnityEngine.UI;
 
 public class PlayerStats : NetworkBehaviour
 {
-    public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private float maxHealth = 100;
+    [SerializeField] private Slider hpSlider;
+    [SerializeField] private Camera cam;
+    [SerializeField] SC_FPSController fpsController;
+    private float endSlowTime;
+    private float normalSpeed;
+    [SerializeField] private CharacterController controller;
+
+    [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private NetworkVariable<float> health = new NetworkVariable<float>(99, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [HideInInspector]
     public float Health {
         get { return health.Value; } 
         private set
@@ -19,13 +28,6 @@ public class PlayerStats : NetworkBehaviour
             }
         }
     }
-
-    private float maxHealth = 100;
-    [SerializeField] private Slider hpSlider;
-    [SerializeField] private Camera cam;
-    [SerializeField] SC_FPSController fpsController;
-    private float endSlowTime;
-    private float normalSpeed;
 
     private void Start()
     {
@@ -40,6 +42,9 @@ public class PlayerStats : NetworkBehaviour
     {
         if(IsServer)
             gameObject.transform.position = new Vector3(-30, -3, -30);
+        if (IsOwner && controller != null)
+            controller.enabled = true;
+
         base.OnNetworkSpawn();      
     }
 

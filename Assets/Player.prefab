@@ -898,7 +898,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5920064887191193777}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc89402a5ef098449a3277a08cb99248, type: 3}
   m_Name: 
@@ -964,7 +964,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
@@ -1052,11 +1052,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0902b60e1c7d4154bb38fc3367780203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAlive:
-    m_InternalValue: 1
   hpSlider: {fileID: 8654846878870688154}
   cam: {fileID: 4817538318915063867}
   fpsController: {fileID: 2851427056560804432}
+  controller: {fileID: 2507263397178042110}
+  isAlive:
+    m_InternalValue: 1
 --- !u!1 &6214058105410698350
 GameObject:
   m_ObjectHideFlags: 0

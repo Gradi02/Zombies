@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class EnemyDamageListener : MonoBehaviour
+public class EnemyDamageListener : NetworkBehaviour
 {
     [SerializeField] private attackState attackState;
     public void DealDamage()
     {
-        attackState.DealDamageToPlayerServerRpc();
+        if(IsServer)
+            attackState.DealDamageToPlayer();
     }
 }
