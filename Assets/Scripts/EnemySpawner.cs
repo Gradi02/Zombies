@@ -10,16 +10,21 @@ public class EnemySpawner : NetworkBehaviour
     { 
         if(Input.GetKeyDown(KeyCode.G))
         {
-            SpawnEnemyServerRpc();
+            SpawnEnemyServerRpc(new Vector3(-45, -5, -30));
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            SpawnEnemyServerRpc(new Vector3(-45, -5, -10));
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SpawnEnemyServerRpc()
+    private void SpawnEnemyServerRpc(Vector3 pos)
     {
-        NetworkObject en = Instantiate(pref, new Vector3(-45, -5, -30), Quaternion.identity).GetComponent<NetworkObject>();
+        NetworkObject en = Instantiate(pref, pos, Quaternion.identity).GetComponent<NetworkObject>();
         en.Spawn();
         NetworkGameManager.instance.AddEnemyToList(en.GetComponent<EnemyAI>());
-        Debug.Log("<color=#99ff99>Successfully created new Enemy!</color>");
+        Debug.Log("<color=#99ff99>Successfully</color> <color=#ffaa99>created</color> <color=#1199ff>new</color> <color=#eeee11>Enemy!</color>");
     }
 }
