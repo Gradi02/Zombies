@@ -2451,6 +2451,7 @@ GameObject:
   - component: {fileID: 6669072172458432946}
   - component: {fileID: 5327474365521937461}
   - component: {fileID: 6369766600753874694}
+  - component: {fileID: 3032017000614810452}
   m_Layer: 7
   m_Name: zombieManUniversal
   m_TagString: enemy
@@ -2683,6 +2684,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackState: {fileID: 8091700736839260017}
+--- !u!205 &3032017000614810452
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523177715150915351}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.010966415
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1296670162212965129}
+    - renderer: {fileID: 4588811988147279643}
+    - renderer: {fileID: 8889536313228729708}
+    - renderer: {fileID: 5969276281832369925}
+    - renderer: {fileID: 5289549518697892216}
+    - renderer: {fileID: 1847030665621670026}
+    - renderer: {fileID: 5023748235676915823}
+    - renderer: {fileID: 5088096060822591206}
+    - renderer: {fileID: 2647873460419270826}
+    - renderer: {fileID: 4369621740645712977}
+    - renderer: {fileID: 976481924653735128}
+    - renderer: {fileID: 171184154391116595}
+    - renderer: {fileID: 8570361670631840607}
+    - renderer: {fileID: 8339157071261385724}
+    - renderer: {fileID: 8387726830424298378}
+    - renderer: {fileID: 3019335003086993424}
+    - renderer: {fileID: 5373350481804676512}
+    - renderer: {fileID: 6163364601356041937}
+    - renderer: {fileID: 2760172898340565425}
+    - renderer: {fileID: 8238141451286149433}
+    - renderer: {fileID: 7751521069210824142}
+    - renderer: {fileID: 595420458645609907}
+    - renderer: {fileID: 5593677191508570849}
+    - renderer: {fileID: 8387217160946546695}
+    - renderer: {fileID: 2379912920963809919}
+    - renderer: {fileID: 2033589234318439438}
+    - renderer: {fileID: 8923778801584031077}
+    - renderer: {fileID: 3720951605636711223}
+    - renderer: {fileID: 1411811898193102529}
+  m_Enabled: 1
 --- !u!1 &2646577933661428727
 GameObject:
   m_ObjectHideFlags: 0
