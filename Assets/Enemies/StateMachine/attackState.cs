@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.AI;
 
 public class attackState : State
@@ -34,11 +35,12 @@ public class attackState : State
         base.DoExit();
     }
 
-    public void DealDamageToPlayer()
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DealDamageToPlayerServerRpc()
     {
         if (sqrDistanceToTarget < sqrDistanceToDamage)
         {
-            Debug.Log(characterController + " | " + characterController.GetComponent<PlayerStats>());
             characterController.GetComponent<PlayerStats>().DamagePlayer(Random.Range(minDamage, maxDamage));
         }
         isCompleted = true;

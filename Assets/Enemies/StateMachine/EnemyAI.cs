@@ -193,7 +193,7 @@ public class EnemyAI : StateMachine
 
             foreach (GameObject p in players)
             {
-                if (p.GetComponent<PlayerStats>().isAlive.Value)
+                if (p != null && p.GetComponent<PlayerStats>().isAlive.Value)
                 {
                     float sqrDst = (agent.transform.position - p.transform.position).sqrMagnitude;
 

@@ -89,8 +89,7 @@ public class SteamNetworkManager : MonoBehaviour
             Debug.Log("Failed to create lobby");
         }
         else
-        {
-            NetworkGameManager.instance.onClientJoin();
+        {   
             currentLobby = _lobby;
             Debug.Log("Joined Lobby");
         }
@@ -99,7 +98,6 @@ public class SteamNetworkManager : MonoBehaviour
     private void SteamMatchmaking_OnLobbyGameCreated(Lobby _lobby, uint _ip, ushort _port, SteamId _steamId)
     {
         Debug.Log("Lobby was created");
-        NetworkGameManager.instance.onHostCreated();
     }
 
     //friend send you an steam invite
@@ -111,6 +109,7 @@ public class SteamNetworkManager : MonoBehaviour
     private void SteamMatchmaking_OnLobbyMemberLeave(Lobby _lobby, Friend _steamId)
     {
         Debug.Log("member leave");
+        NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     private void SteamMatchmaking_OnLobbyMemberJoined(Lobby _lobby, Friend _steamId)
@@ -140,6 +139,7 @@ public class SteamNetworkManager : MonoBehaviour
         _lobby.SetJoinable(true);
         _lobby.SetGameServer(_lobby.Owner.Id);
         Debug.Log($"lobby created FakeSteamName");
+        NetworkGameManager.instance.onHostCreated();
     }
 
     public async void StartHost(int _maxMembers)
@@ -182,6 +182,8 @@ public class SteamNetworkManager : MonoBehaviour
     [ContextMenu("Disconnect")]
     public void Disconnected()
     {
+        //NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
+        //Debug.Log(NetworkManager.Singleton.LocalClientId);
         currentLobby?.Leave();
         if (NetworkManager.Singleton == null)
         {
@@ -202,7 +204,6 @@ public class SteamNetworkManager : MonoBehaviour
         {
             NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
         }
-        NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
         NetworkManager.Singleton.Shutdown(true);
         //NetworkGameManager.instance.onDisconnected();
         Debug.Log("disconnected");
@@ -223,14 +224,15 @@ public class SteamNetworkManager : MonoBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
         if (_cliendId == 0)
         {
+            NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(_cliendId);
             Disconnected();
-            //NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(_cliendId);
         }
     }
 
     private void Singleton_OnClientConnectedCallback(ulong _cliendId)
     {
         Debug.Log($"Client has connected : AnotherFakeSteamName");
+        NetworkGameManager.instance.onClientJoin();
     }
 
     private void Singleton_OnServerStarted()

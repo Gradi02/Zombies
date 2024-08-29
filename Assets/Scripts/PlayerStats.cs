@@ -34,19 +34,13 @@ public class PlayerStats : NetworkBehaviour
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
-        //RequestSpawnPointServerRpc();
     }
-
-    /*[ServerRpc]
-    private void RequestSpawnPointServerRpc()
-    {
-        transform.position = new Vector3(-30, -3, -30);
-    }*/
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
+        
         gameObject.transform.position = new Vector3(-30, -3, -30);
     }
 

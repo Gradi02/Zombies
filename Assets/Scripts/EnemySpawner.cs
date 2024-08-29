@@ -12,9 +12,16 @@ public class EnemySpawner : NetworkBehaviour
         
         if(Input.GetKeyDown(KeyCode.G))
         {
-            NetworkObject en = Instantiate(pref, transform.position, Quaternion.identity).GetComponent<NetworkObject>();
-            en.Spawn();
-            NetworkGameManager.instance.AddEnemyToList(en.GetComponent<EnemyAI>());
+            SpawnEnemyServerRpc();
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnEnemyServerRpc()
+    {
+        NetworkObject en = Instantiate(pref, new Vector3(-45, -5, -30), Quaternion.identity).GetComponent<NetworkObject>();
+        en.Spawn();
+        NetworkGameManager.instance.AddEnemyToList(en.GetComponent<EnemyAI>());
+        Debug.Log("<color=#99ff99>Successfully created new Enemy!</color>");
     }
 }

@@ -7,6 +7,6 @@ public class EnemyDamageListener : MonoBehaviour
     [SerializeField] private attackState attackState;
     public void DealDamage()
     {
-        attackState.DealDamageToPlayer();
+        attackState.DealDamageToPlayerServerRpc();
     }
 }
