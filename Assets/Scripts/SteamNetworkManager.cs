@@ -111,7 +111,6 @@ public class SteamNetworkManager : MonoBehaviour
     private void SteamMatchmaking_OnLobbyMemberLeave(Lobby _lobby, Friend _steamId)
     {
         Debug.Log("member leave");
-        NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     private void SteamMatchmaking_OnLobbyMemberJoined(Lobby _lobby, Friend _steamId)
@@ -203,6 +202,7 @@ public class SteamNetworkManager : MonoBehaviour
         {
             NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
         }
+        NetworkGameManager.instance.RemovePlayerFromDictionaryServerRpc(NetworkManager.Singleton.LocalClientId);
         NetworkManager.Singleton.Shutdown(true);
         //NetworkGameManager.instance.onDisconnected();
         Debug.Log("disconnected");
