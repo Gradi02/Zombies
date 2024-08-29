@@ -170,7 +170,7 @@ public class PlayerShooting : NetworkBehaviour
 
 			if (enemyScript != null)
 			{
-				enemyScript.AlarmEnemy(transform.position);
+				enemyScript.AlarmEnemyServerRpc(transform.position);
 			}
 		}
 	}

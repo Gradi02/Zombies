@@ -263,7 +263,8 @@ public class EnemyAI : StateMachine
         }
     }
 
-    public void AlarmEnemy(Vector3 ap)
+    [ServerRpc(RequireOwnership = false)]
+    public void AlarmEnemyServerRpc(Vector3 ap)
     {
         if (currentState == _chillState)
             alarmPos = ap;

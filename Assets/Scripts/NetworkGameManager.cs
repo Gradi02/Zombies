@@ -89,17 +89,16 @@ public class NetworkGameManager : NetworkBehaviour
         }
     }
 
-    public void onClientJoin()
+    public void onClientJoin(ulong _cliendId)
     {
         lighting.SetupSunServerRpc();
+        NetworkManager.SpawnManager.GetPlayerNetworkObject(_cliendId).transform.position = new Vector3(-30, -3, -30);
     }
 
     public void onHostCreated()
     {
         lighting.SetupSunServerRpc();
     }
-
-
 
 
 
