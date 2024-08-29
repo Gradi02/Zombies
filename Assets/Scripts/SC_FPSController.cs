@@ -38,7 +38,9 @@ public class SC_FPSController : NetworkBehaviour
             return;
         }
 
-        foreach(Transform g1 in playerMeshs.GetComponentInChildren<Transform>())
+        GetComponent<PlayerShooting>().enabled = true;
+
+        foreach (Transform g1 in playerMeshs.GetComponentInChildren<Transform>())
         {
             foreach (Transform g2 in g1.GetComponentInChildren<Transform>())
             {
