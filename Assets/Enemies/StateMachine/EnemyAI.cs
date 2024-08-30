@@ -40,6 +40,12 @@ public class EnemyAI : StateMachine
 
     private void Start()
     {
+        if (!IsHost)
+        {
+            agent.enabled = false;
+            return;
+        }
+
         ChangeState(_chillState);
 
         agent.updatePosition = false;

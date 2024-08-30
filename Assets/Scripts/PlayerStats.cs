@@ -29,6 +29,7 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
+
     private void Start()
     {
         if (!IsOwner) return;

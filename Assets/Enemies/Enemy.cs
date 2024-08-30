@@ -17,11 +17,24 @@ public class Enemy : NetworkBehaviour, IDamage
 
     private bool damaga = false, dead = false;
 
+    private int day => NetworkGameManager.instance.currentDay;
+    private float[] daysBonus =
+    {
+        0,
+        10,
+        20,
+        40,
+        60,
+        80,
+        100,
+        120
+    };
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            hp = Random.Range(150, 200);
+            hp = Random.Range(150, 200) + daysBonus[day];
             SetEnemyStyleServerRpc();
         }
     }

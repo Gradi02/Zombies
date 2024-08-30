@@ -16,6 +16,8 @@ public class NetworkGameManager : NetworkBehaviour
     [SerializeField] private GameObject pc;
     [SerializeField] private Animator phoneAnim;
     private bool ring = false;
+    public int currentDay { get; private set; } = 0;
+    [SerializeField] private EnemySpawner spawner;
     private void Awake()
     {
         if (instance == null)
@@ -127,6 +129,7 @@ public class NetworkGameManager : NetworkBehaviour
     public void CallAnswerServerRpc()
     {
         ring = false;
+        spawner.StartSpawner();
         OpenBarrierClientRpc();
     }
 
@@ -149,5 +152,11 @@ public class NetworkGameManager : NetworkBehaviour
             CallSoundClientRpc();
             yield return new WaitForSeconds(3f);
         }
+    }
+
+
+    public void UpdateDayValue(int nday)
+    {
+        currentDay = nday;
     }
 }

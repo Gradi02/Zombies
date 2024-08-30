@@ -70,7 +70,6 @@ public class PlayerShooting : NetworkBehaviour
 					if (hit.collider.CompareTag("head"))
 					{
 						// hit
-						Debug.Log("HIT - head");
 						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage * 2);
 
 						// hit particle
@@ -79,8 +78,7 @@ public class PlayerShooting : NetworkBehaviour
 					}
 					else if (hit.collider.CompareTag("body"))
 					{
-						// hit
-						Debug.Log("HIT - body");
+						// hit						
 						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage);
 
 						// hit particle
@@ -90,7 +88,6 @@ public class PlayerShooting : NetworkBehaviour
 					else if (hit.collider.CompareTag("legs"))
 					{
 						// hit
-						Debug.Log("HIT - legs");
 						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage * 0.5f);
 
 						// hit particle
@@ -100,8 +97,6 @@ public class PlayerShooting : NetworkBehaviour
 					else if (hit.collider.CompareTag("protection"))
 					{
 						// hit
-						Debug.Log("HIT - PROT");
-
 						if (hit.collider.GetComponent<Renderer>() != null)
 						{
 							ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
