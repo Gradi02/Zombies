@@ -1022,7 +1022,11 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 1024
+  grabLootMask:
+    serializedVersion: 2
+    m_Bits: 512
   playerItemHolder: {fileID: 7343556674502438419}
+  stats: {fileID: 4974944115517592645}
   crosshair: {fileID: 8014553730519733567}
 --- !u!114 &7343556674502438419
 MonoBehaviour:
@@ -1056,6 +1060,7 @@ MonoBehaviour:
   cam: {fileID: 4817538318915063867}
   fpsController: {fileID: 2851427056560804432}
   controller: {fileID: 2507263397178042110}
+  goldTxt: {fileID: 2383519560396919251}
   isAlive:
     m_InternalValue: 1
 --- !u!1 &6214058105410698350
@@ -1403,8 +1408,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901851
-  m_fontColor: {r: 0.35714388, g: 0, b: 1, a: 1}
+    rgba: 4278234879
+  m_fontColor: {r: 1, g: 0.6804627, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1421,8 +1426,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerStats : NetworkBehaviour
 {
@@ -13,7 +14,9 @@ public class PlayerStats : NetworkBehaviour
     private float endSlowTime;
     private float normalSpeed;
     [SerializeField] private CharacterController controller;
+    [SerializeField] private TextMeshProUGUI goldTxt;
 
+    public int gold { get; private set; } = 0;
     [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private NetworkVariable<float> health = new NetworkVariable<float>(99, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector]
@@ -37,6 +40,7 @@ public class PlayerStats : NetworkBehaviour
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
+        goldTxt.text = "Gold: " + gold;
     }
 
     public override void OnNetworkSpawn()
@@ -52,6 +56,22 @@ public class PlayerStats : NetworkBehaviour
     private void OnHealthChanged()
     {
         hpSlider.value = Health;
+    }
+
+    public void AddRemoveGold(int ng, bool substract = false)
+    {
+        if(substract)
+        {
+            gold -= ng;
+
+            if(gold < 0) gold = 0;
+        }
+        else
+        {
+            gold += ng;
+        }
+
+        goldTxt.text = "Gold: " + gold;
     }
 
     public void DamagePlayer(float dmg)

@@ -169,4 +169,12 @@ public class PlayerShooting : NetworkBehaviour
 			}
 		}
 	}
+
+	public void OpenUpgradeCanva(GunUpgrade upgr)
+    {
+		if(upgr != null)
+        {
+			Debug.Log("Upgrade: <base damage: +"+upgr.baseDamage+"> <base ammo: + "+upgr.baseAmmo+">");
+        }
+    }
 }
