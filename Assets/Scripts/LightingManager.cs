@@ -10,6 +10,7 @@ public class LightingManager : NetworkBehaviour
     //Variables
     [SerializeField, Range(0, 24)] private float TimeOfDay;
     [SerializeField, Range(0.001f, 1.0f)] private float Duration;
+    [SerializeField] private int currentDay = 0;
 
     private void Start()
     {
@@ -25,14 +26,15 @@ public class LightingManager : NetworkBehaviour
 
         if (Application.isPlaying)
         {
-            //(Replace with a reference to the game time)
             TimeOfDay += Time.deltaTime * Duration;
-            TimeOfDay %= 24;
-            //UpdateLighting(TimeOfDay / 24f);
-        }
-        else
-        {
-            //UpdateLighting(TimeOfDay / 24f);
+
+            if (TimeOfDay >= 24)
+            {
+                TimeOfDay %= 24;
+                currentDay++;
+                NetworkGameManager.instance.UpdateDayValue(currentDay);
+                Debug.Log($"New Day: {currentDay}");
+            }
         }
 
         UpdateDayValuesClientRpc(TimeOfDay);
