@@ -16,7 +16,7 @@ public class PlayerStats : NetworkBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private TextMeshProUGUI goldTxt;
 
-    public int gold { get; private set; } = 0;
+    public int gold { get; private set; } = 100;
     [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private NetworkVariable<float> health = new NetworkVariable<float>(99, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector]

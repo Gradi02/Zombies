@@ -174,7 +174,24 @@ public class PlayerShooting : NetworkBehaviour
     {
 		if(upgr != null)
         {
-			Debug.Log("Upgrade: <base damage: +"+upgr.baseDamage+"> <base ammo: + "+upgr.baseAmmo+">");
+			switch (upgr.upgrade)
+            {
+				case Upgrades.maxHealth:
+                    {
+						Debug.Log("Max Health += " + upgr.value);
+						break;
+                    }
+				case Upgrades.baseDamage:
+					{
+						Debug.Log("Max Damage += " + upgr.value);
+						break;
+					}
+				case Upgrades.maxAmmo:
+					{
+						Debug.Log("Max Ammo += " + upgr.value);
+						break;
+					}
+			}
         }
     }
 }
