@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerStats : NetworkBehaviour
 {
@@ -13,7 +14,9 @@ public class PlayerStats : NetworkBehaviour
     private float endSlowTime;
     private float normalSpeed;
     [SerializeField] private CharacterController controller;
+    [SerializeField] private TextMeshProUGUI goldTxt;
 
+    public int gold { get; private set; } = 100;
     [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private NetworkVariable<float> health = new NetworkVariable<float>(99, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [HideInInspector]
@@ -29,6 +32,11 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
+    public int maxUpgrades { get; private set; } = 10;
+    public List<GunUpgrade> mUpgrades { get; private set; } = new List<GunUpgrade>();
+    [SerializeField] private GameObject imgPref;
+    [SerializeField] private Transform imgParent;
+    private List<GameObject> imgs = new List<GameObject>();
 
     private void Start()
     {
@@ -37,12 +45,13 @@ public class PlayerStats : NetworkBehaviour
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
+        goldTxt.text = "Gold: " + gold;
     }
 
     public override void OnNetworkSpawn()
     {
         if(IsServer)
-            gameObject.transform.position = new Vector3(-30, -3, -30);
+            gameObject.transform.position = new Vector3(-30, -6, -30);
         if (IsOwner && controller != null)
             controller.enabled = true;
 
@@ -52,6 +61,22 @@ public class PlayerStats : NetworkBehaviour
     private void OnHealthChanged()
     {
         hpSlider.value = Health;
+    }
+
+    public void AddRemoveGold(int ng, bool substract = false)
+    {
+        if(substract)
+        {
+            gold -= ng;
+
+            if(gold < 0) gold = 0;
+        }
+        else
+        {
+            gold += ng;
+        }
+
+        goldTxt.text = "Gold: " + gold;
     }
 
     public void DamagePlayer(float dmg)
@@ -114,5 +139,20 @@ public class PlayerStats : NetworkBehaviour
             fpsController.canSprint = true;
             fpsController.walkingSpeed = normalSpeed;
         }
+    }
+
+
+    public void BuyUpgrade(GunUpgrade upgr, int goldToRemove)
+    {
+        AddRemoveGold(goldToRemove, true);
+        mUpgrades.Add(upgr);
+        AddUpgradesImage(upgr);
+    }
+
+    private void AddUpgradesImage(GunUpgrade upgr)
+    {
+        GameObject g = Instantiate(imgPref, imgParent);
+        g.GetComponent<Image>().sprite = upgr.image;
+        imgs.Add(g);
     }
 }

@@ -11,9 +11,10 @@ public class PlayerInteraction : NetworkBehaviour
     public KeyCode interactKey = KeyCode.E;
     public KeyCode dropItemKey = KeyCode.Q;
     public float interactDistance = 5;
-    public LayerMask interactionLayer;
+    public LayerMask interactionLayer, grabLootMask;
 
     public PlayerItemHolder playerItemHolder;
+    public PlayerStats stats;
     public Image crosshair;
 
     private Ray ray;
@@ -55,6 +56,20 @@ public class PlayerInteraction : NetworkBehaviour
                 {
                     Debug.LogException(e, this);
                     Debug.LogWarning("You try to interact with object that dont have IInteractable interface! Make sure that this object should be in interaction Layer!");
+                }
+            }
+        }
+        else if (Physics.Raycast(ray, out hit, interactDistance, grabLootMask))
+        {
+            Transform e = hit.collider.transform.root;
+
+            if (e.GetComponent<EnemyAI>().isDead && !e.GetComponent<DeadEnemyManager>().searched)
+            {
+                crosshair.color = Color.blue;
+
+                if (Input.GetKeyDown(interactKey))
+                {
+                    hit.collider.transform.root.GetComponent<DeadEnemyManager>().SearchUp(stats);
                 }
             }
         }
