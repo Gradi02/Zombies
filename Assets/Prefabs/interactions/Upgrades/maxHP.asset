@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d00bb399f530774ead48e85bb42963b, type: 3}
   m_Name: maxHP
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
+  upgradeTitle: max Health
+  image: {fileID: 21300000, guid: f2f3f487e1836da40b257ead90393eec, type: 3}
   minCost: 20
   maxCost: 30
   upgrade: 0

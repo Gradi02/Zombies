@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d00bb399f530774ead48e85bb42963b, type: 3}
   m_Name: maxAmmo
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
+  upgradeTitle: max Ammo
+  image: {fileID: 21300000, guid: 2600bc2d5606d7b489b357cc046af763, type: 3}
   minCost: 20
   maxCost: 30
   upgrade: 1

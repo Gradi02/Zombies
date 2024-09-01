@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UI;
 using TMPro;
 
 public class Upgrader : NetworkBehaviour, IInteractable
@@ -9,17 +10,18 @@ public class Upgrader : NetworkBehaviour, IInteractable
     public List<GunUpgrade> upgrades = new List<GunUpgrade>();
 
     [SerializeField] private GameObject noUpgr, newUpgr;
-    [SerializeField] private TextMeshProUGUI upgrText;
+    [SerializeField] private TextMeshProUGUI upgrTitle, upgrCost;
+    [SerializeField] private Image upgrImage;
 
     private GunUpgrade currentUpgrade = null;
     private int currentUpgradeCost = 0;
 
     public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null)
     {
-        if (currentUpgrade != null && playerItemHolder.GetComponent<PlayerStats>().gold >= currentUpgradeCost)
+        PlayerStats stats = playerItemHolder.GetComponent<PlayerStats>();
+        if (currentUpgrade != null && stats.gold >= currentUpgradeCost && stats.mUpgrades.Count < stats.maxUpgrades)
         {
-            playerItemHolder.GetComponent<PlayerStats>().AddRemoveGold(currentUpgradeCost, true);
-            playerItemHolder.GetComponent<PlayerShooting>().OpenUpgradeCanva(currentUpgrade);
+            stats.BuyUpgrade(currentUpgrade, currentUpgradeCost);
             ResetUpgradeServerRpc();
         }
     }
@@ -45,7 +47,9 @@ public class Upgrader : NetworkBehaviour, IInteractable
         newUpgr.SetActive(true);
         noUpgr.SetActive(false);
 
-        upgrText.text = "Upgrade:\n+" + currentUpgrade.value + " " + currentUpgrade.upgrade.ToString() + "\nCost: " + currentUpgradeCost;
+        upgrTitle.text = currentUpgrade.upgradeTitle;
+        upgrCost.text = currentUpgradeCost + " coins";
+        upgrImage.sprite = currentUpgrade.image;
     }
 
     // RESET UPGRADE
