@@ -31,7 +31,7 @@ public class Upgrader : NetworkBehaviour, IInteractable
     // SET UPGRADE  
 
     [ServerRpc(RequireOwnership = false), ContextMenu("new upgr")]
-    private void SetNewUpgradeServerRpc()
+    public void SetNewUpgradeServerRpc()
     {
         int idx = Random.Range(0, upgrades.Count);
         currentUpgradeCost = Random.Range(upgrades[idx].minCost, upgrades[idx].maxCost) + NetworkGameManager.instance.currentDay * 10;

@@ -46,7 +46,10 @@ public class alarmState : State
         Vector3 newPos = Vector3.zero;
         bool pathCorrect = true;
         NavMeshPath navMeshPath = new NavMeshPath();
-        while (pathCorrect)
+        int iterationCount = 0;
+        int maxIterations = 100;
+
+        while (pathCorrect && (iterationCount++) < maxIterations)
         {
             Vector3 newDestRay = alarmPos + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
             if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))

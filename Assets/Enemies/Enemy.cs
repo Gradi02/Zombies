@@ -34,7 +34,7 @@ public class Enemy : NetworkBehaviour, IDamage
     {
         if (IsServer)
         {
-            hp = Random.Range(150, 200) + daysBonus[day];
+            hp = Random.Range(150, 200) /*+ daysBonus[day]*/;
             SetEnemyStyleServerRpc();
         }
     }

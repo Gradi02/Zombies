@@ -56,8 +56,6 @@ public class EnemyAI : StateMachine
         {
             rb.isKinematic = true;
         }
-
-        StartCoroutine(UpdateCoroutine());
     }
 
     private void Update()
@@ -71,6 +69,9 @@ public class EnemyAI : StateMachine
 
         foreach(State s in states)
             s?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
+
+        SelectMainState();
+        SyncAnimatorAndAgent();
     }
 
     private void FixedUpdate()
@@ -299,16 +300,5 @@ public class EnemyAI : StateMachine
 
         if(IsHost)
             ChangeState(_deathState, true);
-    }
-
-
-    private IEnumerator UpdateCoroutine()
-    {
-        while(!isDead)
-        {
-            SelectMainState();
-            SyncAnimatorAndAgent();
-            yield return null;
-        }
     }
 }

@@ -130,6 +130,12 @@ public class NetworkGameManager : NetworkBehaviour
     {
         ring = false;
         spawner.StartSpawner();
+
+        foreach (Upgrader u in GameObject.FindObjectsOfType<Upgrader>())
+        {
+            u.SetNewUpgradeServerRpc();
+        }
+
         OpenBarrierClientRpc();
     }
 
