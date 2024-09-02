@@ -26,20 +26,20 @@ public class EnemySpawner : NetworkBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SpawnEnemyServerRpc();
+        }
+
         if (!IsServer || !isEnabled) return;
 
-        if(NetworkGameManager.instance.enemiesServerList.Count < maxZombiesOnMap[day])
+        if(NetworkGameManager.instance.enemiesServerList.Count < /*maxZombiesOnMap[day]*/ 100)
         {
             SpawnEnemyServerRpc();
         }
 
 
 
-
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            SpawnEnemyServerRpc();
-        }
 
         if (Input.GetKeyDown(KeyCode.H))
         {

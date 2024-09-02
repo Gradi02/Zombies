@@ -75,16 +75,19 @@ public class chillState : State
 
         if (agent.enabled && agent.remainingDistance < agent.radius)
         {
-            agent.destination = transform.position + new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+            agent.destination = GetNewPlaceToCheck();
         }
     }
 
     private Vector3 GetNewPlaceToCheck()
     {
-        Vector3 newPos = Vector3.zero;
+        Vector3 newPos = transform.position;
         bool pathCorrect = true;
         NavMeshPath navMeshPath = new NavMeshPath();
-        while (pathCorrect)
+        int iterationCount = 0;
+        int maxIterations = 100;
+
+        while (pathCorrect && (iterationCount++) < maxIterations)
         {
             Vector3 newDestRay = transform.position + new Vector3(Random.Range(-searchDistance, searchDistance), 1000, Random.Range(-searchDistance, searchDistance));
             if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))
