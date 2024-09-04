@@ -51,7 +51,7 @@ public class PlayerStats : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if(IsServer)
-            gameObject.transform.position = new Vector3(-30, -6, -30);
+            gameObject.transform.position = new Vector3(-60, -6, -50);
         if (IsOwner && controller != null)
             controller.enabled = true;
 
