@@ -33,7 +33,7 @@ public class EnemySpawner : NetworkBehaviour
 
         if (!IsServer || !isEnabled) return;
 
-        if(NetworkGameManager.instance.enemiesServerList.Count < /*maxZombiesOnMap[day]*/ 100)
+        if(NetworkGameManager.instance.enemiesServerList.Count < maxZombiesOnMap[day])
         {
             SpawnEnemyServerRpc();
         }
