@@ -1102,7 +1102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handTransform: {fileID: 5829024712879322881}
-  dropPower: 3
+  dropPower: 5
   head: {fileID: 7519632586781879555}
   itemHandConstraint: {fileID: 8553721905936859153}
 --- !u!114 &4974944115517592645

@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
+  itemId: 3
 --- !u!114 &8090447979565254035
 MonoBehaviour:
   m_ObjectHideFlags: 0

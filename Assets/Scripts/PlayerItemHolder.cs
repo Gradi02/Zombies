@@ -28,14 +28,23 @@ public class PlayerItemHolder : NetworkBehaviour
         itemInHand = newItem;
         itemInHand.GetComponent<Rigidbody>().freezeRotation = true;
         itemInHand.GetComponent<Rigidbody>().useGravity = false;
-        itemInHand.GetComponent<BoxCollider>().enabled = false;
+
+        if(itemInHand.GetComponent<BoxCollider>() != null)
+            itemInHand.GetComponent<BoxCollider>().enabled = false;
+        else if(itemInHand.GetComponent<SphereCollider>() != null)
+            itemInHand.GetComponent<SphereCollider>().enabled = false;
+
         SetHandConstraintWeightServerRpc(1);
     }
 
     public void DropItem()
     {
         itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
-        itemInHand.GetComponent<BoxCollider>().enabled = true;
+
+        if (itemInHand.GetComponent<BoxCollider>() != null)
+            itemInHand.GetComponent<BoxCollider>().enabled = true;
+        else if (itemInHand.GetComponent<SphereCollider>() != null)
+            itemInHand.GetComponent<SphereCollider>().enabled = true;
 
         Rigidbody rb = itemInHand.GetComponent<Rigidbody>();
         rb.freezeRotation = false;
@@ -46,6 +55,23 @@ public class PlayerItemHolder : NetworkBehaviour
 
         itemInHand = null;
         SetHandConstraintWeightServerRpc(0);
+    }
+
+
+    public void ConsumeItem()
+    {
+        itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
+        DestroyItemServerRpc(); 
+
+        itemInHand = null;
+        SetHandConstraintWeightServerRpc(0);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyItemServerRpc()
+    {
+        itemInHand.GetComponent<NetworkObject>().Despawn();
+        Destroy(itemInHand);
     }
 
 
