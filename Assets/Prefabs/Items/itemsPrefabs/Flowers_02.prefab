@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
-  itemId: 2
+  itemId: Flower
 --- !u!54 &6901401388549404901
 Rigidbody:
   m_ObjectHideFlags: 0

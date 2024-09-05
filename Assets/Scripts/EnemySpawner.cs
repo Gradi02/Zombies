@@ -21,29 +21,18 @@ public class EnemySpawner : NetworkBehaviour
         25,
         30,
         35,
-        40
+        40,
+        100
     };
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            SpawnEnemyServerRpc();
-        }
-
         if (!IsServer || !isEnabled) return;
 
-        if(NetworkGameManager.instance.enemiesServerList.Count < maxZombiesOnMap[day])
+        int idx = day > maxZombiesOnMap.Length ? maxZombiesOnMap[maxZombiesOnMap.Length - 1] : maxZombiesOnMap[day];
+        if (NetworkGameManager.instance.enemiesServerList.Count < idx)
         {
             SpawnEnemyServerRpc();
-        }
-
-
-
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SpawnEnemyServerRpc(true);
         }
     }
 
@@ -79,7 +68,7 @@ public class EnemySpawner : NetworkBehaviour
                         Vector3 playerPosition = player.Value.transform.position;
                         Vector3 directionToSpawn = (hit2.position - playerPosition).normalized;
 
-                        if(directionToSpawn.sqrMagnitude < 400)
+                        if((hit2.position - playerPosition).sqrMagnitude < 400)
                         {
                             visibleToAnyPlayer = true;
                             break; // No need to check further players

@@ -9,4 +9,9 @@ public class PCManager : MonoBehaviour, IInteractable
         NetworkGameManager.instance.StartGameServerRpc();
         gameObject.layer = 0;
     }
+
+    public string GetInteractionText()
+    {
+        return "Press E To Interact!";
+    }
 }

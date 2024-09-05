@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
-  itemId: 4
+  itemId: Water Bottle
 --- !u!114 &8462523305236381787
 MonoBehaviour:
   m_ObjectHideFlags: 0

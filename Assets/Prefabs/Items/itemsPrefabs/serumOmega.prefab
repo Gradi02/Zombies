@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
-  itemId: 7
+  itemId: Omega Serum
 --- !u!114 &2370340111371763427
 MonoBehaviour:
   m_ObjectHideFlags: 0

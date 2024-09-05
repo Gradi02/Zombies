@@ -8,7 +8,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     //public ulong parentID { get; private set; } = 100;
     public NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private PlayerItemHolder pih;
-    public int itemId = 0;
+    public string itemId = "";
 
     public void MakeInteraction(ulong ID, PlayerItemHolder ph)
     {
@@ -21,6 +21,11 @@ public class ItemManager : NetworkBehaviour, IInteractable
         {
             Debug.Log("Ktoœ inny trzyma ten przedmiot!");
         }
+    }
+
+    public string GetInteractionText()
+    {
+        return "Press E To Grab Item!";
     }
 
     [ServerRpc(RequireOwnership = false)]

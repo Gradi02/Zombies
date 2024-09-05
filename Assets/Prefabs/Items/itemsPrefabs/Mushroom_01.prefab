@@ -283,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
-  itemId: 1
+  itemId: Muschrom
 --- !u!54 &6517225861658908355
 Rigidbody:
   m_ObjectHideFlags: 0
