@@ -60,7 +60,8 @@ public class EnemySpawner : NetworkBehaviour
     {
         Vector3 pos = Vector3.zero;
         bool pathCorrect = true;
-        while (pathCorrect)
+        int i = 0;
+        while (pathCorrect && (i++) < 100)
         {
             float r = Random.Range(0, maxRadius);
             float fi = Random.Range(0, 360);
@@ -77,6 +78,12 @@ public class EnemySpawner : NetworkBehaviour
                         // Assume players have a position field and an appropriate transform
                         Vector3 playerPosition = player.Value.transform.position;
                         Vector3 directionToSpawn = (hit2.position - playerPosition).normalized;
+
+                        if(directionToSpawn.sqrMagnitude < 400)
+                        {
+                            visibleToAnyPlayer = true;
+                            break; // No need to check further players
+                        }
 
                         if (Physics.Raycast(playerPosition, directionToSpawn, out RaycastHit playerHit, Mathf.Infinity))
                         {
