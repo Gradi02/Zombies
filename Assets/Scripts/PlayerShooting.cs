@@ -169,4 +169,29 @@ public class PlayerShooting : NetworkBehaviour
 			}
 		}
 	}
+
+	public void OpenUpgradeCanva(GunUpgrade upgr)
+    {
+		if(upgr != null)
+        {
+			switch (upgr.upgrade)
+            {
+				case Upgrades.maxHealth:
+                    {
+						Debug.Log("Max Health += " + upgr.value);
+						break;
+                    }
+				case Upgrades.baseDamage:
+					{
+						Debug.Log("Max Damage += " + upgr.value);
+						break;
+					}
+				case Upgrades.maxAmmo:
+					{
+						Debug.Log("Max Ammo += " + upgr.value);
+						break;
+					}
+			}
+        }
+    }
 }

@@ -10,7 +10,7 @@ public class NetworkGameManager : NetworkBehaviour
     public Dictionary<ulong, GameObject> playersServerList = new Dictionary<ulong, GameObject>();
     public List<EnemyAI> enemiesServerList = new List<EnemyAI>();
 
-    public bool gameStarted { get; private set; } = false;
+    public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] private GameObject barrier;
     [SerializeField] private LightingManager lighting;
     [SerializeField] private GameObject pc;
@@ -106,7 +106,7 @@ public class NetworkGameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void StartGameServerRpc()
     {
-        gameStarted = true;
+        gameStarted.Value = true;
         SteamNetworkManager.instance.GameStartHandler();
         ring = true;
         StartCoroutine(PhoneCall());
@@ -130,6 +130,12 @@ public class NetworkGameManager : NetworkBehaviour
     {
         ring = false;
         spawner.StartSpawner();
+
+        foreach (Upgrader u in GameObject.FindObjectsOfType<Upgrader>())
+        {
+            u.SetNewUpgradeServerRpc();
+        }
+
         OpenBarrierClientRpc();
     }
 

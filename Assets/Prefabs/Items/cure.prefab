@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 1432161099246082256}
   - component: {fileID: -9107353650086902115}
   - component: {fileID: 2615226824492862072}
-  - component: {fileID: -4978450581090063199}
   m_Layer: 10
   m_Name: cure
   m_TagString: Untagged
@@ -101,6 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc49e9d2305d1b44c867eb0036d36981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentID:
+    m_InternalValue: 100
 --- !u!54 &4965868320090062907
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -199,15 +200,3 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-4978450581090063199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479301135245068627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

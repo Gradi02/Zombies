@@ -2452,6 +2452,7 @@ GameObject:
   - component: {fileID: 5327474365521937461}
   - component: {fileID: 6369766600753874694}
   - component: {fileID: 3032017000614810452}
+  - component: {fileID: 4811390082687459360}
   m_Layer: 7
   m_Name: zombieManUniversal
   m_TagString: enemy
@@ -2633,14 +2634,14 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2523177715150915351}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 2
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 5
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -2731,6 +2732,23 @@ LODGroup:
     - renderer: {fileID: 3720951605636711223}
     - renderer: {fileID: 1411811898193102529}
   m_Enabled: 1
+--- !u!114 &4811390082687459360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523177715150915351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90356010c73570b47b61d309aa62f847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minGold: 1
+  maxGold: 5
+  removingTime: 20
+  nobj: {fileID: 4777094765282261175}
+  ai: {fileID: 5711066427242484124}
 --- !u!1 &2646577933661428727
 GameObject:
   m_ObjectHideFlags: 0
