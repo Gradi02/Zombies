@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
-  itemId: 8
+  itemId: Syringe
 --- !u!114 &3927294623273210696
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class PlayerInteraction : NetworkBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerInteraction : NetworkBehaviour
     public PlayerItemHolder playerItemHolder;
     public PlayerStats stats;
     public Image crosshair;
+    public TextMeshProUGUI interactText;
 
     private Ray ray;
     private RaycastHit hit;
@@ -43,12 +45,14 @@ public class PlayerInteraction : NetworkBehaviour
         if (Physics.Raycast(ray, out hit, interactDistance, interactionLayer))
         {
             crosshair.color = Color.red;
+            IInteractable inter = hit.collider.GetComponent<IInteractable>();
+            interactText.gameObject.SetActive(true);
+            interactText.text = inter.GetInteractionText();
 
             if (Input.GetKeyDown(interactKey))
             {
                 try
                 {
-                    IInteractable inter = hit.collider.GetComponent<IInteractable>();
                     ulong id = NetworkManager.Singleton.LocalClientId;
                     inter.MakeInteraction(id, playerItemHolder);
                 }
@@ -76,6 +80,7 @@ public class PlayerInteraction : NetworkBehaviour
         else
         {
             crosshair.color = Color.white;
+            interactText.gameObject.SetActive(false);
         }
     }
 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9132397546724309041
+--- !u!1 &1198791585196665367
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,14 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1395125975634130330}
-  - component: {fileID: 8857163598796959489}
-  - component: {fileID: 6278494375102510405}
-  - component: {fileID: 5041926056970379587}
-  - component: {fileID: 8249733110166163935}
-  - component: {fileID: 688962875721174270}
-  - component: {fileID: 2513542654324679275}
-  - component: {fileID: 6752361323036040469}
+  - component: {fileID: 1349809040402777320}
+  - component: {fileID: 2936542378935450081}
+  - component: {fileID: 9061384720492113136}
   m_Layer: 10
   m_Name: basketball
   m_TagString: Untagged
@@ -23,36 +18,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1395125975634130330
+--- !u!4 &1349809040402777320
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9132397546724309041}
+  m_GameObject: {fileID: 1198791585196665367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 59.90392, y: -7.441538, z: 8.506161}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1395125975634130330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8857163598796959489
+--- !u!33 &2936542378935450081
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9132397546724309041}
+  m_GameObject: {fileID: 1198791585196665367}
   m_Mesh: {fileID: -1745815934027061273, guid: fdc29fce443be9548989e2461c830be8, type: 3}
---- !u!23 &6278494375102510405
+--- !u!23 &9061384720492113136
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9132397546724309041}
+  m_GameObject: {fileID: 1198791585196665367}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -88,6 +83,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &9132397546724309041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1395125975634130330}
+  - component: {fileID: 5041926056970379587}
+  - component: {fileID: 8249733110166163935}
+  - component: {fileID: 688962875721174270}
+  - component: {fileID: 2513542654324679275}
+  - component: {fileID: 6752361323036040469}
+  m_Layer: 10
+  m_Name: basketball
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1395125975634130330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132397546724309041}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 59.90392, y: -7.441538, z: 8.506161}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1349809040402777320}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &5041926056970379587
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -95,7 +127,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9132397546724309041}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5043fb96171dacb4dae580446ed1bb44, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -108,7 +140,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.25, z: 0}
 --- !u!54 &8249733110166163935
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -119,7 +151,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -150,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentID:
     m_InternalValue: 100
+  itemId: Basketball
 --- !u!114 &2513542654324679275
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class LightingManager : NetworkBehaviour
     }
     private void Update()
     {
-        if (Preset == null || !IsServer || !NetworkGameManager.instance.gameStarted)
+        if (Preset == null || !IsServer || !NetworkGameManager.instance.gameStarted.Value)
             return;
 
         if (Application.isPlaying)
