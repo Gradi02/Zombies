@@ -37,6 +37,7 @@ public class EnemyAI : StateMachine
     private float sqrDistanceToTarget = 0;
     private bool seePlayer = false;
     private Vector3 eyeLevel = new Vector3(0, 1, 0);
+    public GameObject[] bodyParts;
 
     private void Start()
     {
@@ -291,14 +292,25 @@ public class EnemyAI : StateMachine
     public void DeathStateClientRpc()
     {
         isDead = true;
-        foreach (Rigidbody rb in ragdollRigidbodies)
-        {
-            rb.isKinematic = false;
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
 
-        if(IsHost)
+        foreach (GameObject b in bodyParts)
+            b.layer = 10;
+
+        if (IsHost)
+        {
+            foreach (Rigidbody rb in ragdollRigidbodies)
+            {
+                rb.isKinematic = false;
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
             ChangeState(_deathState, true);
+        }
+    }
+
+    public void ResetDeathLayer()
+    {
+        foreach (GameObject b in bodyParts)
+            b.layer = 9;
     }
 }

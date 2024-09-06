@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Rendering;
 
 public class NetworkGameManager : NetworkBehaviour
 {
@@ -10,7 +11,7 @@ public class NetworkGameManager : NetworkBehaviour
     public Dictionary<ulong, GameObject> playersServerList = new Dictionary<ulong, GameObject>();
     public List<EnemyAI> enemiesServerList = new List<EnemyAI>();
 
-    public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] private GameObject barrier;
     [SerializeField] private LightingManager lighting;
     [SerializeField] private GameObject pc;
@@ -18,6 +19,7 @@ public class NetworkGameManager : NetworkBehaviour
     private bool ring = false;
     public int currentDay { get; private set; } = 0;
     [SerializeField] private EnemySpawner spawner;
+    public Volume globalVolume;
     private void Awake()
     {
         if (instance == null)

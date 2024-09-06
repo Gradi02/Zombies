@@ -45,8 +45,19 @@ public class PlayerInteraction : NetworkBehaviour
         if (Physics.Raycast(ray, out hit, interactDistance, interactionLayer))
         {
             crosshair.color = Color.red;
-            IInteractable inter = hit.collider.GetComponent<IInteractable>();
             interactText.gameObject.SetActive(true);
+            IInteractable inter;
+            
+            if(hit.collider.transform.root.CompareTag("enemy"))
+            {
+                Transform e = hit.collider.transform.root;
+                inter = e.GetComponent<IInteractable>();
+            }
+            else
+            {
+                inter = hit.collider.GetComponent<IInteractable>();
+            }
+
             interactText.text = inter.GetInteractionText();
 
             if (Input.GetKeyDown(interactKey))
@@ -60,20 +71,6 @@ public class PlayerInteraction : NetworkBehaviour
                 {
                     Debug.LogException(e, this);
                     Debug.LogWarning("You try to interact with object that dont have IInteractable interface! Make sure that this object should be in interaction Layer!");
-                }
-            }
-        }
-        else if (Physics.Raycast(ray, out hit, interactDistance, grabLootMask))
-        {
-            Transform e = hit.collider.transform.root;
-
-            if (e.GetComponent<EnemyAI>().isDead && !e.GetComponent<DeadEnemyManager>().searched)
-            {
-                crosshair.color = Color.blue;
-
-                if (Input.GetKeyDown(interactKey))
-                {
-                    hit.collider.transform.root.GetComponent<DeadEnemyManager>().SearchUp(stats);
                 }
             }
         }
