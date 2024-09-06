@@ -18,12 +18,13 @@ public class SC_FPSController : NetworkBehaviour
     public float lookXLimit = 45.0f;
     float rotationX = 0;
 
-    CharacterController characterController;
+    public CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
 
     [HideInInspector]
     public bool canMove = true;
     public bool canSprint = true;
+    public bool isRunning { get; private set; } = false;
 
     [SerializeField] private GameObject head;
     [SerializeField] private Animator anim;
@@ -55,7 +56,6 @@ public class SC_FPSController : NetworkBehaviour
             }
         }
 
-        characterController = GetComponent<CharacterController>();
         gameObject.name = SteamClient.Name;
         steamName.Value = SteamClient.Name;
 
@@ -73,7 +73,7 @@ public class SC_FPSController : NetworkBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Press Left Shift to run
-        bool isRunning = canSprint && Input.GetKey(KeyCode.LeftShift);
+        isRunning = canSprint && Input.GetKey(KeyCode.LeftShift);
         float speed = isRunning ? runningSpeed : walkingSpeed;
 
         float curSpeedX = canMove ? Input.GetAxisRaw("Vertical") : 0;

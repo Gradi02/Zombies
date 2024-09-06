@@ -124,6 +124,8 @@ MonoBehaviour:
   parentID:
     m_InternalValue: 100
   itemId: Omega Serum
+  usable: 1
+  dmgToUse: 1
 --- !u!54 &8715648273062826987
 Rigidbody:
   m_ObjectHideFlags: 0

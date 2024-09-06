@@ -124,6 +124,7 @@ MonoBehaviour:
   parentID:
     m_InternalValue: 100
   itemId: Beta Serum
+  usable: 1
 --- !u!54 &332605664385018637
 Rigidbody:
   m_ObjectHideFlags: 0

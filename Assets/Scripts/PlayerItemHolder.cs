@@ -98,8 +98,14 @@ public class PlayerItemHolder : NetworkBehaviour
 
             if (mng.usable)
             {
+                if (mng.dmgToUse && GetComponent<PlayerStats>().Health == GetComponent<PlayerStats>().maxHealth)
+                {
+                    return;
+                }
+
                 mng.ConsumeEffect(this);
                 ConsumeItem();
+
             }
         }
     }
