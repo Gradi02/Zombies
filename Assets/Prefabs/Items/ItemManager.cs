@@ -9,6 +9,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     public NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private PlayerItemHolder pih;
     public string itemId = "";
+    public bool usable = false;
 
     public void MakeInteraction(ulong ID, PlayerItemHolder ph)
     {
@@ -25,7 +26,13 @@ public class ItemManager : NetworkBehaviour, IInteractable
 
     public string GetInteractionText()
     {
-        return "Press E To Grab Item!";
+        return "Press E To Collect " + itemId + "!";
+    }
+
+    public void ConsumeEffect(PlayerItemHolder player)
+    {
+        PlayerStats stats = player.GetComponent<PlayerStats>();
+        stats.HealPlayer(20);
     }
 
     [ServerRpc(RequireOwnership = false)]

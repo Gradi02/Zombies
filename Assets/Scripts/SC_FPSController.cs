@@ -7,6 +7,8 @@ using Steamworks;
 
 public class SC_FPSController : NetworkBehaviour
 {
+    public NetworkVariable<Unity.Collections.FixedString128Bytes> steamName = new NetworkVariable<Unity.Collections.FixedString128Bytes>("player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float jumpSpeed = 8.0f;
@@ -55,6 +57,7 @@ public class SC_FPSController : NetworkBehaviour
 
         characterController = GetComponent<CharacterController>();
         gameObject.name = SteamClient.Name;
+        steamName.Value = SteamClient.Name;
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;

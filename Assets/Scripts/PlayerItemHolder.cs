@@ -11,6 +11,7 @@ public class PlayerItemHolder : NetworkBehaviour
     [SerializeField] private float dropPower = 3f;
     [SerializeField] private Transform head;
     [SerializeField] private TwoBoneIKConstraint itemHandConstraint;
+    private KeyCode useItemButton = KeyCode.Mouse1;
 
     private void Start()
     {
@@ -85,6 +86,22 @@ public class PlayerItemHolder : NetworkBehaviour
     private void SetHandConstraintWeightClientRpc(int w)
     {
         itemHandConstraint.weight = w;
+    }
+
+    private void Update()
+    {
+        if (!IsOwner) return;
+
+        if(itemInHand != null && Input.GetKeyDown(useItemButton))
+        {
+            ItemManager mng = itemInHand.GetComponent<ItemManager>();
+
+            if (mng.usable)
+            {
+                mng.ConsumeEffect(this);
+                ConsumeItem();
+            }
+        }
     }
 }
 

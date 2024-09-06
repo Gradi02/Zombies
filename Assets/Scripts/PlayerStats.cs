@@ -95,6 +95,12 @@ public class PlayerStats : NetworkBehaviour
         Slow(2f, 1);
     }
 
+    public void HealPlayer(float hp)
+    {
+        Health += hp;
+        if(Health < maxHealth)
+            Health = maxHealth;
+    }
 
     public void Shake(float duration, float magnitude)
     {
