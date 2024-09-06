@@ -33,7 +33,12 @@ public class ItemManager : NetworkBehaviour, IInteractable
     {
         PlayerStats stats = player.GetComponent<PlayerStats>();
         stats.HealPlayer(20);
+        player.GetComponent<PostProcessingController>().StartVodkaEffect(30f);
+        stats.Slow(30f, 5f);
     }
+
+
+
 
     [ServerRpc(RequireOwnership = false)]
     public void ConsumeItemServerRpc()

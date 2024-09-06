@@ -883,6 +883,7 @@ GameObject:
   - component: {fileID: 33492741437129598}
   - component: {fileID: 7343556674502438419}
   - component: {fileID: 4974944115517592645}
+  - component: {fileID: 1723219478089652796}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1244,7 +1245,6 @@ MonoBehaviour:
   dropPower: 5
   head: {fileID: 7519632586781879555}
   itemHandConstraint: {fileID: 8553721905936859153}
-  useItemButton: 323
 --- !u!114 &4974944115517592645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,6 +1266,18 @@ MonoBehaviour:
     m_InternalValue: 1
   imgPref: {fileID: 8526001032575338010, guid: 69c588f2a927c154ba7d98e07b45b0aa, type: 3}
   imgParent: {fileID: 4145219110562670960}
+--- !u!114 &1723219478089652796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920064887191193777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2478dcf8e3e63479624c22cf4e1f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6214058105410698350
 GameObject:
   m_ObjectHideFlags: 0

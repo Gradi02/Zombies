@@ -7,7 +7,7 @@ using Steamworks;
 
 public class SC_FPSController : NetworkBehaviour
 {
-    public NetworkVariable<Unity.Collections.FixedString128Bytes> steamName = new NetworkVariable<Unity.Collections.FixedString128Bytes>("player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [HideInInspector] public NetworkVariable<Unity.Collections.FixedString128Bytes> steamName = new NetworkVariable<Unity.Collections.FixedString128Bytes>("player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
