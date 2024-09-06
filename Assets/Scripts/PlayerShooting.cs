@@ -24,7 +24,7 @@ public class PlayerShooting : NetworkBehaviour
 	private Animator animator;
 	[SerializeField] private AnimationClip shoot, reload;
 	private float damage = 50;
-	private int Ammo = 8;
+	private int Ammo = 8, maxAmmo = 8;
 	public LayerMask obstacleMask;
 
 
@@ -43,13 +43,13 @@ public class PlayerShooting : NetworkBehaviour
 		Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 		RaycastHit hit;
 
-		if (Ammo <= 0 && Time.time > nextFireTime - 0.1f)
+		if ((Ammo <= 0 || (Input.GetKeyDown(KeyCode.R) && Ammo < maxAmmo)) && Time.time > nextFireTime - 0.1f)
 		{
 			ammoText.text = "reloading";
 			nextFireTime = Time.time + reloadingTime;
 			CancelInvoke();
 			animator.CrossFade(reload.name, 0.2f);
-			Ammo = 8;
+			Ammo = maxAmmo;
 		}
 
 		if (Time.time >= nextFireTime)

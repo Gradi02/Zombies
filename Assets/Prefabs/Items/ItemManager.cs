@@ -10,6 +10,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     private PlayerItemHolder pih;
     public string itemId = "";
     public bool usable = false;
+    public bool dmgToUse = false;
 
     public void MakeInteraction(ulong ID, PlayerItemHolder ph)
     {
@@ -32,9 +33,33 @@ public class ItemManager : NetworkBehaviour, IInteractable
     public void ConsumeEffect(PlayerItemHolder player)
     {
         PlayerStats stats = player.GetComponent<PlayerStats>();
-        stats.HealPlayer(20);
-        player.GetComponent<PostProcessingController>().StartVodkaEffect(30f);
-        stats.Slow(30f, 5f);
+
+        if (itemId == "Alcohol")
+        {
+            stats.HealPlayer(5);
+            player.GetComponent<PostProcessingController>().StartVodkaEffect(30f);
+            stats.Slow(30f, 5f);
+        }
+        else if(itemId == "AID")
+        {
+            stats.HealPlayer(1000);
+        }
+        else if (itemId == "Omega Serum")
+        {
+            stats.HealPlayer(30);
+        }
+        else if (itemId == "Alpha Serum")
+        {
+            stats.DamagePlayer(30);
+        }
+        else if (itemId == "Beta Serum")
+        {
+            stats.Slow(10f, 15f, true);
+        }
+        else if (itemId == "Muschrom")
+        {
+            stats.HealPlayer(10);
+        }
     }
 
 
