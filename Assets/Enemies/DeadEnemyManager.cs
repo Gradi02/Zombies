@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class DeadEnemyManager : NetworkBehaviour
+public class DeadEnemyManager : NetworkBehaviour, IInteractable
 {
     public bool searched { get; private set; } = false;
     private float timeToRemove = 0;
@@ -31,6 +31,20 @@ public class DeadEnemyManager : NetworkBehaviour
         {
             searched = true;
             pst.AddRemoveGold(Random.Range(minGold, maxGold));
+            ai.ResetDeathLayer();
         }
+    }
+
+    public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null)
+    {
+        if(ai.isDead && !searched)
+        {
+            SearchUp(playerItemHolder.GetComponent<PlayerStats>());
+        }
+    }
+
+    public string GetInteractionText()
+    {
+        return "Press E To Search Body!";
     }
 }

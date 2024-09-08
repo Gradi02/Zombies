@@ -7,8 +7,10 @@ using TMPro;
 
 public class PlayerStats : NetworkBehaviour
 {
-    private float maxHealth = 100;
-    [SerializeField] private Slider hpSlider;
+    [HideInInspector] public float maxHealth = 100, maxSprint = 100;
+    [SerializeField] private Slider hpSlider, sprintSlider;
+    [SerializeField] private Image sprintColor;
+    [SerializeField] private Color superSpeedColor, sprintNormalColor;
     [SerializeField] private Camera cam;
     [SerializeField] SC_FPSController fpsController;
     private float endSlowTime;
@@ -31,12 +33,15 @@ public class PlayerStats : NetworkBehaviour
             }
         }
     }
+    private float sprintValue = 0;
+    public float sprintUsePower, sprintRegenPower;
 
     public int maxUpgrades { get; private set; } = 10;
     public List<GunUpgrade> mUpgrades { get; private set; } = new List<GunUpgrade>();
     [SerializeField] private GameObject imgPref;
     [SerializeField] private Transform imgParent;
     private List<GameObject> imgs = new List<GameObject>();
+    private bool slowed = false;
 
     private void Start()
     {
@@ -92,20 +97,32 @@ public class PlayerStats : NetworkBehaviour
         }
 
         Shake(0.2f, 0.25f);
-        Slow(2f, 1);
+        Slow(1f, 1);
     }
 
+    public void HealPlayer(float hp)
+    {
+        Health += hp;
+        if(Health < maxHealth)
+            Health = maxHealth;
+    }
 
     public void Shake(float duration, float magnitude)
     {
         StartCoroutine(ShakeCoroutine(duration, magnitude));
     }
 
-    public void Slow(float duration, float tempSpeed)
+    public void Slow(float duration, float tempSpeed, bool color = false)
     {
+        slowed = true;
         fpsController.canSprint = false;
         fpsController.walkingSpeed = tempSpeed;
         endSlowTime = Time.time + duration;
+
+        if(color)
+        {
+            sprintColor.color = superSpeedColor;
+        }
     }
 
     private IEnumerator ShakeCoroutine(float duration, float magnitude)
@@ -134,10 +151,35 @@ public class PlayerStats : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if(Time.time > endSlowTime)
+        if(slowed && Time.time > endSlowTime)
         {
+            slowed = false;
             fpsController.canSprint = true;
             fpsController.walkingSpeed = normalSpeed;
+            sprintColor.color = sprintNormalColor;
+        }
+
+        if (!slowed)
+        {
+            if (fpsController.isRunning)
+            {
+                sprintValue -= Time.deltaTime * sprintUsePower;
+
+                if (sprintValue <= 0)
+                {
+                    fpsController.canSprint = false;
+                }
+            }
+            else if (sprintValue < maxSprint)
+            {
+                sprintValue += Time.deltaTime * sprintRegenPower;
+
+                if (sprintValue > 0.05 * maxSprint)
+                {
+                    fpsController.canSprint = true;
+                }
+            }
+            sprintSlider.value = sprintValue;
         }
     }
 

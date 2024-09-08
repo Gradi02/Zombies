@@ -9,6 +9,8 @@ public class ItemManager : NetworkBehaviour, IInteractable
     public NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private PlayerItemHolder pih;
     public string itemId = "";
+    public bool usable = false;
+    public bool dmgToUse = false;
 
     public void MakeInteraction(ulong ID, PlayerItemHolder ph)
     {
@@ -25,8 +27,43 @@ public class ItemManager : NetworkBehaviour, IInteractable
 
     public string GetInteractionText()
     {
-        return "Press E To Grab Item!";
+        return "Press E To Collect " + itemId + "!";
     }
+
+    public void ConsumeEffect(PlayerItemHolder player)
+    {
+        PlayerStats stats = player.GetComponent<PlayerStats>();
+
+        if (itemId == "Alcohol")
+        {
+            stats.HealPlayer(5);
+            player.GetComponent<PostProcessingController>().StartVodkaEffect(30f);
+            stats.Slow(30f, 5f);
+        }
+        else if(itemId == "AID")
+        {
+            stats.HealPlayer(1000);
+        }
+        else if (itemId == "Omega Serum")
+        {
+            stats.HealPlayer(30);
+        }
+        else if (itemId == "Alpha Serum")
+        {
+            stats.DamagePlayer(30);
+        }
+        else if (itemId == "Beta Serum")
+        {
+            stats.Slow(10f, 15f, true);
+        }
+        else if (itemId == "Muschrom")
+        {
+            stats.HealPlayer(10);
+        }
+    }
+
+
+
 
     [ServerRpc(RequireOwnership = false)]
     public void ConsumeItemServerRpc()

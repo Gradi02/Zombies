@@ -7,6 +7,8 @@ using Steamworks;
 
 public class SC_FPSController : NetworkBehaviour
 {
+    [HideInInspector] public NetworkVariable<Unity.Collections.FixedString128Bytes> steamName = new NetworkVariable<Unity.Collections.FixedString128Bytes>("player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float jumpSpeed = 8.0f;
@@ -16,12 +18,13 @@ public class SC_FPSController : NetworkBehaviour
     public float lookXLimit = 45.0f;
     float rotationX = 0;
 
-    CharacterController characterController;
+    public CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
 
     [HideInInspector]
     public bool canMove = true;
     public bool canSprint = true;
+    public bool isRunning { get; private set; } = false;
 
     [SerializeField] private GameObject head;
     [SerializeField] private Animator anim;
@@ -53,8 +56,8 @@ public class SC_FPSController : NetworkBehaviour
             }
         }
 
-        characterController = GetComponent<CharacterController>();
         gameObject.name = SteamClient.Name;
+        steamName.Value = SteamClient.Name;
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -70,7 +73,7 @@ public class SC_FPSController : NetworkBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         // Press Left Shift to run
-        bool isRunning = canSprint && Input.GetKey(KeyCode.LeftShift);
+        isRunning = canSprint && Input.GetKey(KeyCode.LeftShift);
         float speed = isRunning ? runningSpeed : walkingSpeed;
 
         float curSpeedX = canMove ? Input.GetAxisRaw("Vertical") : 0;
