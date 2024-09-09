@@ -27,13 +27,7 @@ public class PlayerItemHolder : NetworkBehaviour
         }
 
         itemInHand = newItem;
-        itemInHand.GetComponent<Rigidbody>().freezeRotation = true;
-        itemInHand.GetComponent<Rigidbody>().useGravity = false;
-
-        if(itemInHand.GetComponent<BoxCollider>() != null)
-            itemInHand.GetComponent<BoxCollider>().enabled = false;
-        else if(itemInHand.GetComponent<SphereCollider>() != null)
-            itemInHand.GetComponent<SphereCollider>().enabled = false;
+        CollectItemServerRpc(itemInHand.GetComponent<NetworkObject>().NetworkObjectId);
 
         SetHandConstraintWeightServerRpc(1);
     }
@@ -42,22 +36,44 @@ public class PlayerItemHolder : NetworkBehaviour
     {
         itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
 
-        if (itemInHand.GetComponent<BoxCollider>() != null)
-            itemInHand.GetComponent<BoxCollider>().enabled = true;
-        else if (itemInHand.GetComponent<SphereCollider>() != null)
-            itemInHand.GetComponent<SphereCollider>().enabled = true;
-
-        Rigidbody rb = itemInHand.GetComponent<Rigidbody>();
-        rb.freezeRotation = false;
-        rb.useGravity = true;
-        rb.velocity = GetComponent<CharacterController>().velocity;
-        rb.AddForce(head.forward * dropPower, ForceMode.Impulse);
-        rb.AddTorque(new Vector3(Random.Range(0.0f, 0.01f), Random.Range(0.0f, 0.01f), Random.Range(0.0f, 0.01f)) * dropPower, ForceMode.Impulse);
+        DropItemServerRpc(itemInHand.GetComponent<NetworkObject>().NetworkObjectId, GetComponent<CharacterController>().velocity, head.forward);
 
         itemInHand = null;
         SetHandConstraintWeightServerRpc(0);
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void CollectItemServerRpc(ulong id)
+    {
+        Transform item = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].transform;
+
+        item.GetComponent<Rigidbody>().freezeRotation = true;
+        item.GetComponent<Rigidbody>().useGravity = false;
+
+        if (item.GetComponent<BoxCollider>() != null)
+            item.GetComponent<BoxCollider>().enabled = false;
+        else if (item.GetComponent<SphereCollider>() != null)
+            item.GetComponent<SphereCollider>().enabled = false;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DropItemServerRpc(ulong id, Vector3 vel, Vector3 headf)
+    {
+        Transform item = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].transform;
+
+        if (item.GetComponent<BoxCollider>() != null)
+            item.GetComponent<BoxCollider>().enabled = true;
+        else if (item.GetComponent<SphereCollider>() != null)
+            item.GetComponent<SphereCollider>().enabled = true;
+
+        Rigidbody rb = item.GetComponent<Rigidbody>();
+        rb.freezeRotation = false;
+        rb.useGravity = true;
+        rb.velocity = vel;
+        rb.AddForce(headf * dropPower, ForceMode.Impulse);
+        rb.AddTorque(new Vector3(Random.Range(0.0f, 0.01f), Random.Range(0.0f, 0.01f), Random.Range(0.0f, 0.01f)) * dropPower, ForceMode.Impulse);
+
+    }
 
     public void ConsumeItem()
     {
