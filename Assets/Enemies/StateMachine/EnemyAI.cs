@@ -188,7 +188,7 @@ public class EnemyAI : StateMachine
             seePlayer = false;
             target = null;
             sqrDistanceToTarget = Mathf.Infinity;
-            targetPos = Vector3.zero;
+            targetPos = transform.position;
             SelectTarget();
         }
     }

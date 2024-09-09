@@ -94,17 +94,27 @@ public class PlayerStats : NetworkBehaviour
         if (Health <= 0)
         {
             isAlive.Value = false;
+            NetworkGameManager.instance.HandleDeadPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
         }
-
-        Shake(0.2f, 0.25f);
-        Slow(1f, 1);
+        else
+        {
+            Shake(0.2f, 0.25f);
+            Slow(1f, 1);
+        }
     }
+
 
     public void HealPlayer(float hp)
     {
         Health += hp;
-        if(Health < maxHealth)
+        if(Health > maxHealth)
             Health = maxHealth;
+    }
+
+    public void RevivePlayer()
+    {
+        isAlive.Value = true;
+        HealPlayer(1000);
     }
 
     public void Shake(float duration, float magnitude)

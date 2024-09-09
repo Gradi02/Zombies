@@ -10,8 +10,11 @@ public class NetworkGameManager : NetworkBehaviour
 
     public Dictionary<ulong, GameObject> playersServerList = new Dictionary<ulong, GameObject>();
     public List<EnemyAI> enemiesServerList = new List<EnemyAI>();
+    public int deadPlayers { get; private set; } = 0;
 
     [HideInInspector] public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    
+    
     [SerializeField] private GameObject barrier;
     [SerializeField] private LightingManager lighting;
     [SerializeField] private GameObject pc;
@@ -20,6 +23,7 @@ public class NetworkGameManager : NetworkBehaviour
     public int currentDay { get; private set; } = 0;
     [SerializeField] private EnemySpawner spawner;
     public Volume globalVolume;
+    [SerializeField] private GameObject gravePrefab;
     private void Awake()
     {
         if (instance == null)
@@ -166,5 +170,43 @@ public class NetworkGameManager : NetworkBehaviour
     public void UpdateDayValue(int nday)
     {
         currentDay = nday;
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HandleDeadPlayerServerRpc(ulong playerId)
+    {
+        Transform deadPlayer = NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject.transform;
+
+        GameObject grave = Instantiate(gravePrefab, deadPlayer.transform.position, Quaternion.identity);
+        grave.GetComponent<NetworkObject>().Spawn();
+        grave.GetComponent<GraveManager>().deadPlayerId = playerId;
+
+        deadPlayers++;
+        ControllGameState();
+    }
+
+    private void ControllGameState()
+    {
+        if(deadPlayers == NetworkManager.Singleton.ConnectedClients.Count)
+        {
+            Debug.LogWarning("GAMEOVER!!!!!!!!!!!!!");
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HandlePlayerReviveServerRpc(ulong playerId)
+    {
+        RevivePlayerClientRpc(playerId);
+        deadPlayers--;
+    }
+
+    [ClientRpc]
+    private void RevivePlayerClientRpc(ulong id)
+    {
+        if(NetworkManager.Singleton.LocalClientId == id)
+        {
+            NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerStats>().RevivePlayer();
+        }
     }
 }
