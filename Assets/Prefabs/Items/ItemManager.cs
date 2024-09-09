@@ -109,7 +109,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
         }
         else
         {
-            if(IsHost)
+            if(IsHost && GetComponent<Rigidbody>().velocity.magnitude > 0.1f)
             {
                 SyncItemTransformClientRpc(transform.position, transform.rotation);
             }
