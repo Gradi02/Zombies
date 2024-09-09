@@ -9,8 +9,8 @@ using TMPro;
 public class PlayerInteraction : NetworkBehaviour
 {
     public Camera cam;
-    public KeyCode interactKey = KeyCode.E;
-    public KeyCode dropItemKey = KeyCode.Q;
+    public static KeyCode interactKey = KeyCode.E;
+    public static KeyCode dropItemKey = KeyCode.Q;
     public float interactDistance = 5;
     public LayerMask interactionLayer, grabLootMask;
 
@@ -58,7 +58,8 @@ public class PlayerInteraction : NetworkBehaviour
                 inter = hit.collider.GetComponent<IInteractable>();
             }
 
-            interactText.text = inter.GetInteractionText();
+            if(inter != null)
+                interactText.text = inter.GetInteractionText();
 
             if (Input.GetKeyDown(interactKey))
             {

@@ -2,9 +2,12 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
+using Unity.Netcode;
 
-public class PostProcessingController : MonoBehaviour
+public class PostProcessingController : NetworkBehaviour
 {
+    [SerializeField] private Gradient vignetteHealthGradient;
+    [SerializeField] private PlayerStats stats;
     private Volume globalVolume => NetworkGameManager.instance.globalVolume;
     private Vignette vignette;
     private LensDistortion lensDistortion;
@@ -20,6 +23,8 @@ public class PostProcessingController : MonoBehaviour
 
     private void Start()
     {
+        if (!IsOwner) return;
+
         if (globalVolume.profile.TryGet(out vignette) &&
             globalVolume.profile.TryGet(out lensDistortion) &&
             globalVolume.profile.TryGet(out chromaticAberration) &&
@@ -78,11 +83,16 @@ public class PostProcessingController : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner) return;
+
         if(effectStarted && Time.time > timeToEndEffect)
         {
             effectStarted = false;
             StopAllCoroutines();
             ChangeEffectsOverTime(0.25f, 0f, 0f, 0f, 5f);
         }
+
+        float hpValue = stats.Health / stats.maxHealth;
+        vignette.color.Override(vignetteHealthGradient.Evaluate(hpValue));
     }
 }

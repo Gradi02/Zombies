@@ -15,13 +15,14 @@ public class EnemySpawner : NetworkBehaviour
     private int day => NetworkGameManager.instance.currentDay;
     private int[] maxZombiesOnMap =
     {
-        15,
-        18,
         20,
         25,
         30,
-        35,
         40,
+        50,
+        60,
+        70,
+        80,
         100
     };
 
