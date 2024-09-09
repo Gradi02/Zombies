@@ -56,10 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc49e9d2305d1b44c867eb0036d36981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentID:
-    m_InternalValue: 100
   itemId: Cure Bottle
   usable: 0
+  dmgToUse: 0
 --- !u!114 &-7155344782323302324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +113,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2651388959357059307}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 

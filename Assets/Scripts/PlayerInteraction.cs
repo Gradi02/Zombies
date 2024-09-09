@@ -64,7 +64,7 @@ public class PlayerInteraction : NetworkBehaviour
             {
                 try
                 {
-                    ulong id = NetworkManager.Singleton.LocalClientId;
+                    ulong id = GetComponent<NetworkObject>().NetworkObjectId;
                     inter.MakeInteraction(id, playerItemHolder);
                 }
                 catch (Exception e)
