@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 public class ItemManager : NetworkBehaviour, IInteractable
 {
-    private NetworkVariable<ulong> parentID = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private PlayerItemHolder pih;
     public string itemId = "";
     public bool usable = false;
@@ -15,7 +15,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
 
     public void MakeInteraction(ulong ID, PlayerItemHolder ph)
     {
-        if(parentID.Value == 0)
+        if(parentID.Value == 100)
         {
             ph.CollectItem(gameObject);
             UpdateItemParentServerRpc(ID);
@@ -75,7 +75,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     [ServerRpc(RequireOwnership = false)]
     public void ResetItemParentServerRpc()
     {
-        parentID.Value = 0;
+        parentID.Value = 100;
         pih = null;
     }
 
@@ -88,7 +88,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     private void LateUpdate()
     {
         //if (!IsServer) return;
-        if (parentID.Value != 0)
+        if (parentID.Value != 100)
         {
             if (pih != null)
             {
