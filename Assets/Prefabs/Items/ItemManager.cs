@@ -7,6 +7,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
 {
     private NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private PlayerItemHolder pih;
+
     public string itemId = "";
     public bool usable = false;
     public bool dmgToUse = false;
@@ -76,6 +77,12 @@ public class ItemManager : NetworkBehaviour, IInteractable
     public void ResetItemParentServerRpc()
     {
         parentID.Value = 100;
+        ResetPihClientRpc();
+    }
+
+    [ClientRpc]
+    private void ResetPihClientRpc()
+    {
         pih = null;
     }
 
