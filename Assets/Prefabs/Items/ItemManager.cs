@@ -98,7 +98,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
             {
                 try
                 {
-                    Transform parent = NetworkManager.Singleton.SpawnManager.SpawnedObjects[parentID.Value].transform;
+                    Transform parent = NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(parentID.Value).transform;
                     pih = parent.GetComponent<PlayerItemHolder>();
                 }
                 catch
