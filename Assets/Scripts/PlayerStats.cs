@@ -95,6 +95,8 @@ public class PlayerStats : NetworkBehaviour
         {
             isAlive.Value = false;
             NetworkGameManager.instance.HandleDeadPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+            GetComponent<PlayerInteraction>().enabled = false;
+            GetComponent<PlayerShooting>().enabled = false;
         }
         else
         {
@@ -115,6 +117,8 @@ public class PlayerStats : NetworkBehaviour
     {
         isAlive.Value = true;
         HealPlayer(1000);
+        GetComponent<PlayerInteraction>().enabled = true;
+        GetComponent<PlayerShooting>().enabled = true;
     }
 
     public void Shake(float duration, float magnitude)

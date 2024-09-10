@@ -12,6 +12,7 @@ public class PlayerItemHolder : NetworkBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private TwoBoneIKConstraint itemHandConstraint;
     private KeyCode useItemButton = KeyCode.Mouse1;
+    public Camera cam;
 
     private void Start()
     {
