@@ -11,7 +11,7 @@ public class PlayerInteraction : NetworkBehaviour
     public Camera cam;
     public static KeyCode interactKey = KeyCode.E;
     public static KeyCode dropItemKey = KeyCode.Q;
-    public float interactDistance = 5;
+    public static float interactDistance = 5;
     public LayerMask interactionLayer, grabLootMask;
 
     public PlayerItemHolder playerItemHolder;

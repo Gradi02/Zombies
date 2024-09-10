@@ -1368,9 +1368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 4817538318915063867}
-  interactKey: 101
-  dropItemKey: 113
-  interactDistance: 2
   interactionLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -1397,6 +1394,7 @@ MonoBehaviour:
   dropPower: 5
   head: {fileID: 7519632586781879555}
   itemHandConstraint: {fileID: 8553721905936859153}
+  cam: {fileID: 4817538318915063867}
 --- !u!114 &4974944115517592645
 MonoBehaviour:
   m_ObjectHideFlags: 0

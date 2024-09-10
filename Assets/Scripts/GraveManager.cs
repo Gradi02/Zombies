@@ -9,9 +9,16 @@ public class GraveManager : NetworkBehaviour, IInteractable
     private float timeToRevive = 10;
     private float timeLeft = 10;
     private bool interacted = false, reviving = false;
+    private PlayerItemHolder reviver;
+    public LayerMask interactionLayer;
     public string GetInteractionText()
     {
-        return "Hold E To Revive Your Friend!";
+        if(!reviving && !interacted)
+        {
+            return "Hold E To Revive Your Friend!";
+        }
+
+        return "Reviving Friend: " + timeLeft.ToString("F2") + "s";
     }
 
     public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null)
@@ -20,6 +27,7 @@ public class GraveManager : NetworkBehaviour, IInteractable
         {
             timeLeft = timeToRevive;
             interacted = true;
+            reviver = playerItemHolder;
         }
     }
 
@@ -27,9 +35,14 @@ public class GraveManager : NetworkBehaviour, IInteractable
     {
         if(interacted)
         {
-            reviving = Input.GetKey(PlayerInteraction.interactKey);
+            RaycastHit hit;
+            Camera cam = reviver.cam;
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Physics.Raycast(ray, out hit, PlayerInteraction.interactDistance, interactionLayer);
 
-            if(Input.GetKeyUp(PlayerInteraction.interactKey))
+            reviving = Input.GetKey(PlayerInteraction.interactKey) && hit.collider != null && hit.collider.gameObject == this.gameObject;
+
+            if (!reviving || Input.GetKeyUp(PlayerInteraction.interactKey))
             {
                 reviving = false;
                 interacted = false;
@@ -42,7 +55,6 @@ public class GraveManager : NetworkBehaviour, IInteractable
         if(reviving)
         {
             timeLeft -= Time.fixedDeltaTime;
-            Debug.Log(timeLeft);
 
             if(timeLeft <= 0)
             {
