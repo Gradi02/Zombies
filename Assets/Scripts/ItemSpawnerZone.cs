@@ -6,7 +6,7 @@ using Unity.Netcode;
 public class ItemSpawnerZone : MonoBehaviour
 {
     [SerializeField] private int itemsToSpawn = 5;
-    [SerializeField] private List<Transform> spawnAnchors = new();
+    [SerializeField] private List<SpawnAnchors> spawnAnchors = new();
     [SerializeField] private List<ItemsInZone> itemsInZone = new();
 
     public void SpawnItemsInZone()
@@ -22,29 +22,71 @@ public class ItemSpawnerZone : MonoBehaviour
 
     private IEnumerator IESpawnItemsInZone()
     {
-        List<Transform> anchorsCopy = new List<Transform>(spawnAnchors);
+        List<SpawnAnchors> anchorsCopy = new List<SpawnAnchors>(spawnAnchors);
+        List<SpawnAnchors> anchorsCopy2 = new();
         List<GameObject> objectsList = new();
+        List<GameObject> staticObjectsList = new();
 
-        for(int i=0; i < itemsInZone.Count; i++)
+        //Create List of all possible Items
+        for (int i=0; i < itemsInZone.Count; i++)
         {
             int num = itemsInZone[i].chance;
             GameObject obj = itemsInZone[i].itemObject;
             for(int j=0; j < num; j++)
             {
-                objectsList.Add(obj);
+                if (itemsInZone[i].isStatic)
+                    staticObjectsList.Add(obj);
+                else
+                    objectsList.Add(obj);
             }
         }
 
+        //Create List of all possible Anchors
+        for (int j = 0; j < anchorsCopy.Count; j++)
+        {
+            if (anchorsCopy[j].isStatic)
+            {
+                anchorsCopy2.Add(anchorsCopy[j]);
+                anchorsCopy.RemoveAt(j);
+            }
+        }
+
+        if (anchorsCopy2.Count < itemsToSpawn && anchorsCopy.Count > 0)
+        {
+            int itemsLeft = itemsToSpawn - anchorsCopy2.Count;
+            for (int j = 0; j < itemsLeft; j++)
+            {
+                int rand = Random.Range(0, anchorsCopy.Count);
+                anchorsCopy2.Add(anchorsCopy[rand]);
+                anchorsCopy.RemoveAt(rand);
+            }
+        }
+
+        //Spawn Items
         for (int i = 0; i < itemsToSpawn; i++)
         {
-            int posIdx = Random.Range(0, anchorsCopy.Count);
-            int objIdx = Random.Range(0, objectsList.Count);
+            int posIdx = Random.Range(0, anchorsCopy2.Count);
 
-            GameObject spawnedItem = Instantiate(objectsList[objIdx], anchorsCopy[posIdx].position, anchorsCopy[posIdx].rotation);
-            spawnedItem.GetComponent<NetworkObject>().Spawn();
+            if (staticObjectsList.Count > 0)
+            {
+                int objIdx = Random.Range(0, staticObjectsList.Count);
 
-            objectsList.RemoveAt(objIdx);
-            anchorsCopy.RemoveAt(posIdx);
+                GameObject spawnedItem = Instantiate(staticObjectsList[objIdx], anchorsCopy2[posIdx].spawnTransform.position, anchorsCopy2[posIdx].spawnTransform.rotation);
+                spawnedItem.GetComponent<NetworkObject>().Spawn();
+
+                staticObjectsList.RemoveAt(objIdx);
+            }
+            else
+            {
+                int objIdx = Random.Range(0, objectsList.Count);
+
+                GameObject spawnedItem = Instantiate(objectsList[objIdx], anchorsCopy2[posIdx].spawnTransform.position, anchorsCopy2[posIdx].spawnTransform.rotation);
+                spawnedItem.GetComponent<NetworkObject>().Spawn();
+
+                objectsList.RemoveAt(objIdx);
+            }
+
+            anchorsCopy2.RemoveAt(posIdx);
         }
 
         yield return null;
@@ -56,4 +98,12 @@ public class ItemsInZone
 {
     public GameObject itemObject;
     public int chance;
+    public bool isStatic;
+}
+
+[System.Serializable]
+public class SpawnAnchors
+{
+    public Transform spawnTransform;
+    public bool isStatic;
 }

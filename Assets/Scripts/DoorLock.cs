@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using TMPro;
+using Unity.Collections;
 
 public class DoorLock : NetworkBehaviour
 {
@@ -14,6 +15,8 @@ public class DoorLock : NetworkBehaviour
     [SerializeField] private DoorLockButton[] buttons;
     [SerializeField] private DoorLockButton resetButton, openButton;
     [SerializeField] private Animator doorAnim;
+    [SerializeField] private List<LockDoorHint> hints = new();
+    [SerializeField] private List<Transform> anchors = new();
 
     [ServerRpc(RequireOwnership = false), ContextMenu("code")]
     private void GenerateCodeServerRpc()
@@ -21,7 +24,63 @@ public class DoorLock : NetworkBehaviour
         for (int i = 0; i < 4; i++)
         {
             code[i] = Random.Range(0, 10);
-            Debug.Log(code[i]);
+        }
+
+        List<FixedString512Bytes> hs = new();
+
+        //Hints 1-4
+        for (int i = 0; i < code.Length; i++)
+        {
+            if (Random.Range(0, 2) == 0)
+            {
+                int rand = Random.Range(0, 10);
+                string parity = (rand < code[i] ? "Smaller Than " : "Bigger Than ") + rand;
+                if (rand == code[i]) parity = "Equal To " + rand;
+                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is {parity}");
+            }
+            else
+            {
+                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is Equal To " + code[i]);
+            }
+        }       
+        //Hint 5
+        string sum = (code[0] + code[1] + code[2] + code[3]).ToString();
+        hs.Add("The Sum Of All Digits Of The Code Is Equal To " + sum);
+        //Hints 6-8
+        for (int i = 0; i < code.Length-1; i++)
+        {
+            int sum2 = code[i] + code[i + 1];
+            hs.Add($"The Sum Of The {Ordinal(i+1)} And {Ordinal(i + 2)} Numbers Is Equal To {sum2}");
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            int rand = Random.Range(0, hs.Count);
+            hints[i].hint.Value = hs[rand];
+            hs.RemoveAt(rand);
+
+            int pos = Random.Range(0, anchors.Count);
+            SetTransformsClientRpc(i, pos);
+        }
+    }
+
+    [ClientRpc]
+    private void SetTransformsClientRpc(int i, int pos)
+    {
+        hints[i].transform.position = anchors[pos].transform.position;
+        hints[i].transform.rotation = anchors[pos].transform.rotation;
+        anchors.RemoveAt(pos);
+    }
+
+    string Ordinal(int number)
+    {
+        switch (number)
+        {
+            case 1: return "First";
+            case 2: return "Second";
+            case 3: return "Third";
+            case 4: return "Fourth";
+            default: return number + "th";
         }
     }
 
@@ -129,4 +188,6 @@ public class DoorLock : NetworkBehaviour
             ResetCodeClientRpc();
         }
     }
+
+    
 }
