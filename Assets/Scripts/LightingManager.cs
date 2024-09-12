@@ -94,6 +94,7 @@ public class LightingManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SetupSunServerRpc()
     {
+        NetworkGameManager.instance.UpdateDayValue(currentDay);
         UpdateDayValuesClientRpc(TimeOfDay);
         UpdateLightingClientRpc(TimeOfDay / 24f);
     }

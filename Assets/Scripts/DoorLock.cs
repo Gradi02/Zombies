@@ -19,7 +19,7 @@ public class DoorLock : NetworkBehaviour
     [SerializeField] private List<Transform> anchors = new();
 
     [ServerRpc(RequireOwnership = false), ContextMenu("code")]
-    private void GenerateCodeServerRpc()
+    public void GenerateCodeServerRpc()
     {
         for (int i = 0; i < 4; i++)
         {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8306138964662022336}
   - component: {fileID: 3019335003086993424}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8105727267644710937}
   - component: {fileID: 4369621740645712977}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -690,7 +690,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8239689194765614128}
   - component: {fileID: 8387726830424298378}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5765334908073011509}
   - component: {fileID: 8570361670631840607}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -869,7 +869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574053125391516455}
   - component: {fileID: 4588811988147279643}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -957,7 +957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5913575411742422860}
   - component: {fileID: 8387217160946546695}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1300,6 +1300,81 @@ MonoBehaviour:
   offset: 0
   clips2:
   - {fileID: -203655887218126122, guid: 5934e686c78226442abf138b6007b0dd, type: 3}
+--- !u!1 &1818690778498814204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8234588144380650328}
+  - component: {fileID: 1328709910087471261}
+  - component: {fileID: 6039393857781972214}
+  m_Layer: 13
+  m_Name: icon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8234588144380650328
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818690778498814204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4422983062903396963}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1328709910087471261
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818690778498814204}
+  m_CullTransparentMesh: 1
+--- !u!114 &6039393857781972214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818690778498814204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 492b9988436bd45049a9a6bc52ac8fb0, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1831389003988635532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,7 +1473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6700371888863101334}
   - component: {fileID: 5289549518697892216}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1488,7 +1563,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6485331709409354885}
   - component: {fileID: 5969276281832369925}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1575,7 +1650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8389979937882200468}
   - component: {fileID: 8889536313228729708}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1881,7 +1956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9084530239892894737}
   - component: {fileID: 1411811898193102529}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: torus_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2054,7 +2129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 358048471848865319}
   - component: {fileID: 3720951605636711223}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: torus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2302,7 +2377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8010469269517960186}
   - component: {fileID: 171184154391116595}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2473,6 +2548,7 @@ Transform:
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4422983062903396963}
   - {fileID: 8717726291146422297}
   - {fileID: 6622554889715263238}
   - {fileID: 4037091378078122990}
@@ -3231,7 +3307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3768440676627643797}
   - component: {fileID: 8238141451286149433}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3384,7 +3460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769984061113823852}
   - component: {fileID: 5088096060822591206}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3472,7 +3548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3191327595360557874}
   - component: {fileID: 1847030665621670026}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3596,7 +3672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5098889055572015940}
   - component: {fileID: 595420458645609907}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3997,6 +4073,108 @@ Transform:
   - {fileID: 5226863700103355429}
   m_Father: {fileID: 4509395791851162641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3889196127865160224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4422983062903396963}
+  - component: {fileID: 1977764961412453580}
+  - component: {fileID: 5141150879015517686}
+  - component: {fileID: 4639937235643314401}
+  m_Layer: 13
+  m_Name: mapCanva
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4422983062903396963
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889196127865160224}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.4999998, z: 2.4999998}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 8234588144380650328}
+  m_Father: {fileID: 340703438620957483}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 25}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &1977764961412453580
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889196127865160224}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &5141150879015517686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889196127865160224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!114 &4639937235643314401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889196127865160224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &3915276654942130689
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,7 +4674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4903595758872405335}
   - component: {fileID: 8923778801584031077}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4583,7 +4761,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1330810266780607947}
   - component: {fileID: 2760172898340565425}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4673,7 +4851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4966627978370528577}
   - component: {fileID: 7751521069210824142}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: cuboid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5208,7 +5386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4578005882894029870}
   - component: {fileID: 1296670162212965129}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5306,7 +5484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4117615560960184650}
   - component: {fileID: 2033589234318439438}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5393,7 +5571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 423042106290104027}
   - component: {fileID: 6163364601356041937}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5546,7 +5724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7332772199225883186}
   - component: {fileID: 8339157071261385724}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5668,7 +5846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2220977041948136402}
   - component: {fileID: 5023748235676915823}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6478,7 +6656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2399464128960804278}
   - component: {fileID: 5593677191508570849}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: torus_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6566,7 +6744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8705940129673076150}
   - component: {fileID: 2647873460419270826}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6930,7 +7108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3348232238667257117}
   - component: {fileID: 5373350481804676512}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7219,7 +7397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3098590962992005293}
   - component: {fileID: 976481924653735128}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: beveled_cuboid_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}

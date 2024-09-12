@@ -24,6 +24,7 @@ public class NetworkGameManager : NetworkBehaviour
     [SerializeField] private EnemySpawner spawner;
     public Volume globalVolume;
     [SerializeField] private GameObject gravePrefab;
+    [SerializeField] private DoorLock militaryDoorLock;
     private void Awake()
     {
         if (instance == null)
@@ -143,6 +144,7 @@ public class NetworkGameManager : NetworkBehaviour
         }
 
         OpenBarrierClientRpc();
+        militaryDoorLock.GenerateCodeServerRpc();
     }
 
     [ClientRpc]
@@ -178,7 +180,7 @@ public class NetworkGameManager : NetworkBehaviour
     {
         Transform deadPlayer = NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject.transform;
 
-        GameObject grave = Instantiate(gravePrefab, deadPlayer.transform.position, Quaternion.identity);
+        GameObject grave = Instantiate(gravePrefab, deadPlayer.transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
         grave.GetComponent<NetworkObject>().Spawn();
         grave.GetComponent<GraveManager>().deadPlayerId = playerId;
 
