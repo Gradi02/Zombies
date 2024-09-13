@@ -42,11 +42,14 @@ public class PlayerStats : NetworkBehaviour
     [SerializeField] private Transform imgParent;
     private List<GameObject> imgs = new List<GameObject>();
     private bool slowed = false;
+    [SerializeField] private Image mapicon;
+    [SerializeField] private TextMeshProUGUI emergencyText;
 
     private void Start()
     {
         if (!IsOwner) return;
 
+        mapicon.color = Color.green;
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
         Health = maxHealth;
@@ -91,10 +94,11 @@ public class PlayerStats : NetworkBehaviour
         else
             Health = 0;
 
-        if (Health <= 0)
+        if (Health <= 0 && isAlive.Value)
         {
             isAlive.Value = false;
             NetworkGameManager.instance.HandleDeadPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+            mapicon.enabled = false;
             GetComponent<PlayerInteraction>().enabled = false;
             GetComponent<PlayerShooting>().enabled = false;
         }
@@ -119,6 +123,7 @@ public class PlayerStats : NetworkBehaviour
         HealPlayer(1000);
         GetComponent<PlayerInteraction>().enabled = true;
         GetComponent<PlayerShooting>().enabled = true;
+        mapicon.enabled = true;
     }
 
     public void Shake(float duration, float magnitude)
@@ -197,6 +202,24 @@ public class PlayerStats : NetworkBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        UpdateGameTimeServerRpc();        
+    }
+
+    [ServerRpc]
+    private void UpdateGameTimeServerRpc()
+    {
+        int d = NetworkGameManager.instance.daysToEmergency;
+        int h = NetworkGameManager.instance.hoursToEmergency;
+        UpdateGameTimeClientRpc(d,h);
+    }
+
+    [ClientRpc]
+    private void UpdateGameTimeClientRpc(int d, int h)
+    {
+        emergencyText.text = $"Time To Emergency: {d}d {h}h";
+    }
 
     public void BuyUpgrade(GunUpgrade upgr, int goldToRemove)
     {

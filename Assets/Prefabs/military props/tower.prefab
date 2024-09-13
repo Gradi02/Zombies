@@ -4590,7 +4590,7 @@ GameObject:
   - component: {fileID: 4099980436697712512}
   - component: {fileID: 6074711986078675058}
   - component: {fileID: 3718737994662795892}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: cuboid_74
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7159,7 +7159,7 @@ GameObject:
   - component: {fileID: 405800511850404836}
   - component: {fileID: 6052223988140105377}
   - component: {fileID: 4220580302735418145}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: cuboid_65
   m_TagString: Untagged
   m_Icon: {fileID: 0}

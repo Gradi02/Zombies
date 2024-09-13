@@ -38,6 +38,7 @@ public class EnemyAI : StateMachine
     private bool seePlayer = false;
     private Vector3 eyeLevel = new Vector3(0, 1, 0);
     public GameObject[] bodyParts;
+    [SerializeField] private GameObject minimapCanva;
 
     private void Start()
     {
@@ -50,13 +51,20 @@ public class EnemyAI : StateMachine
         ChangeState(_chillState);
 
         agent.updatePosition = false;
-        agent.updateRotation = false;
+        agent.updateRotation = true;
 
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
             rb.isKinematic = true;
         }
+
+        InvokeRepeating("UpdateAITarget", 0, 0.2f);
+    }
+
+    private void UpdateAITarget()
+    {
+        SetVariables();
     }
 
     private void Update()
@@ -66,7 +74,7 @@ public class EnemyAI : StateMachine
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
-        SetVariables();
+        //SetVariables();
 
         foreach(State s in states)
             s?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
@@ -243,14 +251,14 @@ public class EnemyAI : StateMachine
         agent.nextPosition = transform.position;
 
         // Obliczanie kierunku do steeringTarget
-        Vector3 direction = (agent.steeringTarget - transform.position).normalized;
+/*        Vector3 direction = (agent.steeringTarget - transform.position).normalized;
 
         // Sprawdzenie, czy agent powinien siê obracaæ
         if (direction.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 300);
-        }
+        }*/
     }
 
 
@@ -292,6 +300,7 @@ public class EnemyAI : StateMachine
     public void DeathStateClientRpc()
     {
         isDead = true;
+        minimapCanva.SetActive(false);
 
         foreach (GameObject b in bodyParts)
             b.layer = 10;

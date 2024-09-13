@@ -19,7 +19,7 @@ public class DoorLock : NetworkBehaviour
     [SerializeField] private List<Transform> anchors = new();
 
     [ServerRpc(RequireOwnership = false), ContextMenu("code")]
-    private void GenerateCodeServerRpc()
+    public void GenerateCodeServerRpc()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -31,16 +31,16 @@ public class DoorLock : NetworkBehaviour
         //Hints 1-4
         for (int i = 0; i < code.Length; i++)
         {
-            if (Random.Range(0, 2) == 0)
+            if (Random.Range(0, i+1) == 0)
             {
-                int rand = Random.Range(0, 10);
-                string parity = (rand < code[i] ? "Smaller Than " : "Bigger Than ") + rand;
-                if (rand == code[i]) parity = "Equal To " + rand;
-                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is {parity}");
+                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is Equal To " + code[i]);
             }
             else
             {
-                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is Equal To " + code[i]);
+                int rand = Random.Range(0, 10);
+                string parity = (rand > code[i] ? "Smaller Than " : "Bigger Than ") + rand;
+                if (rand == code[i]) parity = "Equal To " + rand;
+                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is {parity}");
             }
         }       
         //Hint 5

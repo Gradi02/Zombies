@@ -11,6 +11,7 @@ public class LightingManager : NetworkBehaviour
     [SerializeField, Range(0, 24)] private float TimeOfDay;
     [SerializeField, Range(0.001f, 1.0f)] private float Duration;
     [SerializeField] private int currentDay = 0;
+    public int currentHour { get; private set; }
 
     private void Start()
     {
@@ -27,6 +28,8 @@ public class LightingManager : NetworkBehaviour
         if (Application.isPlaying)
         {
             TimeOfDay += Time.deltaTime * Duration;
+            currentHour = Mathf.FloorToInt(TimeOfDay);
+            NetworkGameManager.instance.hoursToEmergency = 23 - currentHour;
 
             if (TimeOfDay >= 24)
             {
@@ -94,6 +97,7 @@ public class LightingManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SetupSunServerRpc()
     {
+        NetworkGameManager.instance.UpdateDayValue(currentDay);
         UpdateDayValuesClientRpc(TimeOfDay);
         UpdateLightingClientRpc(TimeOfDay / 24f);
     }

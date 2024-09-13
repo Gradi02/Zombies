@@ -16,12 +16,8 @@ public class EnemySpawner : NetworkBehaviour
     private int[] maxZombiesOnMap =
     {
         20,
-        25,
         30,
-        40,
         50,
-        60,
-        70,
         80,
         100
     };

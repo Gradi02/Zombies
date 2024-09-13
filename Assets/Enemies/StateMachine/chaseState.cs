@@ -14,6 +14,9 @@ public class chaseState : State
     private float nextSelectState = 0;
     private float rotationSpeed = 50f;
 
+    private float pathUpdateInterval = 0.15f;
+    private float timeSinceLastPathUpdate = 0f;
+
     public override void DoEnter()
     {
         base.DoEnter();
@@ -46,6 +49,7 @@ public class chaseState : State
 
     private void SelectSubState()
     {
+        timeSinceLastPathUpdate += Time.deltaTime;
         if (time > nextSelectState)
         {
             if (sqrDistanceToTarget <= minDistanceToAttack)
@@ -59,8 +63,14 @@ public class chaseState : State
             {
                 machine.ChangeSubState(_runState);
 
-                if(subState == _runState)
-                    agent.destination = targetPos;
+                if (subState == _runState && timeSinceLastPathUpdate > pathUpdateInterval)
+                {
+                    if (agent.remainingDistance > agent.stoppingDistance)
+                    {
+                        agent.destination = targetPos;
+                        timeSinceLastPathUpdate = 0f;
+                    }
+                }
             }
         }
         else if(sqrDistanceToTarget > 7)
@@ -68,12 +78,17 @@ public class chaseState : State
             nextSelectState = 0;
         }
 
-        if(subState == _attackState)
+        if (subState == _attackState)
         {
             Vector3 directionToTarget = (targetPos - agent.transform.position).normalized;
             directionToTarget.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-            agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+            // Sprawdzenie, czy rotacja jest potrzebna
+            if (Vector3.Angle(agent.transform.forward, directionToTarget) > 15)
+            {
+                agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            }
         }
     }
 }
