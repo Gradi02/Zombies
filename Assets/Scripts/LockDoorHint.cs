@@ -14,6 +14,6 @@ public class LockDoorHint : NetworkBehaviour, IInteractable
 
     public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null)
     {
-        Debug.Log(hint.Value);
+        playerItemHolder.GetComponent<DialogueController>().AddDialogueToQueue(hint.Value.ToString(), 5f, true);
     }
 }

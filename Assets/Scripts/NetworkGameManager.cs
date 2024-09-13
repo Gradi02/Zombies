@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Rendering;
+using TMPro;
 
 public class NetworkGameManager : NetworkBehaviour
 {
+    private int startGameTime = 5;
+    public int daysToEmergency { get; private set; }
+    public int hoursToEmergency { get; set; }
     public static NetworkGameManager instance { get; private set; } = null;
 
     public Dictionary<ulong, GameObject> playersServerList = new Dictionary<ulong, GameObject>();
@@ -13,8 +17,8 @@ public class NetworkGameManager : NetworkBehaviour
     public int deadPlayers { get; private set; } = 0;
 
     [HideInInspector] public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    
-    
+    [HideInInspector] public NetworkVariable<bool> tasksStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     [SerializeField] private GameObject barrier;
     [SerializeField] private LightingManager lighting;
     [SerializeField] private GameObject pc;
@@ -25,6 +29,8 @@ public class NetworkGameManager : NetworkBehaviour
     public Volume globalVolume;
     [SerializeField] private GameObject gravePrefab;
     [SerializeField] private DoorLock militaryDoorLock;
+    public MainTasksManager mainTasksManager;
+
     private void Awake()
     {
         if (instance == null)
@@ -144,7 +150,6 @@ public class NetworkGameManager : NetworkBehaviour
         }
 
         OpenBarrierClientRpc();
-        militaryDoorLock.GenerateCodeServerRpc();
     }
 
     [ClientRpc]
@@ -156,7 +161,12 @@ public class NetworkGameManager : NetworkBehaviour
         Debug.Log("Ciocia Dzwoni AAAAAAAAAAAAAA!");
     }
 
-
+    [ServerRpc(RequireOwnership = false)]
+    public void UnlockAllTasksServerRpc()
+    {
+        tasksStarted.Value = true;
+        militaryDoorLock.GenerateCodeServerRpc();
+    }
 
     private IEnumerator PhoneCall()
     {
@@ -172,6 +182,7 @@ public class NetworkGameManager : NetworkBehaviour
     public void UpdateDayValue(int nday)
     {
         currentDay = nday;
+        daysToEmergency = startGameTime - currentDay;
     }
 
 

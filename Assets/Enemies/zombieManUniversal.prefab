@@ -2733,6 +2733,7 @@ MonoBehaviour:
   - {fileID: 6780643506142090914}
   - {fileID: 4973940722545979199}
   - {fileID: 4251553147177715527}
+  minimapCanva: {fileID: 3889196127865160224}
 --- !u!114 &4544505025237926471
 MonoBehaviour:
   m_ObjectHideFlags: 0

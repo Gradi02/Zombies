@@ -9,16 +9,16 @@ public class TaskManager : NetworkBehaviour
     protected NetworkVariable<bool> taskStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<GameObject> possibleTaskItems = new List<GameObject>();
     protected List<string> taskItems = new List<string>();
-    protected int itemsToCollect = 5;
+    protected int itemsToCollect = 3;
     protected GameObject testedItem;
 
     [SerializeField] protected GameObject canva;
     [SerializeField] protected TextMeshProUGUI[] itemsCanva;
-
+    private MainTasksManager mainTaskManager => NetworkGameManager.instance.mainTasksManager;
+    [SerializeField] private string taskName;
 
     protected void StartTask()
     {
-        Debug.Log("Test Started!");
         StartTaskServerRpc();
     }
 
@@ -71,14 +71,13 @@ public class TaskManager : NetworkBehaviour
             taskItems.Remove(idx);
             testedItem.GetComponent<ItemManager>().ConsumeItemServerRpc();
             testedItem = null;
+            mainTaskManager.RequestProgressTaskServerRpc(taskName);
             RefreshCanvaItemsServerRpc();
-            Debug.Log("Dodano Przedmiot!");
         }
 
         if(taskItems.Count == 0)
         {
-            gameObject.layer = 0;
-            Debug.Log("Task Ukoñczony!!!!");
+            gameObject.layer = 0;           
         }
     }
 
