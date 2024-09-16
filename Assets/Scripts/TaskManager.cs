@@ -9,7 +9,8 @@ public class TaskManager : NetworkBehaviour
     protected NetworkVariable<bool> taskStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<GameObject> possibleTaskItems = new List<GameObject>();
     protected List<string> taskItems = new List<string>();
-    protected int itemsToCollect = 3;
+    [SerializeField] private int baseItemsToCollect;
+    private int itemsToCollect;
     protected GameObject testedItem;
 
     [SerializeField] protected GameObject canva;
@@ -27,6 +28,9 @@ public class TaskManager : NetworkBehaviour
     private void StartTaskServerRpc()
     {
         taskStarted.Value = true;
+        itemsToCollect = baseItemsToCollect + NetworkManager.Singleton.ConnectedClients.Count;
+        mainTaskManager.GetTaskByName(taskName).taskSteps = itemsToCollect;
+
         for(int i=0; i<itemsToCollect; i++)
         {
             if (possibleTaskItems.Count > 0)

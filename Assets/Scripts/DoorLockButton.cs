@@ -6,7 +6,7 @@ public class DoorLockButton : MonoBehaviour, IInteractable
 {
     [SerializeField] private DoorLock doorLock;
     [SerializeField] private int num;
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "";
     }

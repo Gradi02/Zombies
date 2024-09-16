@@ -26,7 +26,7 @@ public class EnemyAI : StateMachine
     private Rigidbody[] ragdollRigidbodies;
 
     //States Var
-    private float maxDistanceToTarget = 1000;
+    private float maxDistanceToTarget = 2000;
     public LayerMask obstacleMask;
 
     public List<GameObject> players = null;
@@ -59,7 +59,7 @@ public class EnemyAI : StateMachine
             rb.isKinematic = true;
         }
 
-        InvokeRepeating("UpdateAITarget", 0, 0.2f);
+        InvokeRepeating("UpdateAITarget", 0, 0.15f);
     }
 
     private void UpdateAITarget()

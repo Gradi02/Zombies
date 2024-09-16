@@ -1444,7 +1444,7 @@ MonoBehaviour:
         byte0124: 0
         byte0125: 0
   walkingSpeed: 6
-  runningSpeed: 10
+  runningSpeed: 20
   jumpSpeed: 7
   gravity: 20
   playerCamera: {fileID: 4817538318915063867}

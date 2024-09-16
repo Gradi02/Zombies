@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc49e9d2305d1b44c867eb0036d36981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: Cure Bottle
+  itemId: Hammer
   usable: 0
   dmgToUse: 0
 --- !u!114 &-8943530424407753782

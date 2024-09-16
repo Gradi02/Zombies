@@ -6,6 +6,7 @@ public class runState : State
 {
     public override void DoEnter()
     {
+        agent.destination =  targetPos;
         base.DoEnter();
     }
 
@@ -21,6 +22,7 @@ public class runState : State
 
     public override void DoExit()
     {
+        agent.ResetPath(); 
         base.DoExit();
     }
 }

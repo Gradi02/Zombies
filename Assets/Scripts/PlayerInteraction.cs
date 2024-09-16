@@ -11,7 +11,7 @@ public class PlayerInteraction : NetworkBehaviour
     public Camera cam;
     public static KeyCode interactKey = KeyCode.E;
     public static KeyCode dropItemKey = KeyCode.Q;
-    public static float interactDistance = 5;
+    public static float interactDistance = 4;
     public LayerMask interactionLayer, grabLootMask;
 
     public PlayerItemHolder playerItemHolder;
@@ -59,7 +59,7 @@ public class PlayerInteraction : NetworkBehaviour
             }
 
             if(inter != null)
-                interactText.text = inter.GetInteractionText();
+                interactText.text = inter.GetInteractionText(playerItemHolder);
 
             if (Input.GetKeyDown(interactKey))
             {
