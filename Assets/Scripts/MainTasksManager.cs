@@ -7,11 +7,12 @@ using TMPro;
 public class MainTasksManager : NetworkBehaviour, IInteractable
 {
     private bool tasksStarted = false;
+    private bool tasksFinished = false;
 
     [SerializeField] private GameObject tasksCanva;
     [SerializeField] private MainTasks[] maintasks;
 
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Interact!";
     }
@@ -25,24 +26,19 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
         }
     }
 
-    void FixedUpdate()
+    public MainTasks GetTaskByName(string nm)
     {
         for(int i = 0; i < maintasks.Length; i++)
         {
-            maintasks[i].taskProgressText.text = $"{maintasks[i].taskProgress} / {maintasks[i].taskSteps}";
-
-            if (maintasks[i].finished)
+            if (maintasks[i].taskName == nm)
             {
-                maintasks[i].taskProgressText.color = Color.green;
-                maintasks[i].taskParentText.color = Color.green;
-            }
-            else
-            {
-                maintasks[i].taskProgressText.color = Color.white;
-                maintasks[i].taskParentText.color = Color.white;
+                return maintasks[i];
             }
         }
+
+        return null;
     }
+
 
     [ServerRpc(RequireOwnership = false)]
     private void StartTasksServerRpc()
@@ -69,9 +65,13 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
                 if (!maintasks[i].finished)
                 {
                     maintasks[i].taskProgress++;
+                    ShowTasksInfoClientRpc(i, maintasks[i].taskProgress);
                     if (maintasks[i].taskProgress >= maintasks[i].taskSteps)
                     {
-                        ShowTasksInfoClientRpc(i, maintasks[i].taskProgress);
+                        maintasks[i].finished = true;
+                        maintasks[i].taskProgressText.color = Color.green;
+                        maintasks[i].taskParentText.color = Color.green;
+                        CheckAllTasksServerRpc();
                     }
                 }
                 else
@@ -90,6 +90,34 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
     private void ShowTasksInfoClientRpc(int idx, int progress)
     {
         maintasks[idx].taskProgress = progress;
+        maintasks[idx].taskProgressText.text = $"{maintasks[idx].taskProgress} / {maintasks[idx].taskSteps}";
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CheckAllTasksServerRpc()
+    {
+        bool notAll = false;
+        for (int i = 0; i < maintasks.Length; i++)
+        {
+            if (!maintasks[i].finished)
+            {
+                notAll = true;
+                break;
+            }
+        }
+
+        if(!notAll)
+        {
+            FinishAllTasksClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    private void FinishAllTasksClientRpc()
+    {
+        tasksFinished = true;
+        tasksCanva.SetActive(false);
     }
 }
 

@@ -11,7 +11,7 @@ public class GraveManager : NetworkBehaviour, IInteractable
     private bool interacted = false, reviving = false;
     private PlayerItemHolder reviver;
     public LayerMask interactionLayer;
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         if(!reviving && !interacted)
         {

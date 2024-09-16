@@ -43,7 +43,7 @@ public class DeadEnemyManager : NetworkBehaviour, IInteractable
         }
     }
 
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Search Body!";
     }

@@ -7,7 +7,7 @@ using Unity.Collections;
 public class LockDoorHint : NetworkBehaviour, IInteractable
 {
     [HideInInspector] public NetworkVariable<FixedString512Bytes> hint = new NetworkVariable<FixedString512Bytes>("nope", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E to Interact!";
     }

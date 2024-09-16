@@ -25,7 +25,7 @@ public class GetRecipeTask : TaskManager, IInteractable
         }
     }
 
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Interact!";
     }

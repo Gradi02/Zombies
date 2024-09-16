@@ -10,7 +10,7 @@ public class PhoneCall : MonoBehaviour, IInteractable
         gameObject.layer = 0;
     }
 
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Interact!";
     }
