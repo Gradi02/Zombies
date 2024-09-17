@@ -12,6 +12,7 @@ public class PlayerItemHolder : NetworkBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private TwoBoneIKConstraint itemHandConstraint;
     private KeyCode useItemButton = KeyCode.Mouse1;
+    public Camera cam;
 
     private void Start()
     {
@@ -34,9 +35,8 @@ public class PlayerItemHolder : NetworkBehaviour
 
     public void DropItem()
     {
-        itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
-
         DropItemServerRpc(itemInHand.GetComponent<NetworkObject>().NetworkObjectId, GetComponent<CharacterController>().velocity, head.forward);
+        itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
 
         itemInHand = null;
         SetHandConstraintWeightServerRpc(0);
@@ -61,10 +61,6 @@ public class PlayerItemHolder : NetworkBehaviour
     {
         Transform item = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].transform;
 
-        if (item.GetComponent<BoxCollider>() != null)
-            item.GetComponent<BoxCollider>().enabled = true;
-        else if (item.GetComponent<SphereCollider>() != null)
-            item.GetComponent<SphereCollider>().enabled = true;
 
         Rigidbody rb = item.GetComponent<Rigidbody>();
         rb.freezeRotation = false;
@@ -73,22 +69,27 @@ public class PlayerItemHolder : NetworkBehaviour
         rb.AddForce(headf * dropPower, ForceMode.Impulse);
         rb.AddTorque(new Vector3(Random.Range(0.0f, 0.01f), Random.Range(0.0f, 0.01f), Random.Range(0.0f, 0.01f)) * dropPower, ForceMode.Impulse);
 
+        if (item.GetComponent<BoxCollider>() != null)
+            item.GetComponent<BoxCollider>().enabled = true;
+        else if (item.GetComponent<SphereCollider>() != null)
+            item.GetComponent<SphereCollider>().enabled = true;
     }
 
     public void ConsumeItem()
     {
         itemInHand.GetComponent<ItemManager>().ResetItemParentServerRpc();
-        DestroyItemServerRpc(); 
+        DestroyItemServerRpc(itemInHand.GetComponent<NetworkObject>().NetworkObjectId); 
 
         itemInHand = null;
         SetHandConstraintWeightServerRpc(0);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DestroyItemServerRpc()
+    private void DestroyItemServerRpc(ulong id)
     {
-        itemInHand.GetComponent<NetworkObject>().Despawn();
-        Destroy(itemInHand);
+        Transform item = NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].transform;
+        item.GetComponent<NetworkObject>().Despawn();
+        Destroy(item);
     }
 
 

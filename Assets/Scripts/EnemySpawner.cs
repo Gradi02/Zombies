@@ -15,13 +15,10 @@ public class EnemySpawner : NetworkBehaviour
     private int day => NetworkGameManager.instance.currentDay;
     private int[] maxZombiesOnMap =
     {
-        15,
-        18,
         20,
-        25,
         30,
-        35,
-        40,
+        50,
+        80,
         100
     };
 
@@ -30,7 +27,8 @@ public class EnemySpawner : NetworkBehaviour
         if (!IsServer || !isEnabled) return;
 
         int idx = day > maxZombiesOnMap.Length ? maxZombiesOnMap[maxZombiesOnMap.Length - 1] : maxZombiesOnMap[day];
-        if (NetworkGameManager.instance.enemiesServerList.Count < idx)
+        float multiplayerMultiplier = (NetworkManager.Singleton.ConnectedClients.Count-1) * 0.2f + 1;
+        if (NetworkGameManager.instance.enemiesServerList.Count < idx * multiplayerMultiplier)
         {
             SpawnEnemyServerRpc();
         }

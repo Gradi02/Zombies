@@ -32,6 +32,37 @@ public class SC_FPSController : NetworkBehaviour
 
     void Start()
     {
+        if(IsOwner)
+        {
+            foreach (Transform g1 in playerMeshs.GetComponentInChildren<Transform>())
+            {
+                foreach (Transform g2 in g1.GetComponentInChildren<Transform>())
+                {
+                    g2.gameObject.layer = 11;
+
+                    foreach (Transform g3 in g2.GetComponentInChildren<Transform>())
+                    {
+                        g3.gameObject.layer = 11;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (Transform g1 in playerMeshs.GetComponentInChildren<Transform>())
+            {
+                foreach (Transform g2 in g1.GetComponentInChildren<Transform>())
+                {
+                    g2.gameObject.layer = 12;
+
+                    foreach (Transform g3 in g2.GetComponentInChildren<Transform>())
+                    {
+                        g3.gameObject.layer = 12;
+                    }
+                }
+            }
+        }
+
         if (!IsOwner)
         {
             playerCamera.gameObject.SetActive(false);
@@ -42,19 +73,6 @@ public class SC_FPSController : NetworkBehaviour
         }
 
         GetComponent<PlayerShooting>().enabled = true;
-
-        foreach (Transform g1 in playerMeshs.GetComponentInChildren<Transform>())
-        {
-            foreach (Transform g2 in g1.GetComponentInChildren<Transform>())
-            {
-                g2.gameObject.layer = 11;
-
-                foreach (Transform g3 in g2.GetComponentInChildren<Transform>())
-                {
-                    g3.gameObject.layer = 11;
-                }
-            }
-        }
 
         gameObject.name = SteamClient.Name;
         steamName.Value = SteamClient.Name;

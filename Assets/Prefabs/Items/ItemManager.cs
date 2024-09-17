@@ -7,6 +7,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
 {
     private NetworkVariable<ulong> parentID = new(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private PlayerItemHolder pih;
+
     public string itemId = "";
     public bool usable = false;
     public bool dmgToUse = false;
@@ -26,7 +27,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
         }
     }
 
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Collect " + itemId + "!";
     }
@@ -76,11 +77,17 @@ public class ItemManager : NetworkBehaviour, IInteractable
     public void ResetItemParentServerRpc()
     {
         parentID.Value = 100;
+        ResetPihClientRpc();
+    }
+
+    [ClientRpc]
+    private void ResetPihClientRpc()
+    {
         pih = null;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void UpdateItemParentServerRpc(ulong id)
+    public void UpdateItemParentServerRpc(ulong id)
     {
         parentID.Value = id;
     }

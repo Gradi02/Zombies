@@ -6,5 +6,5 @@ public interface IInteractable
 {
     public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null);
 
-    public string GetInteractionText();
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null);
 }

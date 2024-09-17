@@ -9,16 +9,18 @@ public class TaskManager : NetworkBehaviour
     protected NetworkVariable<bool> taskStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<GameObject> possibleTaskItems = new List<GameObject>();
     protected List<string> taskItems = new List<string>();
-    protected int itemsToCollect = 5;
+    [SerializeField] private int baseItemsToCollect;
+    private int itemsToCollect;
     protected GameObject testedItem;
 
     [SerializeField] protected GameObject canva;
     [SerializeField] protected TextMeshProUGUI[] itemsCanva;
-
+    private MainTasksManager mainTaskManager => NetworkGameManager.instance.mainTasksManager;
+    [SerializeField] private string taskName;
+    [SerializeField] private AIDGenerator aidgen;
 
     protected void StartTask()
     {
-        Debug.Log("Test Started!");
         StartTaskServerRpc();
     }
 
@@ -27,6 +29,10 @@ public class TaskManager : NetworkBehaviour
     private void StartTaskServerRpc()
     {
         taskStarted.Value = true;
+        itemsToCollect = baseItemsToCollect + NetworkManager.Singleton.ConnectedClients.Count;
+        if(taskName != string.Empty)
+            mainTaskManager.GetTaskByName(taskName).taskSteps = itemsToCollect;
+
         for(int i=0; i<itemsToCollect; i++)
         {
             if (possibleTaskItems.Count > 0)
@@ -71,14 +77,17 @@ public class TaskManager : NetworkBehaviour
             taskItems.Remove(idx);
             testedItem.GetComponent<ItemManager>().ConsumeItemServerRpc();
             testedItem = null;
+            if(taskName != string.Empty)
+                mainTaskManager.RequestProgressTaskServerRpc(taskName);
             RefreshCanvaItemsServerRpc();
-            Debug.Log("Dodano Przedmiot!");
         }
 
         if(taskItems.Count == 0)
         {
             gameObject.layer = 0;
-            Debug.Log("Task Ukoñczony!!!!");
+
+            if (aidgen != null)
+                aidgen.StartAIDGeneratorServerRpc();
         }
     }
 

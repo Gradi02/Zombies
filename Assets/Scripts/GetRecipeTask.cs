@@ -8,7 +8,7 @@ public class GetRecipeTask : TaskManager, IInteractable
 
     public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null)
     {
-        if (!NetworkGameManager.instance.gameStarted.Value) return;
+        if (!NetworkGameManager.instance.gameStarted.Value || !NetworkGameManager.instance.tasksStarted.Value) return;
 
         if(!taskStarted.Value)
         {
@@ -25,7 +25,7 @@ public class GetRecipeTask : TaskManager, IInteractable
         }
     }
 
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Interact!";
     }

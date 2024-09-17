@@ -22,9 +22,9 @@ TagManager:
   - EnemyBody
   - Interaction
   - SelfBody
-  - 
-  - 
-  - 
+  - TeamBody
+  - minimap
+  - noNavMesh
   - 
   - 
   - 

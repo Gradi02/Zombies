@@ -25,7 +25,7 @@ public class Upgrader : NetworkBehaviour, IInteractable
             ResetUpgradeServerRpc();
         }
     }
-    public string GetInteractionText()
+    public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         return "Press E To Buy Upgrade!";
     }
