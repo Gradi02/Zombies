@@ -17,6 +17,7 @@ public class TaskManager : NetworkBehaviour
     [SerializeField] protected TextMeshProUGUI[] itemsCanva;
     private MainTasksManager mainTaskManager => NetworkGameManager.instance.mainTasksManager;
     [SerializeField] private string taskName;
+    [SerializeField] private AIDGenerator aidgen;
 
     protected void StartTask()
     {
@@ -29,7 +30,8 @@ public class TaskManager : NetworkBehaviour
     {
         taskStarted.Value = true;
         itemsToCollect = baseItemsToCollect + NetworkManager.Singleton.ConnectedClients.Count;
-        mainTaskManager.GetTaskByName(taskName).taskSteps = itemsToCollect;
+        if(taskName != string.Empty)
+            mainTaskManager.GetTaskByName(taskName).taskSteps = itemsToCollect;
 
         for(int i=0; i<itemsToCollect; i++)
         {
@@ -75,13 +77,17 @@ public class TaskManager : NetworkBehaviour
             taskItems.Remove(idx);
             testedItem.GetComponent<ItemManager>().ConsumeItemServerRpc();
             testedItem = null;
-            mainTaskManager.RequestProgressTaskServerRpc(taskName);
+            if(taskName != string.Empty)
+                mainTaskManager.RequestProgressTaskServerRpc(taskName);
             RefreshCanvaItemsServerRpc();
         }
 
         if(taskItems.Count == 0)
         {
-            gameObject.layer = 0;           
+            gameObject.layer = 0;
+
+            if (aidgen != null)
+                aidgen.StartAIDGeneratorServerRpc();
         }
     }
 

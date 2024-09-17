@@ -87,7 +87,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void UpdateItemParentServerRpc(ulong id)
+    public void UpdateItemParentServerRpc(ulong id)
     {
         parentID.Value = id;
     }
