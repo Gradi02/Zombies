@@ -159,13 +159,13 @@ public class NetworkGameManager : NetworkBehaviour
         phoneAnim.enabled = false;
         FindObjectOfType<AudioManager>().Stop("ringing");
         Debug.Log("Ciocia Dzwoni AAAAAAAAAAAAAA!");
+        militaryDoorLock.GenerateCodeServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void UnlockAllTasksServerRpc()
     {
         tasksStarted.Value = true;
-        militaryDoorLock.GenerateCodeServerRpc();
     }
 
     private IEnumerator PhoneCall()

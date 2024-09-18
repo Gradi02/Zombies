@@ -18,7 +18,7 @@ public class DoorLock : NetworkBehaviour
     [SerializeField] private List<LockDoorHint> hints = new();
     [SerializeField] private List<Transform> anchors = new();
 
-    [ServerRpc(RequireOwnership = false), ContextMenu("code")]
+    [ServerRpc(RequireOwnership = false)]
     public void GenerateCodeServerRpc()
     {
         for (int i = 0; i < 4; i++)
@@ -93,18 +93,23 @@ public class DoorLock : NetworkBehaviour
         }
         else if(num == 11) //open
         {
-            bool check = true;
-            for(int i = 0; i < 4; i++)
-            {
-                if (currentCode[i] != code[i])
-                {
-                    check = false;
-                    break;
-                }
-            }
+            bool check = false;
 
-            if (check)
-                doorAnim.SetTrigger("open");
+            if (currentCode.Count == 4)
+            {
+                check = true;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (currentCode[i] != code[i])
+                    {
+                        check = false;
+                        break;
+                    }
+                }
+
+                if (check)
+                    doorAnim.SetTrigger("open");
+            }
 
             HandleEnterCodeClientRpc(check);
         }

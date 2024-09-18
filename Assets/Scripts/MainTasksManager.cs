@@ -8,21 +8,40 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
 {
     private bool tasksStarted = false;
     private bool tasksFinished = false;
+    private bool finalTask = false;
 
     [SerializeField] private GameObject tasksCanva;
     [SerializeField] private MainTasks[] maintasks;
+    [SerializeField] private GameObject secondCanva;
+    [SerializeField] private TextMeshProUGUI secondCanvaText;
 
     public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
+        if(!NetworkGameManager.instance.gameStarted.Value)
+        {
+            return "Game Has Not Been Started Yet!";
+        }
+        else if((tasksStarted && !tasksFinished) || finalTask)
+        {
+            return "Task In Progress!";
+        }
+
         return "Press E To Interact!";
     }
 
     public void MakeInteraction(ulong clientId, PlayerItemHolder playerItemHolder = null)
     {
+        if (!NetworkGameManager.instance.gameStarted.Value) return;
+
         if (!tasksStarted)
         {
             tasksStarted = true;
             StartTasksServerRpc();
+        }
+        else if(tasksFinished && !finalTask)
+        {
+            finalTask = true;
+            StartFinalServerRpc();
         }
     }
 
@@ -86,6 +105,16 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
         Debug.LogWarning($"Task {task} does not exist!");
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestFinishTaskServerRpc(string task)
+    {
+        MainTasks mt = GetTaskByName(task);
+        mt.finished = true;
+        mt.taskProgressText.color = Color.green;
+        mt.taskParentText.color = Color.green;
+        CheckAllTasksServerRpc();
+    }
+
     [ClientRpc]
     private void ShowTasksInfoClientRpc(int idx, int progress)
     {
@@ -118,6 +147,19 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
     {
         tasksFinished = true;
         tasksCanva.SetActive(false);
+        secondCanva.SetActive(true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void StartFinalServerRpc()
+    {
+        StartFinalClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartFinalClientRpc()
+    {
+        secondCanvaText.text = "Wait For The Rescue In {place}";
     }
 }
 
@@ -126,7 +168,7 @@ public class MainTasks
 {
     public string taskName;
     public int taskSteps;
-    public int taskProgress;
+    public int taskProgress = -1;
     public bool finished;
 
     public TextMeshProUGUI taskProgressText;

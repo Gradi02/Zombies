@@ -38,21 +38,21 @@ public class ItemManager : NetworkBehaviour, IInteractable
 
         if (itemId == "Alcohol")
         {
-            stats.HealPlayer(5);
+            stats.HealPlayerServerRpc(5);
             player.GetComponent<PostProcessingController>().StartVodkaEffect(30f);
             stats.Slow(30f, 5f);
         }
         else if(itemId == "AID")
         {
-            stats.HealPlayer(1000);
+            stats.HealPlayerServerRpc(1000);
         }
         else if (itemId == "Omega Serum")
         {
-            stats.HealPlayer(30);
+            stats.HealPlayerServerRpc(30);
         }
         else if (itemId == "Alpha Serum")
         {
-            stats.DamagePlayer(30);
+            stats.DamagePlayerServerRpc(30);
         }
         else if (itemId == "Beta Serum")
         {
@@ -60,7 +60,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
         }
         else if (itemId == "Muschrom")
         {
-            stats.HealPlayer(10);
+            stats.HealPlayerServerRpc(10);
         }
     }
 
@@ -116,7 +116,7 @@ public class ItemManager : NetworkBehaviour, IInteractable
         }
         else
         {
-            if(IsHost && GetComponent<Rigidbody>().velocity.magnitude > 0.1f)
+            if(IsHost)
             {
                 SyncItemTransformClientRpc(transform.position, transform.rotation);
             }
