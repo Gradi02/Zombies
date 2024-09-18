@@ -115,7 +115,7 @@ public class PlayerItemHolder : NetworkBehaviour
 
             if (mng.usable)
             {
-                if (mng.dmgToUse && GetComponent<PlayerStats>().Health == GetComponent<PlayerStats>().maxHealth)
+                if (mng.dmgToUse && GetComponent<PlayerStats>().health.Value == GetComponent<PlayerStats>().maxHealth)
                 {
                     return;
                 }

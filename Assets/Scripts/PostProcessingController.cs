@@ -92,7 +92,7 @@ public class PostProcessingController : NetworkBehaviour
             ChangeEffectsOverTime(0.25f, 0f, 0f, 0f, 5f);
         }
 
-        float hpValue = stats.Health / stats.maxHealth;
+        float hpValue = stats.health.Value / stats.maxHealth;
         vignette.color.Override(vignetteHealthGradient.Evaluate(hpValue));
     }
 }

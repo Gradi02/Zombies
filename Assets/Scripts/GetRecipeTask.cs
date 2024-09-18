@@ -27,6 +27,21 @@ public class GetRecipeTask : TaskManager, IInteractable
 
     public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
+        if(!NetworkGameManager.instance.gameStarted.Value || !NetworkGameManager.instance.tasksStarted.Value)
+        {
+            return "You Cannot Interact Here Now!";
+        }
+        else if (taskStarted.Value)
+        {
+            return "Task In Progress!";
+        }
+
         return "Press E To Interact!";
+    }
+
+    [ContextMenu("finishTask")]
+    private void FinishTask()
+    {
+        mainTaskManager.RequestFinishTaskServerRpc(taskName);
     }
 }

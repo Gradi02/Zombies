@@ -19,20 +19,8 @@ public class PlayerStats : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI goldTxt;
 
     public int gold { get; private set; } = 100;
-    [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private NetworkVariable<float> health = new NetworkVariable<float>(99, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    [HideInInspector]
-    public float Health {
-        get { return health.Value; } 
-        private set
-        {
-            if (health.Value != value && IsOwner)
-            {
-                health.Value = value;
-                OnHealthChanged();
-            }
-        }
-    }
+    [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [HideInInspector] public NetworkVariable<float> health = new NetworkVariable<float>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private float sprintValue = 0;
     public float sprintUsePower, sprintRegenPower;
 
@@ -52,7 +40,6 @@ public class PlayerStats : NetworkBehaviour
         mapicon.color = Color.green;
         normalSpeed = fpsController.walkingSpeed;
         hpSlider.maxValue = maxHealth;
-        Health = maxHealth;
         goldTxt.text = "Gold: " + gold;
     }
 
@@ -64,11 +51,6 @@ public class PlayerStats : NetworkBehaviour
             controller.enabled = true;
 
         base.OnNetworkSpawn();      
-    }
-
-    private void OnHealthChanged()
-    {
-        hpSlider.value = Health;
     }
 
     public void AddRemoveGold(int ng, bool substract = false)
@@ -87,43 +69,62 @@ public class PlayerStats : NetworkBehaviour
         goldTxt.text = "Gold: " + gold;
     }
 
-    public void DamagePlayer(float dmg)
+    [ServerRpc(RequireOwnership = false)]
+    public void DamagePlayerServerRpc(float dmg)
     {
-        if (Health - dmg >= 0)
-            Health -= dmg;
+        if (health.Value - dmg >= 0)
+            health.Value -= dmg;
         else
-            Health = 0;
+            health.Value = 0;
 
-        if (Health <= 0 && isAlive.Value)
+        if (health.Value <= 0 && isAlive.Value)
         {
             isAlive.Value = false;
             NetworkGameManager.instance.HandleDeadPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-            mapicon.enabled = false;
-            GetComponent<PlayerInteraction>().enabled = false;
-            GetComponent<PlayerShooting>().enabled = false;
+            DamagePlayerClientRpc();
         }
         else
         {
-            Shake(0.2f, 0.25f);
-            Slow(1f, 1);
+            DamageEffectsClientRpc();
         }
     }
 
-
-    public void HealPlayer(float hp)
+    [ClientRpc]
+    private void DamagePlayerClientRpc()
     {
-        Health += hp;
-        if(Health > maxHealth)
-            Health = maxHealth;
+        mapicon.enabled = false;
+        GetComponent<PlayerInteraction>().enabled = false;
+        GetComponent<PlayerShooting>().enabled = false;
+    }
+
+    [ClientRpc]
+    private void DamageEffectsClientRpc()
+    {
+        Shake(0.2f, 0.25f);
+        Slow(1f, 1);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HealPlayerServerRpc(float hp)
+    {
+        health.Value += hp;
+        if(health.Value > maxHealth)
+            health.Value = maxHealth;
     }
 
     public void RevivePlayer()
     {
-        isAlive.Value = true;
-        HealPlayer(1000);
+        RevivePlayerServerRpc();
+        HealPlayerServerRpc(1000);
         GetComponent<PlayerInteraction>().enabled = true;
         GetComponent<PlayerShooting>().enabled = true;
         mapicon.enabled = true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RevivePlayerServerRpc()
+    {
+        isAlive.Value = true;
     }
 
     public void Shake(float duration, float magnitude)
@@ -204,6 +205,9 @@ public class PlayerStats : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if(!IsOwner) return;
+
+        hpSlider.value = health.Value;
         UpdateGameTimeServerRpc();        
     }
 

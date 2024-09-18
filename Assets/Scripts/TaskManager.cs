@@ -10,13 +10,14 @@ public class TaskManager : NetworkBehaviour
     public List<GameObject> possibleTaskItems = new List<GameObject>();
     protected List<string> taskItems = new List<string>();
     [SerializeField] private int baseItemsToCollect;
+    [SerializeField] private bool addsPerPlayers = false;
     private int itemsToCollect;
     protected GameObject testedItem;
 
     [SerializeField] protected GameObject canva;
     [SerializeField] protected TextMeshProUGUI[] itemsCanva;
-    private MainTasksManager mainTaskManager => NetworkGameManager.instance.mainTasksManager;
-    [SerializeField] private string taskName;
+    protected MainTasksManager mainTaskManager => NetworkGameManager.instance.mainTasksManager;
+    [SerializeField] protected string taskName;
     [SerializeField] private AIDGenerator aidgen;
 
     protected void StartTask()
@@ -29,7 +30,7 @@ public class TaskManager : NetworkBehaviour
     private void StartTaskServerRpc()
     {
         taskStarted.Value = true;
-        itemsToCollect = baseItemsToCollect + NetworkManager.Singleton.ConnectedClients.Count;
+        itemsToCollect = baseItemsToCollect + (addsPerPlayers == true ? NetworkManager.Singleton.ConnectedClients.Count : 0);
         if(taskName != string.Empty)
             mainTaskManager.GetTaskByName(taskName).taskSteps = itemsToCollect;
 
@@ -44,6 +45,9 @@ public class TaskManager : NetworkBehaviour
         }
         StartTaskClientRpc();
         ShowListServerRpc();
+
+        if (taskName != string.Empty)
+            mainTaskManager.RequestProgressTaskServerRpc(taskName);
     }
 
     [ClientRpc]
