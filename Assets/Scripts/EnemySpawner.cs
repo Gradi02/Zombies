@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class EnemySpawner : NetworkBehaviour
 {
+    public GameObject mutant;
     private bool isEnabled = false;
     public GameObject pref;
     [SerializeField] private float maxRadius;
@@ -24,6 +25,13 @@ public class EnemySpawner : NetworkBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            GameObject g = Instantiate(mutant, new Vector3(-40, 10, -30), Quaternion.identity);
+            g.GetComponent<NetworkObject>().Spawn();
+            NetworkGameManager.instance.AddEnemyToList(g.GetComponent<BossEnemyAI>());
+        }
+
         if (!IsServer || !isEnabled) return;
 
         int idx = day > maxZombiesOnMap.Length ? maxZombiesOnMap[maxZombiesOnMap.Length - 1] : maxZombiesOnMap[day];

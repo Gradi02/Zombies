@@ -5,12 +5,13 @@ using Unity.Netcode;
 
 public class deathState : State
 {
+    [SerializeField] private float timeToDeath = 0;
     public override void DoEnter()
     {
         base.DoEnter();
 
         if (IsHost)
-            DeathEffectClientRpc();
+            Invoke(nameof(DeathEffectClientRpc), timeToDeath);
     }
 
     public override void DoUpdate()
