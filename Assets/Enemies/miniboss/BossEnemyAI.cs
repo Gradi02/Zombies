@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class EnemyAI : StateMachine
+public class BossEnemyAI : StateMachine
 {
-
     [Header("States")]
     [SerializeField] private chillState _chillState;
     [SerializeField] private alarmState _alarmState;
-    [SerializeField] private chaseState _chaseState;
+    [SerializeField] private bossChaseState _chaseState;
     [SerializeField] private huntState _huntState;
-    [SerializeField] private reactionState _reactionState;
     [SerializeField] private deathState _deathState;
 
     [Header("Sub States")]
@@ -19,8 +17,6 @@ public class EnemyAI : StateMachine
     [SerializeField] private walkState _walkState;
     [SerializeField] private runState _runState;
     [SerializeField] private attackState _attackState;
-
-    private Rigidbody[] ragdollRigidbodies;
 
     //States Var
     private float maxDistanceToTarget = 2000;
@@ -32,8 +28,7 @@ public class EnemyAI : StateMachine
     private Vector3 alarmPos = Vector3.zero;
     private float sqrDistanceToTarget = 0;
     private bool seePlayer = false;
-    private Vector3 eyeLevel = new Vector3(0, 1, 0);
-    public GameObject[] bodyParts;
+    private Vector3 eyeLevel = new Vector3(0, 1.5f, 0);
     [SerializeField] private GameObject minimapCanva;
 
     private void Start()
@@ -49,13 +44,7 @@ public class EnemyAI : StateMachine
         agent.updatePosition = false;
         agent.updateRotation = true;
 
-        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in ragdollRigidbodies)
-        {
-            rb.isKinematic = true;
-        }
-
-        InvokeRepeating("UpdateAITarget", 0, 0.15f);
+        InvokeRepeating(nameof(UpdateAITarget), 0, 0.15f);
     }
 
     private void UpdateAITarget()
@@ -70,9 +59,7 @@ public class EnemyAI : StateMachine
         currentState?.DoUpdate();
         subState?.DoUpdate();
 
-        //SetVariables();
-
-        foreach(State s in states)
+        foreach (State s in states)
             s?.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
 
         SelectMainState();
@@ -83,7 +70,7 @@ public class EnemyAI : StateMachine
     {
         if (!IsHost) return;
         currentState?.DoFixedUpdate();
-        subState?.DoFixedUpdate();       
+        subState?.DoFixedUpdate();
     }
 
     private void SelectMainState()
@@ -97,15 +84,15 @@ public class EnemyAI : StateMachine
                 ChangeState(_alarmState);
             }
             //przejœcie do chase
-            else if(target != null && seePlayer)
+            else if (target != null && seePlayer)
             {
                 ChangeState(_chaseState);
             }
         }
-        else if(currentState == _alarmState)
+        else if (currentState == _alarmState)
         {
             //przejœcie do idle
-            if(currentState.isCompleted)
+            if (currentState.isCompleted)
             {
                 alarmPos = Vector3.zero;
                 ChangeState(_chillState);
@@ -117,7 +104,7 @@ public class EnemyAI : StateMachine
                 ChangeState(_chaseState);
             }
         }
-        else if(currentState == _chaseState)
+        else if (currentState == _chaseState)
         {
             //przejœcie do hunt state
             if (target == null)
@@ -125,10 +112,10 @@ public class EnemyAI : StateMachine
                 ChangeState(_huntState);
             }
         }
-        else if(currentState == _huntState)
+        else if (currentState == _huntState)
         {
             //przejœcie do chillku
-            if(currentState.isCompleted)
+            if (currentState.isCompleted)
             {
                 ChangeState(_chillState);
             }
@@ -138,21 +125,8 @@ public class EnemyAI : StateMachine
                 ChangeState(_chaseState);
             }
         }
-        else if(currentState == _reactionState)
-        {
-            if(currentState.isCompleted)
-            {
-                ChangeState(_huntState);
-            }
-        }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ReactionStateServerRpc()
-    {
-        if(currentState == _chillState || currentState == _alarmState || currentState == _huntState)
-            ChangeState(_reactionState);
-    }
     private void SetVariables()
     {
         //players = GameObject.FindGameObjectsWithTag("Player");
@@ -185,7 +159,7 @@ public class EnemyAI : StateMachine
                 seePlayer = false;
                 target = null;
                 sqrDistanceToTarget = Mathf.Infinity;
-            }         
+            }
         }
         else
         {
@@ -245,19 +219,7 @@ public class EnemyAI : StateMachine
         // Ustawienie pozycji
         transform.position = position;
         agent.nextPosition = transform.position;
-
-        // Obliczanie kierunku do steeringTarget
-/*        Vector3 direction = (agent.steeringTarget - transform.position).normalized;
-
-        // Sprawdzenie, czy agent powinien siê obracaæ
-        if (direction.sqrMagnitude > 0.01f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 300);
-        }*/
     }
-
-
 
     void SyncAnimatorAndAgent()
     {
@@ -280,13 +242,13 @@ public class EnemyAI : StateMachine
     {
         if (currentState == _chillState)
             alarmPos = ap;
-        else if(currentState == _alarmState)
+        else if (currentState == _alarmState)
         {
             alarmPos = ap;
             currentState.DoUpdateVariables(targetPos, sqrDistanceToTarget, alarmPos, playerController);
             ChangeState(_alarmState, false, true);
         }
-        else if(currentState == _huntState)
+        else if (currentState == _huntState)
         {
             targetPos = ap;
         }
@@ -298,24 +260,9 @@ public class EnemyAI : StateMachine
         isDead = true;
         minimapCanva.SetActive(false);
 
-        foreach (GameObject b in bodyParts)
-            b.layer = 10;
-
         if (IsHost)
         {
-            foreach (Rigidbody rb in ragdollRigidbodies)
-            {
-                rb.isKinematic = false;
-                rb.velocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
             ChangeState(_deathState, true);
         }
-    }
-
-    public void ResetDeathLayer()
-    {
-        foreach (GameObject b in bodyParts)
-            b.layer = 9;
     }
 }

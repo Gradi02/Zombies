@@ -13,7 +13,7 @@ public class NetworkGameManager : NetworkBehaviour
     public static NetworkGameManager instance { get; private set; } = null;
 
     public Dictionary<ulong, GameObject> playersServerList = new Dictionary<ulong, GameObject>();
-    public List<EnemyAI> enemiesServerList = new List<EnemyAI>();
+    public List<StateMachine> enemiesServerList = new List<StateMachine>();
     public int deadPlayers { get; private set; } = 0;
 
     [HideInInspector] public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -69,7 +69,7 @@ public class NetworkGameManager : NetworkBehaviour
         }
     }
 
-    public void AddEnemyToList(EnemyAI enemy)
+    public void AddEnemyToList(StateMachine enemy)
     {
         enemiesServerList.Add(enemy);
     }
@@ -87,7 +87,7 @@ public class NetworkGameManager : NetworkBehaviour
 
     private void UpdateEnemiesTargetsList()
     {
-        foreach (EnemyAI e in enemiesServerList)
+        foreach (StateMachine e in enemiesServerList)
         {
             if (e != null && !e.isDead)
             {

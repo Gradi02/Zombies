@@ -21,20 +21,18 @@ public class Enemy : NetworkBehaviour, IDamage
     private float[] daysBonus =
     {
         0,
-        10,
         20,
         40,
         60,
         80,
-        100,
-        120
+        100
     };
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            hp = Random.Range(150, 200) /*+ daysBonus[day]*/;
+            hp = Random.Range(150, 200) + daysBonus[day];
             SetEnemyStyleServerRpc();
         }
     }

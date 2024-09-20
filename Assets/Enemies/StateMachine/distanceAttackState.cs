@@ -4,17 +4,16 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.AI;
 
-public class attackState : State
+public class distanceAttackState : State
 {
-    private float sqrDistanceToDamage = 7;
-    [SerializeField] private float minDamage = 5, maxDamage = 15;
+    //[SerializeField] private float minDamage = 5, maxDamage = 15;
     private float breakTime;
 
     public override void DoEnter()
     {
         base.DoEnter();
 
-        breakTime = time + 1.2f;
+        breakTime = time + 5f;
         isCompleted = false;
     }
 
@@ -38,10 +37,10 @@ public class attackState : State
 
     public void DealDamageToPlayer()
     {
-        if (sqrDistanceToTarget < sqrDistanceToDamage)
+        /*if (sqrDistanceToTarget < sqrDistanceToDamage)
         {
             characterController.GetComponent<PlayerStats>().DamagePlayerServerRpc(Random.Range(minDamage, maxDamage));
-        }
+        }*/
         isCompleted = true;
     }
 }

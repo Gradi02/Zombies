@@ -6,6 +6,9 @@ using UnityEngine.AI;
 
 public class StateMachine : NetworkBehaviour
 {
+    public bool isDead { get; set; } = false;
+    public List<GameObject> players = null;
+
     [SerializeField] protected Animator animator;
     public State currentState { get; private set; }
     public State subState { get; private set; }
