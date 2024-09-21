@@ -43,4 +43,9 @@ public class distanceAttackState : State
         }*/
         isCompleted = true;
     }
+
+    public int GetIdx()
+    {
+        return animationIdx;
+    }
 }

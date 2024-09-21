@@ -22,7 +22,8 @@ public class runState : State
 
     public override void DoExit()
     {
-        agent.ResetPath(); 
+        if(agent.enabled && agent.path != null)
+            agent.ResetPath(); 
         base.DoExit();
     }
 }

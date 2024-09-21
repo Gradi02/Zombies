@@ -25,7 +25,7 @@ public class NetworkGameManager : NetworkBehaviour
     [SerializeField] private Animator phoneAnim;
     private bool ring = false;
     public int currentDay { get; private set; } = 0;
-    [SerializeField] private EnemySpawner spawner;
+    public EnemySpawner spawner;
     public Volume globalVolume;
     [SerializeField] private GameObject gravePrefab;
     [SerializeField] private DoorLock militaryDoorLock;
