@@ -27,7 +27,14 @@ public class EnemySpawner : NetworkBehaviour
     {
         if(Input.GetKeyDown(KeyCode.G))
         {
-            GameObject g = Instantiate(mutant, new Vector3(-40, 10, -30), Quaternion.identity);
+            GameObject g = Instantiate(mutant, new Vector3(-40, 0, -30), Quaternion.identity);
+            g.GetComponent<NetworkObject>().Spawn();
+            NetworkGameManager.instance.AddEnemyToList(g.GetComponent<BossEnemyAI>());
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            GameObject g = Instantiate(pref, new Vector3(-40, 0, -30), Quaternion.identity);
             g.GetComponent<NetworkObject>().Spawn();
             NetworkGameManager.instance.AddEnemyToList(g.GetComponent<BossEnemyAI>());
         }
@@ -38,29 +45,47 @@ public class EnemySpawner : NetworkBehaviour
         float multiplayerMultiplier = (NetworkManager.Singleton.ConnectedClients.Count-1) * 0.2f + 1;
         if (NetworkGameManager.instance.enemiesServerList.Count < idx * multiplayerMultiplier)
         {
-            SpawnEnemyServerRpc();
+            SpawnEnemy();
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnEnemyServerRpc(bool p = false)
+
+    private void SpawnEnemy(Vector3? pos = null)
     {
-        NetworkObject en = Instantiate(pref, p ? new Vector3(-30, -5, -30) : GetSpawnPos(), Quaternion.identity).GetComponent<NetworkObject>();
+        if (!IsHost) return;
+        NetworkObject en = Instantiate(pref,GetSpawnPos(pos ?? Vector3.zero), Quaternion.identity).GetComponent<NetworkObject>();
         en.Spawn();
         NetworkGameManager.instance.AddEnemyToList(en.GetComponent<EnemyAI>());
         //Debug.Log("<color=#99ff99>Successfully</color> <color=#ffaa99>created</color> <color=#1199ff>new</color> <color=#eeee11>Enemy!</color>");
     }
 
-    private Vector3 GetSpawnPos()
+    public void RequestBossMinion(Vector3 targetpos)
+    {
+        if (!IsHost) return;
+        SpawnEnemy(targetpos);
+    }
+
+    private Vector3 GetSpawnPos(Vector3 searchPos)
     {
         Vector3 pos = Vector3.zero;
         bool pathCorrect = true;
         int i = 0;
         while (pathCorrect && (i++) < 100)
         {
-            float r = Random.Range(0, maxRadius);
-            float fi = Random.Range(0, 360);
-            Vector3 newDestRay = new Vector3(r*Mathf.Cos(fi), 1000, r * Mathf.Sin(fi)) + new Vector3(-70, 0, -30);
+            Vector3 newDestRay = searchPos;
+            if (searchPos == Vector3.zero)
+            {
+                float r = Random.Range(0, maxRadius);
+                float fi = Random.Range(0, 360);
+                newDestRay = new Vector3(r * Mathf.Cos(fi), 1000, r * Mathf.Sin(fi)) + new Vector3(-70, 0, -30);
+            }
+            else
+            {
+                float r = Random.Range(5, 10);
+                float fi = Random.Range(0, 360);
+                newDestRay = new Vector3(r * Mathf.Cos(fi), searchPos.y + 3f, r * Mathf.Sin(fi)) + new Vector3(searchPos.x, 0, searchPos.z);
+            }
+
 
             if (Physics.Raycast(newDestRay, Vector3.down, out RaycastHit hit, 1100, mask))
             {

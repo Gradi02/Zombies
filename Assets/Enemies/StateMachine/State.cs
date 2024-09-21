@@ -20,6 +20,7 @@ public abstract class State : NetworkBehaviour
     public bool isCompleted = false;
     [SerializeField] private float minTimeToInvoke = 0f, maxTimeToInvoke = 0.5f;
     [SerializeField] private float blendingTime = 0.2f, offset = 0f;
+    protected int animationIdx = 0;
 
     //States Var
     protected Vector3 alarmPos;
@@ -68,7 +69,10 @@ public abstract class State : NetworkBehaviour
 
     private void PlayAnim()
     {
-        if(anim.enabled)
-            anim.CrossFade(clip[Random.Range(0, clip.Length)].name, blendingTime, 0, offset);
+        if (anim.enabled)
+        {
+            animationIdx = Random.Range(0, clip.Length);
+            anim.CrossFade(clip[animationIdx].name, blendingTime, 0, offset);
+        }
     }
 }
