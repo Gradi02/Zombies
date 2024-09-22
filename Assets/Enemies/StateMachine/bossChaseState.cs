@@ -13,7 +13,7 @@ public class bossChaseState : State
     private float minDistanceToNormalAttack = 8;
     private float minDistanceToLongAttack = 1200;
 
-    private float dstCooldownMin = 4, dstCooldownMax = 5;
+    private float dstCooldownMin = 15, dstCooldownMax = 25;
     private float nextDst = 0;
     private bool dst = false;
 
