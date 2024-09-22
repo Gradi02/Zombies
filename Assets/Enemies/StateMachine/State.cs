@@ -19,7 +19,7 @@ public abstract class State : NetworkBehaviour
     public float time => Time.time - startTime;
     public bool isCompleted = false;
     [SerializeField] private float minTimeToInvoke = 0f, maxTimeToInvoke = 0.5f;
-    [SerializeField] private float blendingTime = 0.2f, offset = 0f;
+    [SerializeField] protected float blendingTime = 0.2f, offset = 0f;
     protected int animationIdx = 0;
 
     //States Var
@@ -67,7 +67,7 @@ public abstract class State : NetworkBehaviour
         machine = mach;
     }
 
-    private void PlayAnim()
+    public virtual void PlayAnim()
     {
         if (anim.enabled)
         {

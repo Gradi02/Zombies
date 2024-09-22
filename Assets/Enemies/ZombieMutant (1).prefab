@@ -10273,6 +10273,7 @@ MonoBehaviour:
   maxTimeToInvoke: 0.5
   blendingTime: 0.2
   offset: 0
+  _bossChaseState: {fileID: 2214785166389885027}
 --- !u!1 &6851786763882805781
 GameObject:
   m_ObjectHideFlags: 0
@@ -11631,3 +11632,4 @@ MonoBehaviour:
   _idleState: {fileID: 6248505081888174181}
   _attackState: {fileID: 2493204785892055479}
   _distanceAttackState: {fileID: 5842461553965851152}
+  bullet: {fileID: 9172726910803629348, guid: 92cad0561ee1a2a4687f9cbd7404d681, type: 3}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class bossChaseState : State
 {
@@ -8,12 +9,13 @@ public class bossChaseState : State
     [SerializeField] private idleState _idleState;
     [SerializeField] private attackState _attackState;
     [SerializeField] private distanceAttackState _distanceAttackState;
+    [SerializeField] private GameObject bullet;
 
     private float attackTime = 1f, longAttackTime = 3f;
     private float minDistanceToNormalAttack = 8;
     private float minDistanceToLongAttack = 1200;
 
-    private float dstCooldownMin = 15, dstCooldownMax = 25;
+    private float dstCooldownMin = 5, dstCooldownMax = 6;
     private float nextDst = 0;
     private bool dst = false;
 
@@ -74,18 +76,6 @@ public class bossChaseState : State
                 nextSelectState = time + longAttackTime;
                 if (subState != _distanceAttackState)
                     machine.ChangeSubState(_distanceAttackState, true);
-
-                int aIdx = _distanceAttackState.GetIdx();
-
-                if(aIdx == 0) // 0 - throw
-                {
-                    StartCoroutine(IEJumpBoolean());
-                }
-                else
-                {
-                    StartCoroutine(IESpawnMinions());
-                }
-
                 agent.ResetPath();
             }
             else
@@ -121,9 +111,21 @@ public class bossChaseState : State
         }
     }
 
+    public void SelectAttack(int idx)
+    {
+        if (idx == 0)
+        {
+            StartCoroutine(IEJumpBoolean());
+        }
+        else
+        {
+            StartCoroutine(IESpawnMinions());
+        }
+    }
+
     private IEnumerator IESpawnMinions()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         int num = Random.Range(2, 5);
         for (int i = num; i >= 0; i--)
         {
@@ -134,7 +136,22 @@ public class bossChaseState : State
     private IEnumerator IEJumpBoolean()
     {
         isJumping = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
+
+        Vector3 spawnPos = agent.transform.position + new Vector3(0, 1, 0);
+        GameObject b = Instantiate(bullet, spawnPos, Quaternion.identity);
+        b.GetComponent<NetworkObject>().Spawn();
+        b.GetComponent<Rigidbody>().AddForce(CalculateTrajectoryVelocity(spawnPos, targetPos, 2f), ForceMode.Impulse);
+
+        yield return new WaitForSeconds(0.5f);
         isJumping = false;
+    }
+
+    private Vector3 CalculateTrajectoryVelocity(Vector3 origin, Vector3 target, float t)
+    {
+        float vx = (target.x - origin.x) / t;
+        float vz = (target.z - origin.z) / t;
+        float vy = ((target.y - origin.y) - 0.5f * Physics.gravity.y * t * t) / t;
+        return new Vector3(vx, vy, vz);
     }
 }
