@@ -22,6 +22,7 @@ public class bossChaseState : State
 
     private float pathUpdateInterval = 0.15f;
     private float timeSinceLastPathUpdate = 0f;
+    public bool isJumping { get; private set; } = false;
 
     public override void DoEnter()
     {
@@ -75,14 +76,14 @@ public class bossChaseState : State
                     machine.ChangeSubState(_distanceAttackState, true);
 
                 int aIdx = _distanceAttackState.GetIdx();
-                Debug.Log(aIdx);
+
                 if(aIdx == 0) // 0 - throw
                 {
-                   
+                    StartCoroutine(IEJumpBoolean());
                 }
                 else
                 {
-                    StartCoroutine(SpawnMinions());
+                    StartCoroutine(IESpawnMinions());
                 }
 
                 agent.ResetPath();
@@ -120,13 +121,20 @@ public class bossChaseState : State
         }
     }
 
-    private IEnumerator SpawnMinions()
+    private IEnumerator IESpawnMinions()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.5f);
         int num = Random.Range(2, 5);
         for (int i = num; i >= 0; i--)
         {
             NetworkGameManager.instance.spawner.RequestBossMinion(agent.transform.position);
         }
+    }
+
+    private IEnumerator IEJumpBoolean()
+    {
+        isJumping = true;
+        yield return new WaitForSeconds(3f);
+        isJumping = false;
     }
 }

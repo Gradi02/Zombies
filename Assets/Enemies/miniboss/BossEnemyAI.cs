@@ -211,7 +211,7 @@ public class BossEnemyAI : StateMachine
 
         // Aktualizacja pozycji na podstawie animacji
         Vector3 position = animator.rootPosition;
-        if (!isDead)
+        if (!isDead && !_chaseState.isJumping)
         {
             position.y = agent.nextPosition.y;
         }
