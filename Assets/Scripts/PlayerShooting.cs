@@ -67,42 +67,30 @@ public class PlayerShooting : NetworkBehaviour
 
 				if (Physics.Raycast(ray, out hit, Mathf.Infinity, obstacleMask))
 				{
+					float dst = Mathf.Clamp(hit.distance, 20, 1000);
+					float rangeDamage = Mathf.Clamp(damage - dst/2, 0, 100000);
+					Debug.Log(rangeDamage);
+
 					if (hit.collider.CompareTag("head"))
 					{
 						// hit
-						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage * 2);
-
-						// hit particle
+						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(rangeDamage * 2);
 						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
 						Destroy(ps.gameObject, 2);
 					}
 					else if (hit.collider.CompareTag("body"))
 					{
 						// hit						
-						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage);
-
-						// hit particle
+						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(rangeDamage);
 						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
 						Destroy(ps.gameObject, 2);
 					}
 					else if (hit.collider.CompareTag("legs"))
 					{
 						// hit
-						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(damage * 0.5f);
-
-						// hit particle
+						hit.collider.transform.root.GetComponent<IDamage>().TakeDamage(rangeDamage * 0.5f);
 						ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
 						Destroy(ps.gameObject, 2);
-					}
-					else if (hit.collider.CompareTag("protection"))
-					{
-						// hit
-						if (hit.collider.GetComponent<Renderer>() != null)
-						{
-							ParticleSystem ps = Instantiate(PS_blood, hit.point, Quaternion.LookRotation(hit.normal));
-							ps.GetComponent<Renderer>().material = hit.collider.GetComponent<Renderer>().material;
-							Destroy(ps.gameObject, 2);
-						}
 					}
 					else
 					{

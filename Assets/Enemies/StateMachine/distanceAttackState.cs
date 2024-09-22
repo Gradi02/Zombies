@@ -35,15 +35,6 @@ public class distanceAttackState : State
     }
 
 
-    public void DealDamageToPlayer()
-    {
-        /*if (sqrDistanceToTarget < sqrDistanceToDamage)
-        {
-            characterController.GetComponent<PlayerStats>().DamagePlayerServerRpc(Random.Range(minDamage, maxDamage));
-        }*/
-        isCompleted = true;
-    }
-
     public int GetIdx()
     {
         return animationIdx;
