@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class distanceAttackState : State
 {
-    //[SerializeField] private float minDamage = 5, maxDamage = 15;
+    [SerializeField] private bossChaseState _bossChaseState;
     private float breakTime;
 
     public override void DoEnter()
@@ -34,9 +34,13 @@ public class distanceAttackState : State
         base.DoExit();
     }
 
-
-    public int GetIdx()
+    public override void PlayAnim()
     {
-        return animationIdx;
+        if (anim.enabled)
+        {
+            animationIdx = Random.Range(0, clip.Length);
+            _bossChaseState.SelectAttack(animationIdx);
+            anim.CrossFade(clip[animationIdx].name, blendingTime, 0, offset);
+        }
     }
 }

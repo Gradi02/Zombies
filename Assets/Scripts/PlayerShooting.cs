@@ -69,7 +69,6 @@ public class PlayerShooting : NetworkBehaviour
 				{
 					float dst = Mathf.Clamp(hit.distance, 20, 1000);
 					float rangeDamage = Mathf.Clamp(damage - dst/2, 0, 100000);
-					Debug.Log(rangeDamage);
 
 					if (hit.collider.CompareTag("head"))
 					{

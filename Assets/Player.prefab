@@ -262,7 +262,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 22519
+    m_Bits: 55287
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1633,6 +1633,8 @@ MonoBehaviour:
   goldTxt: {fileID: 2383519560396919251}
   isAlive:
     m_InternalValue: 1
+  health:
+    m_InternalValue: 100
   sprintUsePower: 10
   sprintRegenPower: 8
   imgPref: {fileID: 8526001032575338010, guid: 69c588f2a927c154ba7d98e07b45b0aa, type: 3}

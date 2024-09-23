@@ -9,6 +9,9 @@ public class NetworkGameManager : NetworkBehaviour
 {
     private int startGameTime = 5;
     public int daysToEmergency { get; private set; }
+    public bool finalEvent { get; set; }
+    public int timeToWin1 = 10;
+    public float timeToWin2 = 0;
     public int hoursToEmergency { get; set; }
     public static NetworkGameManager instance { get; private set; } = null;
 
@@ -51,6 +54,22 @@ public class NetworkGameManager : NetworkBehaviour
 
         RemoveDeadEnemyFromList();
         UpdateEnemiesTargetsList();
+
+        if(finalEvent)
+        {
+            timeToWin2 -= Time.deltaTime;
+            if(timeToWin2 <= 0)
+            {
+                timeToWin1 -= 1;
+                timeToWin2 = 60;
+            }
+
+            if(timeToWin1 <= 0)
+            {
+                Time.timeScale = 0;
+                Debug.Log("WIN!");
+            }
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]

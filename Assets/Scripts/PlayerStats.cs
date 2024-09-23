@@ -208,21 +208,34 @@ public class PlayerStats : NetworkBehaviour
         if(!IsOwner) return;
 
         hpSlider.value = health.Value;
-        UpdateGameTimeServerRpc();        
-    }
 
-    [ServerRpc]
-    private void UpdateGameTimeServerRpc()
-    {
-        int d = NetworkGameManager.instance.daysToEmergency;
-        int h = NetworkGameManager.instance.hoursToEmergency;
-        UpdateGameTimeClientRpc(d,h);
+        if(IsHost)
+        {
+            if (NetworkGameManager.instance.finalEvent)
+            {
+                int m = NetworkGameManager.instance.timeToWin1;
+                int s = (int)NetworkGameManager.instance.timeToWin2;
+                UpdateGameTime2ClientRpc(m,s);
+            }
+            else
+            {
+                int d = NetworkGameManager.instance.daysToEmergency;
+                int h = NetworkGameManager.instance.hoursToEmergency;
+                UpdateGameTimeClientRpc(d, h);
+            }
+        }
     }
 
     [ClientRpc]
     private void UpdateGameTimeClientRpc(int d, int h)
     {
         emergencyText.text = $"Time To Emergency: {d}d {h}h";
+    }
+
+    [ClientRpc]
+    private void UpdateGameTime2ClientRpc(int m, int s)
+    {
+        emergencyText.text = $"Survive Zombies Attack: {m}m {s}s";
     }
 
     public void BuyUpgrade(GunUpgrade upgr, int goldToRemove)
