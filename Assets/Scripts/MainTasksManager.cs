@@ -8,7 +8,7 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
 {
     private bool tasksStarted = false;
     private bool tasksFinished = false;
-    private bool finalTask = false;
+    public bool finalTask { get; private set; } = false;
 
     [SerializeField] private GameObject tasksCanva;
     [SerializeField] private MainTasks[] maintasks;
@@ -159,7 +159,7 @@ public class MainTasksManager : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void StartFinalClientRpc()
     {
-        secondCanvaText.text = "Wait For The Rescue In {place}";
+        secondCanvaText.text = "Call The Rescue In {place}";
     }
 }
 

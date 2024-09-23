@@ -11633,3 +11633,4 @@ MonoBehaviour:
   _attackState: {fileID: 2493204785892055479}
   _distanceAttackState: {fileID: 5842461553965851152}
   bullet: {fileID: 9172726910803629348, guid: 92cad0561ee1a2a4687f9cbd7404d681, type: 3}
+  ps: {fileID: 7358498128720156007}

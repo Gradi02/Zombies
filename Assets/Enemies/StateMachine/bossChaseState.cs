@@ -10,12 +10,13 @@ public class bossChaseState : State
     [SerializeField] private attackState _attackState;
     [SerializeField] private distanceAttackState _distanceAttackState;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private ParticleSystem ps;
 
     private float attackTime = 1f, longAttackTime = 3f;
     private float minDistanceToNormalAttack = 8;
     private float minDistanceToLongAttack = 1200;
 
-    private float dstCooldownMin = 5, dstCooldownMax = 6;
+    private float dstCooldownMin = 10, dstCooldownMax = 20;
     private float nextDst = 0;
     private bool dst = false;
 
@@ -136,9 +137,10 @@ public class bossChaseState : State
     private IEnumerator IEJumpBoolean()
     {
         isJumping = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
-        Vector3 spawnPos = agent.transform.position + new Vector3(0, 1, 0);
+        ps.Play();
+        Vector3 spawnPos = agent.transform.position + new Vector3(0, 1.5f, 0);
         GameObject b = Instantiate(bullet, spawnPos, Quaternion.identity);
         b.GetComponent<NetworkObject>().Spawn();
         b.GetComponent<Rigidbody>().AddForce(CalculateTrajectoryVelocity(spawnPos, targetPos, 2f), ForceMode.Impulse);

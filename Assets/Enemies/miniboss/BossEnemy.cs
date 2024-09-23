@@ -6,7 +6,7 @@ using Steamworks;
 
 public class BossEnemy : NetworkBehaviour, IDamage
 {
-    private float hp = 100;
+    private float hp = 10000;
     [SerializeField] private BossEnemyAI ai;
 
     private bool damaga = false, dead = false;
@@ -15,18 +15,18 @@ public class BossEnemy : NetworkBehaviour, IDamage
     private float[] daysBonus =
     {
         0,
-        40,
-        100,
-        150,
         200,
-        300
+        400,
+        700,
+        1000,
+        1500
     };
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            hp = Random.Range(600, 700) + daysBonus[day];
+            hp = Random.Range(3000, 3300) + daysBonus[day];
         }
     }
 

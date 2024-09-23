@@ -25,20 +25,6 @@ public class EnemySpawner : NetworkBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            GameObject g = Instantiate(mutant, new Vector3(-40, 0, -30), Quaternion.identity);
-            g.GetComponent<NetworkObject>().Spawn();
-            NetworkGameManager.instance.AddEnemyToList(g.GetComponent<BossEnemyAI>());
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            GameObject g = Instantiate(pref, new Vector3(-40, 0, -30), Quaternion.identity);
-            g.GetComponent<NetworkObject>().Spawn();
-            NetworkGameManager.instance.AddEnemyToList(g.GetComponent<BossEnemyAI>());
-        }
-
         if (!IsServer || !isEnabled) return;
 
         int idx = day > maxZombiesOnMap.Length ? maxZombiesOnMap[maxZombiesOnMap.Length - 1] : maxZombiesOnMap[day];
@@ -134,5 +120,16 @@ public class EnemySpawner : NetworkBehaviour
         {
             isEnabled = true;
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StartFinalEventSpawnerServerRpc()
+    {
+        StartCoroutine(IEfinal());
+    }
+
+    private IEnumerator IEfinal()
+    {
+        yield return new WaitForSeconds(1f);
     }
 }
