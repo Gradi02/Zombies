@@ -17,6 +17,7 @@ public class DoorLock : NetworkBehaviour
     [SerializeField] private Animator doorAnim;
     [SerializeField] private List<LockDoorHint> hints = new();
     [SerializeField] private List<Transform> anchors = new();
+    [SerializeField] private NetworkObject objToDespawn;
 
     [ServerRpc(RequireOwnership = false)]
     public void GenerateCodeServerRpc()
@@ -33,24 +34,24 @@ public class DoorLock : NetworkBehaviour
         {
             if (Random.Range(0, i+1) == 0)
             {
-                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is Equal To " + code[i]);
+                hs.Add($"You: The {Ordinal(i + 1)} Number Of The Code Is Equal To " + code[i]);
             }
             else
             {
                 int rand = Random.Range(0, 10);
                 string parity = (rand > code[i] ? "Smaller Than " : "Bigger Than ") + rand;
                 if (rand == code[i]) parity = "Equal To " + rand;
-                hs.Add($"The {Ordinal(i + 1)} Number Of The Code Is {parity}");
+                hs.Add($"You: The {Ordinal(i + 1)} Number Of The Code Is {parity}");
             }
         }       
         //Hint 5
         string sum = (code[0] + code[1] + code[2] + code[3]).ToString();
-        hs.Add("The Sum Of All Digits Of The Code Is Equal To " + sum);
+        hs.Add("You: The Sum Of All Digits Of The Code Is Equal To " + sum);
         //Hints 6-8
         for (int i = 0; i < code.Length-1; i++)
         {
             int sum2 = code[i] + code[i + 1];
-            hs.Add($"The Sum Of The {Ordinal(i+1)} And {Ordinal(i + 2)} Numbers Is Equal To {sum2}");
+            hs.Add($"You: The Sum Of The {Ordinal(i+1)} And {Ordinal(i + 2)} Numbers Is Equal To {sum2}");
         }
 
         for (int i = 0; i < 6; i++)
@@ -160,6 +161,7 @@ public class DoorLock : NetworkBehaviour
     {
         if(good)
         {
+            DespawnTriggerObjectServerRpc();
             codeText.color = Color.green;
             foreach (var b in buttons)
             {
@@ -194,5 +196,10 @@ public class DoorLock : NetworkBehaviour
         }
     }
 
-    
+    [ServerRpc(RequireOwnership = false)]
+    private void DespawnTriggerObjectServerRpc()
+    {
+        objToDespawn.Despawn();
+        Destroy(objToDespawn);
+    }
 }

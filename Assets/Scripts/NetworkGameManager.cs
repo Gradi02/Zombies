@@ -34,6 +34,14 @@ public class NetworkGameManager : NetworkBehaviour
     [SerializeField] private DoorLock militaryDoorLock;
     public MainTasksManager mainTasksManager;
 
+    private string[] finalDial =
+    {
+        "Boss: You did it my amigos! Your reward is coming for you!",
+        "Boss: PERO before that we need your help once more...",
+        "Boss: We are coming for you and Conrad will give you más detalles!",
+        "Conrad von Cookenberg: Yes We Need To Talk..."
+    };
+
     private void Awake()
     {
         if (instance == null)
@@ -66,8 +74,8 @@ public class NetworkGameManager : NetworkBehaviour
 
             if(timeToWin1 <= 0)
             {
-                Time.timeScale = 0;
                 Debug.Log("WIN!");
+                StartDialogueServerRpc();
             }
         }
     }
@@ -161,13 +169,20 @@ public class NetworkGameManager : NetworkBehaviour
     public void CallAnswerServerRpc()
     {
         ring = false;
+        CallAnswerClientRpc();
+    }
+
+    [ClientRpc]
+    private void CallAnswerClientRpc()
+    {
+        phoneAnim.enabled = false;
+        FindObjectOfType<AudioManager>().Stop("ringing");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void EndPhoneServerRpc()
+    {
         spawner.StartSpawner();
-
-        foreach (Upgrader u in GameObject.FindObjectsOfType<Upgrader>())
-        {
-            u.SetNewUpgradeServerRpc();
-        }
-
         OpenBarrierClientRpc();
     }
 
@@ -175,9 +190,6 @@ public class NetworkGameManager : NetworkBehaviour
     private void OpenBarrierClientRpc()
     {
         Destroy(barrier);
-        phoneAnim.enabled = false;
-        FindObjectOfType<AudioManager>().Stop("ringing");
-        Debug.Log("Ciocia Dzwoni AAAAAAAAAAAAAA!");
         militaryDoorLock.GenerateCodeServerRpc();
     }
 
@@ -240,5 +252,23 @@ public class NetworkGameManager : NetworkBehaviour
         {
             NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerStats>().RevivePlayer();
         }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void StartDialogueServerRpc()
+    {
+        ShowDialClientRpc();
+    }
+
+    [ClientRpc]
+    private void ShowDialClientRpc()
+    {
+        DialogueController contr = NetworkManager.LocalClient.PlayerObject.GetComponent<DialogueController>();
+
+        contr.AddDialogueToQueue(finalDial[0], 5f);
+        contr.AddDialogueToQueue(finalDial[1], 5f);
+        contr.AddDialogueToQueue(finalDial[2], 5.5f);
+        contr.AddDialogueToQueue(finalDial[3], 4.5f);
     }
 }

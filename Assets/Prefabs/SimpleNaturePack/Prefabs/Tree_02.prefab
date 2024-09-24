@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3438630137501779417}
   - component: {fileID: 2442353877347783057}
   - component: {fileID: 1769123135647372774}
-  m_Layer: 0
+  - component: {fileID: 8487176295670662115}
+  m_Layer: 6
   m_Name: Tree_02_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,6 +84,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8487176295670662115
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43825177464977680}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5885204079855296585, guid: 4471b1f7f824e4d44887e1364c6fc61a, type: 3}
 --- !u!1 &4203487331839533559
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,8 +117,8 @@ GameObject:
   - component: {fileID: 990127138215673555}
   - component: {fileID: 3572077912732489420}
   - component: {fileID: 5485172833262161395}
-  - component: {fileID: 8593223380933553638}
-  m_Layer: 14
+  - component: {fileID: 6666458987703665644}
+  m_Layer: 6
   m_Name: Tree_02_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,8 +190,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8593223380933553638
-BoxCollider:
+--- !u!64 &6666458987703665644
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -185,9 +208,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 4.2180724, z: 1}
-  m_Center: {x: 0, y: 2.092121, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8135553595718028330, guid: 4471b1f7f824e4d44887e1364c6fc61a, type: 3}
 --- !u!1 &4661435515762455780
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4661435515762813124}
   - component: {fileID: 7864700636845172665}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
