@@ -13,7 +13,7 @@ public class ThrowCollision : NetworkBehaviour
 
         if(collision.collider.gameObject.layer == 6 || collision.collider.gameObject.layer == 8)
         {
-            ImpactParticleClientRpc();                      
+            ImpactParticleClientRpc();
             foreach(var s in NetworkManager.Singleton.ConnectedClients)
             {
                 GameObject obj = s.Value.PlayerObject.gameObject;

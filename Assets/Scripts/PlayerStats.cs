@@ -21,7 +21,7 @@ public class PlayerStats : NetworkBehaviour
     public int gold { get; private set; } = 100;
     [HideInInspector] public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [HideInInspector] public NetworkVariable<float> health = new NetworkVariable<float>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private float sprintValue = 0;
+    private float sprintValue = 100;
     public float sprintUsePower, sprintRegenPower;
 
     public int maxUpgrades { get; private set; } = 10;
