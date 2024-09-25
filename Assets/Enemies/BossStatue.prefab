@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1746760926881529953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6428696854031519892}
+  m_Layer: 10
+  m_Name: itemHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6428696854031519892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746760926881529953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9220426287016267517}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8210010765334583424
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,7 +64,8 @@ Transform:
   m_LocalPosition: {x: -60.04, y: -6.57, z: -13.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6428696854031519892}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2642961376567230931
@@ -123,6 +155,17 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 1024
+  bossItems:
+  - itemPrefab: {fileID: 1039099666359340531, guid: aa84605498340b843a428d2c39b5d6fd,
+      type: 3}
+    spawnOffset: {x: -0.25, y: -0.1, z: 0}
+  - itemPrefab: {fileID: 2871163067557268740, guid: bcdbaabf883036b449778d8745344c2d,
+      type: 3}
+    spawnOffset: {x: -0.3, y: 0.15, z: -0.15}
+  - itemPrefab: {fileID: 6722407570803233626, guid: 75bc76dd7a791f949b0102394001b6d7,
+      type: 3}
+    spawnOffset: {x: 0, y: 0.15, z: -0.25}
+  spawnPoint: {fileID: 6428696854031519892}
 --- !u!114 &1659834308056449770
 MonoBehaviour:
   m_ObjectHideFlags: 0

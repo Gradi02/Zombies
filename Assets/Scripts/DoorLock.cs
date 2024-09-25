@@ -29,10 +29,12 @@ public class DoorLock : NetworkBehaviour
 
         List<FixedString512Bytes> hs = new();
 
-        //Hints 1-4
-        for (int i = 0; i < code.Length; i++)
+        //Hint 1
+        hs.Add($"You: The {Ordinal(1)} Number Of The Code Is Equal To " + code[0]);
+        //Hints 2-4
+        for (int i = 1; i < code.Length; i++)
         {
-            if (Random.Range(0, i+1) == 0)
+            if (Random.Range(1, i+1) == 0)
             {
                 hs.Add($"You: The {Ordinal(i + 1)} Number Of The Code Is Equal To " + code[i]);
             }
