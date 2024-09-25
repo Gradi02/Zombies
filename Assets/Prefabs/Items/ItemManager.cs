@@ -129,4 +129,10 @@ public class ItemManager : NetworkBehaviour, IInteractable
         transform.position = pos;
         transform.rotation = rot;
     }
+
+    [ClientRpc]
+    public void ChangeItemStateClientRpc(bool f)
+    {
+        gameObject.layer = f == true ? 10 : 0;
+    }
 }

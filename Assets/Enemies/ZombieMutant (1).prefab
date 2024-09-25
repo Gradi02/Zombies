@@ -1858,6 +1858,7 @@ MonoBehaviour:
   _walkState: {fileID: 6837851209903751455}
   _runState: {fileID: 3004077002341936002}
   _attackState: {fileID: 2493204785892055479}
+  rewardItem: {fileID: 0}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
@@ -10741,6 +10742,8 @@ MonoBehaviour:
   blendingTime: 1
   offset: 0
   timeToDeath: 5
+  ps: {fileID: 5379205738511148981, guid: f15fef8a7a1d99743af814fa51691e92, type: 3}
+  ai: {fileID: 6031541317768547945}
 --- !u!1 &7544835112806967575
 GameObject:
   m_ObjectHideFlags: 0

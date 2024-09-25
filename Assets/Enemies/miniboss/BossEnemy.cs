@@ -26,7 +26,7 @@ public class BossEnemy : NetworkBehaviour, IDamage
     {
         if (IsServer)
         {
-            hp = Random.Range(3000, 3300) + daysBonus[day];
+            hp = Random.Range(300, 330) + daysBonus[day];
         }
     }
 

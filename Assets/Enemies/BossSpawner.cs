@@ -12,6 +12,10 @@ public class BossSpawner : NetworkBehaviour, IInteractable
     private PlayerItemHolder reviver;
     public LayerMask interactionLayer;
 
+    public BossItem[] bossItems;
+    [SerializeField] private Transform spawnPoint;
+    private GameObject itemToDestroy, itemPref = null;
+
     public string GetInteractionText(PlayerItemHolder playerItemHolder = null)
     {
         if (!spawning && !interacted)
@@ -72,7 +76,25 @@ public class BossSpawner : NetworkBehaviour, IInteractable
         GameObject g = Instantiate(mutant, transform.position, Quaternion.identity);
         g.GetComponent<NetworkObject>().Spawn();
         NetworkGameManager.instance.AddEnemyToList(g.GetComponent<BossEnemyAI>());
+
+        g.GetComponent<BossEnemyAI>().rewardItem = itemPref;
+        if (itemToDestroy != null)
+        {
+            itemToDestroy.GetComponent<NetworkObject>().Despawn();
+            Destroy(itemToDestroy);
+        }
+
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetStatueItemServerRpc(int num)
+    {
+        itemToDestroy = Instantiate(bossItems[num].itemPrefab, spawnPoint.position + bossItems[num].spawnOffset, Quaternion.identity);
+        itemToDestroy.GetComponent<NetworkObject>().Spawn();
+        itemToDestroy.GetComponent<ItemManager>().ChangeItemStateClientRpc(false);
+        itemPref = bossItems[num].itemPrefab;
     }
 }

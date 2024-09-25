@@ -151,6 +151,7 @@ public class NetworkGameManager : NetworkBehaviour
         ring = true;
         StartCoroutine(PhoneCall());
         StartGameClientRpc();
+        SetStatueItems();
     }
 
     [ClientRpc]
@@ -271,4 +272,25 @@ public class NetworkGameManager : NetworkBehaviour
         contr.AddDialogueToQueue(finalDial[2], 5.5f);
         contr.AddDialogueToQueue(finalDial[3], 4.5f);
     }
+
+    public BossSpawner[] statues;
+    private int bossitemsCount = 3;
+
+    private void SetStatueItems()
+    {
+        List<BossSpawner> s = new List<BossSpawner>(statues);
+        for(int i=0; i<bossitemsCount; i++)
+        {
+            int idx = Random.Range(0, s.Count);
+            s[idx].SetStatueItemServerRpc(i);
+            s.RemoveAt(idx);
+        }
+    }
+}
+
+[System.Serializable]
+public class BossItem
+{
+    public GameObject itemPrefab;
+    public Vector3 spawnOffset;
 }

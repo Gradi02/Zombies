@@ -18,6 +18,7 @@ public class BossEnemyAI : StateMachine
     [SerializeField] private runState _runState;
     [SerializeField] private attackState _attackState;
 
+    public GameObject rewardItem;
     //States Var
     private float maxDistanceToTarget = 2000;
     public LayerMask obstacleMask;
