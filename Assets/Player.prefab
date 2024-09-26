@@ -434,7 +434,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.97040236, b: 0.82452834, a: 1}
-  m_Intensity: 5
+  m_Intensity: 20
   m_Range: 50
   m_SpotAngle: 80
   m_InnerSpotAngle: 10
@@ -1444,7 +1444,7 @@ MonoBehaviour:
         byte0124: 0
         byte0125: 0
   walkingSpeed: 6
-  runningSpeed: 20
+  runningSpeed: 10
   jumpSpeed: 7
   gravity: 20
   playerCamera: {fileID: 4817538318915063867}
