@@ -10,7 +10,7 @@ public class NetworkGameManager : NetworkBehaviour
     private int startGameTime = 5;
     public int daysToEmergency { get; private set; }
     public bool finalEvent { get; set; }
-    public int timeToWin1 = 10;
+    public int timeToWin1 = 1;
     public float timeToWin2 = 0;
     public int hoursToEmergency { get; set; }
     public static NetworkGameManager instance { get; private set; } = null;
@@ -41,6 +41,7 @@ public class NetworkGameManager : NetworkBehaviour
         "Boss: We are coming for you and Conrad will give you más detalles!",
         "Conrad von Cookenberg: Yes We Need To Talk..."
     };
+    [SerializeField] private ItemSpawnerManager ism;
 
     private void Awake()
     {
@@ -152,6 +153,7 @@ public class NetworkGameManager : NetworkBehaviour
         StartCoroutine(PhoneCall());
         StartGameClientRpc();
         SetStatueItems();
+        ism.SpawnItemsInAllZones();
     }
 
     [ClientRpc]
